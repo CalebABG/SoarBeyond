@@ -1,0 +1,45 @@
+﻿@namespace SoarBeyond.Web.Components
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">SoarBeyond</a>
+
+        <button type="button"
+                class="navbar-toggler"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarToggler"
+                aria-controls="navbarToggler"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <div id="navbarToggler" class="navbar-collapse collapse">
+            <ul class="navbar-nav me-auto mb-lg-0">
+                <AuthorizeView>
+                    <Authorized>
+                        @*<li class="nav-item">
+                            <NavLink class="nav-link" href="Create">
+                                <span aria-hidden="true"></span> Create
+                            </NavLink>
+                        </li>*@
+
+                        <li class="nav-item">
+                            <NavLink class="nav-link" href="Journals">
+                                <span aria-hidden="true"></span> Journals
+                            </NavLink>
+                        </li>
+
+                        <li class="nav-item">
+                            <NavLink class="nav-link" href="JournalEntries">
+                                <span aria-hidden="true"></span> Entries
+                            </NavLink>
+                        </li>
+                    </Authorized>
+                </AuthorizeView>
+            </ul>
+
+            <LoginToolBar />
+        </div>
+    </div>
+</nav>

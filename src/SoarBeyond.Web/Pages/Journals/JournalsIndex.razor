@@ -1,0 +1,48 @@
+﻿@page "/Journals"
+
+@attribute [Authorize]
+
+@inherits SoarBeyondPageBase
+
+<PageTitle>Journals</PageTitle>
+
+@* TODO: Add a filter mechanism for presenting the Journals *@
+
+<ContentLoadingView Data="@_journals">
+    <PresentTemplate>
+        <div class="container p-4">
+            <HeaderView ExtraClass="mb-5">
+                <HumanizeCountView Count="@_journals.Count"
+                                   CountText="Journal" />
+
+                <BSButton ExtraClass="btn-lg shadow text-white"
+                          @onclick="@_bsDialog.ToggleDialog">
+                    Create a Journal
+                </BSButton>
+            </HeaderView>
+
+            <BSDialog @ref="@_bsDialog" @bind-ShowDialog="@_showDialog">
+                <DialogTitle>
+                    <h5 class="m-0">Create a Journal</h5>
+                </DialogTitle>
+
+                <DialogBody>
+                    <CreateJournalForm ShowTitle="@false"
+                                       OnValidSubmit="@CreateJournalFromDialog" />
+                </DialogBody>
+            </BSDialog>
+
+            <ConfirmationDialog @ref="_confirmationDialog" />
+
+            <CollectionView Class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
+                            Data="@_journals">
+                <ItemTemplate>
+                    <div class="col" @key="@context.Id">
+                        <JournalView Journal="@context" 
+                                     OnDeleteJournal="@DeleteJournalAsync" />
+                    </div>
+                </ItemTemplate>
+            </CollectionView>
+        </div>
+    </PresentTemplate>
+</ContentLoadingView>

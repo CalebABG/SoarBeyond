@@ -1,0 +1,40 @@
+﻿@namespace SoarBeyond.Components
+
+@inherits SoarBeyondComponentBase
+
+<div @attributes="@ComponentAttributes"
+     class="@ComponentClasses"
+     style="@ComponentStyles">
+    @if (!string.IsNullOrWhiteSpace(ImageUrl))
+    {
+        <img style="max-width: 256px;"
+             src="@ImageUrl"
+             alt="Issue Image" />
+    }
+
+    @if (!string.IsNullOrWhiteSpace(Title))
+    {
+        <h3 class="my-3">@Title</h3>
+    }
+
+    @ChildContent
+</div>
+
+@code
+{
+    [Parameter]
+    public string Title { get; set; }
+
+    [Parameter]
+    public string ImageUrl { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    public ProblemView()
+    {
+        Class = "d-flex flex-column justify-content-center align-items-center";
+        Style = "min-height: 100%";
+    }
+
+}

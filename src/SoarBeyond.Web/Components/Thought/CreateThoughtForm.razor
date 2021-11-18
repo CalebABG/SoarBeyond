@@ -1,0 +1,79 @@
+﻿@namespace SoarBeyond.Web.Components
+
+@inherits SoarBeyondComponentBase
+
+@using SoarBeyond.Shared.Dto
+@using static SoarBeyond.Shared.Extensions.CommonExtensions
+
+<div @attributes="@ComponentAttributes"
+     class="@ComponentClasses"
+     style="@ComponentStyles">
+    <div class="card-body">
+        <div class="card-text">
+            <EditForm Model="@_model" OnValidSubmit="@HandleValidSubmitAsync">
+                <FluentValidationValidator/>
+
+                <div class="form-group mb-3">
+                    <div class="row">
+                        <div class="col-12 col-md-8">
+                            <label class="form-label">
+                                Pick a color for how you're feeling
+                            </label>
+                        </div>
+                        
+                        <div class="col-12 col-md-4">
+                            <input class="w-100" type="color" @bind-value="@_model.Color">
+                        </div>
+                    </div>
+                    <ValidationMessage For="@(() => _model.Color)"/>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label class="form-label">
+                        @LabelFor(() => _model.Details)
+                    </label>
+                    <InputTextArea class="form-control" rows="4" @bind-Value="@_model.Details"/>
+                    <ValidationMessage For="@(() => _model.Details)"/>
+                </div>
+
+                <div class="d-grid">
+                    <BSButton Type="submit" Disabled="@IsBusy">
+                        Add
+                    </BSButton>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+
+@code {
+
+    [Parameter]
+    public EventCallback<Thought> OnValidSubmit { get; set; }
+
+    private Thought _model = new();
+
+    public CreateThoughtForm()
+    {
+        Class = "card shadow";
+    }
+
+    private async Task HandleValidSubmitAsync()
+    {
+        IsBusy = true;
+        await OnValidSubmit.InvokeAsync(_model);
+        IsBusy = false;
+    }
+
+    private void ResetModel()
+    {
+        _model = new();
+    }
+
+    public void ResetForm()
+    {
+        ResetModel();
+    }
+
+}

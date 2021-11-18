@@ -1,0 +1,46 @@
+﻿@namespace SoarBeyond.Components
+
+@inherits SoarBeyondComponentBase
+
+@using Humanizer
+
+<div class="@ComponentClasses" style="@ComponentStyles">
+    @if (CountViewTemplate is null)
+    {
+        if (Count < 1)
+        {
+            <h3>No @HumanizedCountText Yet. Add Some ✏️</h3>
+        }
+        else
+        {
+            <h3>You Have <span class="badge bg-primary">@Count</span> @HumanizedCountText</h3>
+        }
+    }
+    else
+    {
+        @CountViewTemplate
+    }
+
+    @ChildContent
+</div>
+
+@code {
+
+    [Parameter]
+    public long Count { get; set; }
+
+    [Parameter]
+    public string CountText { get; set; } = string.Empty;
+
+    [Parameter]
+    public RenderFragment CountViewTemplate { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public ShowQuantityAs ShowQuantityAs { get; set; } = ShowQuantityAs.None;
+
+    private string HumanizedCountText => CountText.ToQuantity(Count, ShowQuantityAs);
+
+}

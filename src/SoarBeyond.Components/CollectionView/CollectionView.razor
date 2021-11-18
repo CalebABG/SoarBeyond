@@ -1,0 +1,28 @@
+@namespace SoarBeyond.Components
+
+@inherits SoarBeyondComponentBase
+
+@typeparam TItem
+
+@if (Data is not null && Data.Any())
+{
+    <div @attributes="@ComponentAttributes"
+         class="@ComponentClasses"
+         style="@ComponentStyles">
+        @* TODO: causes excessive DOM elements when Count > 100 *@
+        @foreach (var item in Data)
+        {
+            @ItemTemplate(item)
+        }
+    </div>
+}
+
+@code {
+
+    [Parameter]
+    public IEnumerable<TItem> Data { get; set; }
+
+    [Parameter]
+    public RenderFragment<TItem> ItemTemplate { get; set; }
+
+}

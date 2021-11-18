@@ -1,0 +1,87 @@
+# Build: docker build -f src\SoarBeyond.Web\Dockerfile -t calebabg/soarbeyond:latest-dev . --no-cache
+# Scan:  docker scan calebabg/soarbeyond:latest-dev
+
+# Run:   docker-compose -f "docker-compose.yml" up
+# Stop:  docker-compose -f "docker-compose.yml" down
+
+# Environmental Variables:
+# - https://docs.microsoft.com/en-us/dotnet/architecture/blazor-for-web-forms-developers/config#environment-variables
+
+# Setup HTTPS Docker Links:
+# - https://tomssl.com/how-to-run-asp-net-core-3-1-over-https-in-docker-using-linux-containers/
+# - https://docs.microsoft.com/en-us/aspnet/core/security/docker-compose-https?view=aspnetcore-5.0
+
+# Windows HTTPS Setup:
+# 1. dotnet dev-certs https --clean
+# 2.
+#  - NOTE: if using POWERSHELL, use "$env:USERPROFILE" for <PATH>, otherwise use "%USERPROFILE%" (remove quotes)
+#  - dotnet dev-certs https --trust -ep <PATH>\.aspnet\https\aspnetapp.pfx -p password
+
+# Mac/Linux HTTPS Setup:
+# 1. dotnet dev-certs https --clean
+# 2. dotnet dev-certs https --trust -ep ${HOME}/.aspnet/https/aspnetapp.pfx -p password
+
+version: "3.7"
+
+services:
+  soarbeyond_db:
+    image: postgres:latest
+    restart: on-failure
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "SoarBeyondDb"
+    
+    # Uncomment one line below to use a volume or a mapping
+    volumes:
+      - soarbeyond_postgres_data:/var/lib/postgresql/data    # Volume
+      # - ./postgres/data:/var/lib/postgresql/data:delegated   # Mapping
+
+  soarbeyond_web:
+    image: calebabg/soarbeyond:latest-dev
+    restart: on-failure
+    ports:
+      - "5001:443"
+      - "5000:80"
+    depends_on:
+      - soarbeyond_db
+
+    # Uncomment to build image locally
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+
+      # Uncomment 3 lines below for enabling use of HTTPS
+      # ASPNETCORE_URLS: "https://+:443;http://+:80"
+      # ASPNETCORE_Kestrel__Certificates__Default__Password: "password"
+      # ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/aspnetapp.pfx"
+
+      # Set SoarBeyond Default Environmental Variables
+      SoarBeyond__Persistence__Host: "soarbeyond_db"
+      SoarBeyond__Persistence__Port: "5432"
+      SoarBeyond__Persistence__Username: "postgres"
+      SoarBeyond__Persistence__Password: "postgres"
+      SoarBeyond__Persistence__Database: "SoarBeyondDb"
+
+    # Uncomment one line below to add a volume for UserSecrets
+    # volumes:
+    # - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro    # Windows
+    # - ${HOME}/.microsoft/usersecrets:/root/.microsoft/usersecrets:ro      # Mac/Linux
+
+    # Uncomment below to add volume for HTTPS Certs
+    # - ~/.aspnet/https:/https:ro
+
+  adminer:
+    image: adminer:latest
+    restart: on-failure
+    ports:
+      - "8080:8080"
+
+# Uncomment to use volumes instead of mappings
+volumes:
+  soarbeyond_postgres_data:

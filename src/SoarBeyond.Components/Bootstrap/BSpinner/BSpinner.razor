@@ -1,0 +1,48 @@
+﻿@namespace SoarBeyond.Components
+
+@inherits SoarBeyondComponentBase
+
+@using BlazorComponentUtilities
+
+<span @attributes="@ComponentAttributes"
+      class="@ComponentClasses"
+      style="@ComponentStyles"
+      role="status"
+      aria-hidden="true">
+</span>
+
+@code {
+
+    [Parameter]
+    public BSpinnerType SpinnerType { get; set; } = BSpinnerType.Border;
+
+    [Parameter]
+    public bool Small { get; set; }
+
+    [Parameter]
+    public string Size { get; set; }
+
+    protected override string ComponentClasses =>
+        base.ComponentStyles + SpinnerCssBuilder.Build();
+
+    protected override string ComponentStyles =>
+        base.ComponentStyles + SpinnerSizeStyle;
+
+    private CssBuilder SpinnerCssBuilder
+        => new CssBuilder()
+            .AddClass(NormalSpinnerClass)
+            .AddClass(SmallSpinnerClass, when: SmallSpinnerClassConditionSet);
+
+    private string NormalSpinnerClass
+        => $"spinner-{SpinnerType.ToString().ToLower()}";
+
+    private string SmallSpinnerClass
+        => NormalSpinnerClass + (Small ? "-sm" : string.Empty);
+
+    private bool SmallSpinnerClassConditionSet
+        => Small && string.IsNullOrWhiteSpace(Style);
+
+    private string SpinnerSizeStyle
+        => Small ? string.Empty : $"width: {Size}; height: {Size}";
+
+}

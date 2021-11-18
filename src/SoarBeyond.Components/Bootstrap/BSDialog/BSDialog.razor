@@ -1,0 +1,108 @@
+﻿@namespace SoarBeyond.Components
+
+@inherits SoarBeyondComponentBase
+
+@if (ShowDialog)
+{
+    <div class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true">
+        <div class="modal-backdrop fade show" @onclick="@FocusLostCloseDialog"></div>
+
+        <div class="@ComponentClasses" style="@ComponentStyles">
+            <div class="modal-content">
+                <div class="modal-header">
+                    @if (DialogTitle is not null)
+                    {
+                        <h5 class="modal-title">
+                            @DialogTitle
+                        </h5>
+                    }
+
+                    <div data-bs-dismiss="modal"
+                         aria-label="Close"
+                         style="cursor: pointer"
+                         @onclick="@CloseDialog">
+                        @if (DialogCloseButtonTemplate is null)
+                        {
+                            <BSButton Class="btn btn-close"/>
+                        }
+                        else
+                        {
+                            @DialogCloseButtonTemplate
+                        }
+                    </div>
+                </div>
+
+                @if (DialogBody is not null)
+                {
+                    <div class="modal-body">
+                        @DialogBody
+                    </div>
+                }
+
+                @if (DialogFooter is not null)
+                {
+                    <div class="modal-footer">
+                        @DialogFooter
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private bool _showDialog;
+
+    [Parameter]
+    public bool ShowDialog
+    {
+        get => _showDialog;
+        set
+        {
+            if (value == _showDialog) return;
+            _showDialog = value;
+            ShowDialogChanged.InvokeAsync(ShowDialog);
+        }
+    }
+
+    [Parameter]
+    public RenderFragment DialogTitle { get; set; }
+
+    [Parameter]
+    public RenderFragment DialogBody { get; set; }
+
+    [Parameter]
+    public RenderFragment DialogFooter { get; set; }
+
+    [Parameter]
+    public RenderFragment DialogCloseButtonTemplate { get; set; }
+
+    [Parameter]
+    public bool CloseOnFocusLost { get; set; } = true;
+
+    [Parameter]
+    public EventCallback<bool> ShowDialogChanged { get; set; }
+
+    public BSDialog()
+    {
+        Class = "modal-dialog modal-lg modal-dialog-centered";
+        Style = "z-index: 9999";
+    }
+
+    public void OpenDialog() => ShowDialog = true;
+
+    public void CloseDialog() => ShowDialog = false;
+
+    private void FocusLostCloseDialog()
+    {
+        if(CloseOnFocusLost)
+            CloseDialog();
+    }
+
+    public void ToggleDialog()
+    {
+        if (ShowDialog) CloseDialog();
+        else OpenDialog();
+    }
+
+}

@@ -1,0 +1,26 @@
+﻿@namespace SoarBeyond.Web.Components
+
+<AuthorizeView>
+    <Authorized>
+        <div class="btn-toolbar my-2">
+            <a class="btn btn-primary me-2" href="Identity/Account/Manage">
+                @context.User.Identity!.Name
+            </a>
+            <form method="post" action="Identity/Account/LogOut">
+                <button type="submit" class="btn btn-secondary">
+                    Logout
+                </button>
+            </form>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <div class="btn-toolbar my-2">
+            <a class="btn btn-primary me-2" href="Identity/Account/Register">
+                Register
+            </a>
+            <a class="btn btn-secondary" href="Identity/Account/Login">
+                Login
+            </a>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>

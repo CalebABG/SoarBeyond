@@ -1,0 +1,30 @@
+﻿@page "/JournalEntries"
+
+@attribute [Authorize]
+
+@inherits SoarBeyondPageBase
+
+<PageTitle>Entries</PageTitle>
+
+<ContentLoadingView Data="@_journalEntries">
+    <PresentTemplate>
+        <div class="container p-4">
+            <HumanizeCountView ExtraClass="mb-5"
+                               Count="@_journalEntries.Count"
+                               CountText="Journal Entry" />
+
+            <ConfirmationDialog @ref="_confirmationDialog" />
+
+            <CollectionView Class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
+                            Data="@_journalEntries">
+                <ItemTemplate>
+                    <div class="col" @key="@context.Id">
+                        <JournalEntryView JournalEntry="@context"
+                                          ShowThoughts="@false"
+                                          OnDeleteJournalEntry="@DeleteJournalEntryAsync" />
+                    </div>
+                </ItemTemplate>
+            </CollectionView>
+        </div>
+    </PresentTemplate>
+</ContentLoadingView>

@@ -1,0 +1,45 @@
+﻿@namespace SoarBeyond.Web.Components
+
+@inherits SoarBeyondComponentBase
+
+<div @attributes="@ComponentAttributes"
+     class="@ComponentClasses"
+     style="@ComponentStyles">
+    <div class="container-fluid card-header">
+        <div class="d-flex align-items-center">
+            <span class="me-auto">
+                @Journal.CreationDate.ToLocalTime().ToShortDateString()
+            </span>
+
+            @if (CanShowBadgeCount)
+            {
+                <h5>
+                    <span class="badge bg-primary">
+                        @Journal.JournalEntries.Count
+                    </span>
+                </h5>
+            }
+        </div>
+    </div>
+
+    <div class="card-body">
+        <h5 class="card-title">
+            @Journal.Name
+        </h5>
+
+        <p class="card-text">
+            @Journal.Description
+        </p>
+
+        <div class="card-text">
+            <div class="btn-group btn-group-sm shadow-none" role="group">
+                <button type="button" class="btn btn-light" style="color: dodgerblue" @onclick="@NavigateToViewPage">
+                    View / Edit
+                </button>
+                <button type="button" class="btn btn-light" style="color: red" @onclick="@DeleteJournalAsync">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+@namespace SoarBeyond.Web.Components
+
+@inherits SoarBeyondComponentBase
+
+@if (Quote is not null)
+{
+    <div @attributes="@ComponentAttributes"
+         class="@ComponentClasses"
+         style="@ComponentStyles">
+        <h4 class="lead text-white mb-3">
+            @DateTime.Now.ToString("MMM dd, yyyy")
+        </h4>
+
+        <blockquote>
+            “@Quote.Quote”
+
+            <footer class="blockquote-footer text-white mt-2">
+                @Quote.Author
+
+                @if (!Quote.IsDefault)
+                {
+                    @* Attribution to ZenQuotes *@
+                    <p class="mt-3" style="font-size: .9rem">
+                        Provided by:
+                        <a id="zenQuoteLink"
+                           href="https://zenquotes.io/"
+                           target="_blank" rel="noreferrer">
+                            ZenQuotes API
+                        </a>
+                    </p>
+                }
+            </footer>
+        </blockquote>
+    </div>
+}

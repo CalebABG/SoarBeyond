@@ -1,0 +1,27 @@
+﻿* {
+    padding: 0;
+    margin: 0;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+body {
+    color: #2f2f2f;
+    font-family: "Roboto", sans-serif;
+    padding-top: 120px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+    overflow: auto;
+}

@@ -1,0 +1,54 @@
+@page "/JournalEntries/{JournalEntryId:int}"
+
+@attribute [Authorize]
+
+@using Humanizer
+@inherits SoarBeyondPageBase
+
+<style> 
+    body {
+      background: #9b9aff;
+    }
+</style>
+
+@if (_requestFailed)
+{
+    <ProblemView>
+        <div class="text-center">
+            <h3 class="mb-3">
+                Uh Oh 😓! Something went wrong.
+            </h3>
+            <h4>
+                The requested Journal Entry either couldn't be found
+                or the request failed.
+            </h4>
+        </div>
+    </ProblemView>
+}
+else
+{
+    <ContentLoadingView Data="@_journalEntry">
+        <PresentTemplate>
+            <PageTitle>@_journalEntry.Title.Truncate(50)</PageTitle>
+
+            <div class="container p-4">
+                <JournalEntryInfoView Model="@_journalEntry"
+                                      OnContentChange="@UpdateJournalEntryAsync" />
+
+                <HeaderView ExtraClass="my-5">
+                    <HumanizeCountView Count="@_thoughts.Count"
+                                       CountText="Thought" />
+                </HeaderView>
+
+                <CollectionView Class="row row-cols-1 row-cols-md-2 g-4"
+                                Data="@_thoughts">
+                    <ItemTemplate>
+                        <div class="col" @key="@context.Id">
+                            <ThoughtView Thought="@context" />
+                        </div>
+                    </ItemTemplate>
+                </CollectionView>
+            </div>
+        </PresentTemplate>
+    </ContentLoadingView>
+}

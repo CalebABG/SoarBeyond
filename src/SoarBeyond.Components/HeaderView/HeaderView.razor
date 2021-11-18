@@ -1,0 +1,27 @@
+﻿@namespace SoarBeyond.Components
+
+@inherits SoarBeyondComponentBase
+
+<div class="@ComponentClasses" style="@ComponentStyles">
+    @if (HeaderContentTemplate is not null)
+    {
+        @HeaderContentTemplate
+    }
+
+    @ChildContent
+</div>
+
+@code {
+
+    [Parameter]
+    public RenderFragment HeaderContentTemplate { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    public HeaderView()
+    {
+        Class = "d-flex justify-content-between align-items-center";
+    }
+
+}

@@ -1,0 +1,46 @@
+﻿@namespace SoarBeyond.Web.Components
+
+@inherits SoarBeyondComponentBase
+
+@using static SoarBeyond.Shared.Extensions.CommonExtensions
+
+<div @attributes="@ComponentAttributes"
+     class="@ComponentClasses"
+     style="@ComponentStyles">
+    <div class="card-body">
+        @if (ShowTitle)
+        {
+            <h5 class="card-title mb-3">
+                Create a Journal
+            </h5>
+        }
+
+        <div class="card-text">
+            <EditForm Model="@_model" OnValidSubmit="@HandleValidSubmitAsync">
+                <FluentValidationValidator />
+
+                <div class="form-group mb-3">
+                    <label class="form-label">
+                        @LabelFor(() => _model.Name)
+                    </label>
+                    <InputText class="form-control" @bind-Value="_model.Name" />
+                    <ValidationMessage For="@(() => _model.Name)" />
+                </div>
+
+                <div class="form-group mb-3">
+                    <label class="form-label">
+                        @LabelFor(() => _model.Description)
+                    </label>
+                    <InputTextArea class="form-control" rows="4" @bind-Value="_model.Description" />
+                    <ValidationMessage For="@(() => _model.Description)" />
+                </div>
+
+                <div class="d-grid">
+                    <BSButton Type="submit" Disabled="@IsBusy">
+                        Create
+                    </BSButton>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>

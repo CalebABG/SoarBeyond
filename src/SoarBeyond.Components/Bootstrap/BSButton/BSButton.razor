@@ -1,0 +1,49 @@
+﻿@namespace SoarBeyond.Components
+
+@inherits SoarBeyondComponentBase
+
+<button @attributes="@ComponentAttributes"
+        class="@ComponentClasses"
+        style="@ComponentStyles"
+        type="@Type"
+        disabled="@Disabled">
+    @if (Disabled && ShowSpinner)
+    {
+        if (SpinnerTemplate is null)
+        {
+            <BSpinner Class="mx-2"
+                      SpinnerType="BSpinnerType.Border"
+                      Small="@true" />
+        }
+        else
+        {
+            @SpinnerTemplate
+        }
+    }
+
+    @ChildContent
+</button>
+
+@code {
+
+    [Parameter]
+    public string Type { get; set; } = "button";
+
+    [Parameter]
+    public bool ShowSpinner { get; set; } = true;
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter]
+    public RenderFragment SpinnerTemplate { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    public BSButton()
+    {
+        Class = "btn btn-primary";
+    }
+
+}

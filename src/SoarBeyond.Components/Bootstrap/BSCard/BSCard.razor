@@ -1,0 +1,47 @@
+﻿@namespace SoarBeyond.Components
+
+@inherits SoarBeyondComponentBase
+
+<div @attributes="@ComponentAttributes"
+     class="@ComponentClasses"
+     style="@ComponentStyles">
+    @if (CardHeader is not null)
+    {
+        @CardHeader
+    }
+
+    @if (CardTitle is not null)
+    {
+        @CardTitle
+    }
+
+    @CardBody
+
+    @if (CardFooter is not null)
+    {
+        @CardFooter
+    }
+</div>
+
+@code {
+    
+    /* Todo: Refactor to use Card SubComponents instead of RenderFragments (i.e like Tab component)  */
+
+    [Parameter]
+    public RenderFragment CardHeader { get; set; }
+
+    [Parameter]
+    public RenderFragment CardTitle { get; set; }
+
+    [Parameter]
+    public RenderFragment CardBody { get; set; }
+
+    [Parameter]
+    public RenderFragment CardFooter { get; set; }
+
+    public BSCard()
+    {
+        Class = "card";
+    }
+
+}

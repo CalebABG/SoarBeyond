@@ -1,0 +1,35 @@
+﻿@using Blazored.Toast.Configuration
+@using SoarBeyond.Shared.Extensions
+
+<CascadingAuthenticationState>
+    <Router AppAssembly="@typeof(Program).Assembly">
+        <Found Context="routeData">
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                <NotAuthorized>
+                    <ProblemView>
+                        <div class="p-5 text-center">
+                            @if (context.User.IsNotAuthenticated())
+                            {
+                                <h1>Please login or register to get started 😄</h1>
+                            }
+                            else
+                            {
+                                <h1>You are not authorized to access this resource 🛑</h1>
+                            }
+                        </div>
+                    </ProblemView>
+                </NotAuthorized>
+            </AuthorizeRouteView>
+        </Found>
+        <NotFound>
+            <LayoutView Layout="@typeof(MainLayout)">
+                <NotFoundView />
+            </LayoutView>
+        </NotFound>
+    </Router>
+</CascadingAuthenticationState>
+
+<BlazoredToasts Position="ToastPosition.BottomCenter"
+                IconType="IconType.FontAwesome"
+                SuccessIcon="fa fa-thumbs-up"
+                ErrorIcon="fa fa-exclamation-circle" />

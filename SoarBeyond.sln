@@ -1,0 +1,94 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31612.314
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5856A93D-834A-45B2-9CB0-9689C4C96ED3}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+		docker-compose.yml = docker-compose.yml
+		Dockerfile = Dockerfile
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{53BEA46E-C088-4C61-87ED-5A9AEF9F63C2}"
+	ProjectSection(SolutionItems) = preProject
+		docs\Architecture.md = docs\Architecture.md
+		docs\Ideas.md = docs\Ideas.md
+		docs\Migrations.md = docs\Migrations.md
+		docs\Roadmap.md = docs\Roadmap.md
+		docs\Setup.md = docs\Setup.md
+		docs\Scaffolding.md = docs\Scaffolding.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{027DBBE1-0001-47CC-834A-CED686750B63}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoarBeyond.Components", "src\SoarBeyond.Components\SoarBeyond.Components.csproj", "{B5686784-DE81-4A3B-8AF8-F10C7A6FF741}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoarBeyond.Data", "src\SoarBeyond.Data\SoarBeyond.Data.csproj", "{037E3703-4CDD-49AB-B248-8BE40BE01349}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoarBeyond.Domain", "src\SoarBeyond.Domain\SoarBeyond.Domain.csproj", "{35205484-848B-45DB-B1F2-30D8647D8DE4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoarBeyond.Shared", "src\SoarBeyond.Shared\SoarBeyond.Shared.csproj", "{A2D04F87-0493-4762-81B8-E60C5C945C71}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoarBeyond.Web", "src\SoarBeyond.Web\SoarBeyond.Web.csproj", "{7D0BF2ED-A4CB-499C-B2D0-F79797249029}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{33E00914-73DB-4983-BF6E-C0C341068118}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoarBeyond.UnitTests", "tests\SoarBeyond.UnitTests\SoarBeyond.UnitTests.csproj", "{7784BFE9-86DF-48B6-AF4C-3F1F726FD001}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SoarBeyond.End2EndTests", "tests\SoarBeyond.End2EndTests\SoarBeyond.End2EndTests.csproj", "{D0B2A77E-2CCD-4717-8537-35BC685E888C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B5686784-DE81-4A3B-8AF8-F10C7A6FF741}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5686784-DE81-4A3B-8AF8-F10C7A6FF741}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5686784-DE81-4A3B-8AF8-F10C7A6FF741}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5686784-DE81-4A3B-8AF8-F10C7A6FF741}.Release|Any CPU.Build.0 = Release|Any CPU
+		{037E3703-4CDD-49AB-B248-8BE40BE01349}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{037E3703-4CDD-49AB-B248-8BE40BE01349}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{037E3703-4CDD-49AB-B248-8BE40BE01349}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{037E3703-4CDD-49AB-B248-8BE40BE01349}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35205484-848B-45DB-B1F2-30D8647D8DE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35205484-848B-45DB-B1F2-30D8647D8DE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35205484-848B-45DB-B1F2-30D8647D8DE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35205484-848B-45DB-B1F2-30D8647D8DE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2D04F87-0493-4762-81B8-E60C5C945C71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2D04F87-0493-4762-81B8-E60C5C945C71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2D04F87-0493-4762-81B8-E60C5C945C71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2D04F87-0493-4762-81B8-E60C5C945C71}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D0BF2ED-A4CB-499C-B2D0-F79797249029}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D0BF2ED-A4CB-499C-B2D0-F79797249029}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D0BF2ED-A4CB-499C-B2D0-F79797249029}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D0BF2ED-A4CB-499C-B2D0-F79797249029}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7784BFE9-86DF-48B6-AF4C-3F1F726FD001}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7784BFE9-86DF-48B6-AF4C-3F1F726FD001}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7784BFE9-86DF-48B6-AF4C-3F1F726FD001}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7784BFE9-86DF-48B6-AF4C-3F1F726FD001}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0B2A77E-2CCD-4717-8537-35BC685E888C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0B2A77E-2CCD-4717-8537-35BC685E888C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0B2A77E-2CCD-4717-8537-35BC685E888C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0B2A77E-2CCD-4717-8537-35BC685E888C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B5686784-DE81-4A3B-8AF8-F10C7A6FF741} = {027DBBE1-0001-47CC-834A-CED686750B63}
+		{037E3703-4CDD-49AB-B248-8BE40BE01349} = {027DBBE1-0001-47CC-834A-CED686750B63}
+		{35205484-848B-45DB-B1F2-30D8647D8DE4} = {027DBBE1-0001-47CC-834A-CED686750B63}
+		{A2D04F87-0493-4762-81B8-E60C5C945C71} = {027DBBE1-0001-47CC-834A-CED686750B63}
+		{7D0BF2ED-A4CB-499C-B2D0-F79797249029} = {027DBBE1-0001-47CC-834A-CED686750B63}
+		{7784BFE9-86DF-48B6-AF4C-3F1F726FD001} = {33E00914-73DB-4983-BF6E-C0C341068118}
+		{D0B2A77E-2CCD-4717-8537-35BC685E888C} = {33E00914-73DB-4983-BF6E-C0C341068118}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EAAD2810-4333-4561-9129-1B3AF2996B65}
+	EndGlobalSection
+EndGlobal

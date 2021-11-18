@@ -1,0 +1,60 @@
+﻿@namespace SoarBeyond.Web.Components
+
+@if (_showDialog)
+{
+    <BSDialog @bind-ShowDialog="@_showDialog" CloseOnFocusLost="@false">
+        <DialogTitle>
+            <h5 class="m-0">@Title</h5>
+        </DialogTitle>
+
+        <DialogBody>
+            @Description
+        </DialogBody>
+
+        <DialogFooter>
+            <BSButton Class="btn btn-danger" @onclick="@SetCancelled">Cancel</BSButton>
+            <BSButton Class="btn btn-primary" @onclick="@SetOk">Ok</BSButton>
+        </DialogFooter>
+    </BSDialog>
+}
+
+@code {
+    private bool _showDialog;
+    private TaskCompletionSource<bool> _completionSource = new();
+
+    public string Title { get; set; } = "Confirmation";
+    public string Description { get; set; } = "Are you sure you want to delete?";
+
+    public async Task<bool> ShowAsync(string title = null, string description = null)
+    {
+        Title = string.IsNullOrWhiteSpace(title) ? Title : title;
+        Description = string.IsNullOrWhiteSpace(description) ? Description : description;
+        
+        bool result;
+
+        try
+        {
+            _showDialog = true;
+            await InvokeAsync(StateHasChanged);
+            result = await _completionSource.Task;
+        }
+        finally
+        {
+            _showDialog = false;
+            await InvokeAsync(StateHasChanged);
+            _completionSource = new();
+        }
+
+        return result;
+    }
+
+    private void SetOk()
+    {
+        _completionSource.SetResult(true);  
+    } 
+    private void SetCancelled()
+    {
+        _completionSource.SetResult(false);
+    }
+
+}

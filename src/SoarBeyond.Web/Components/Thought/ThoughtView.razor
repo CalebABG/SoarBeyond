@@ -1,0 +1,41 @@
+﻿@namespace SoarBeyond.Web.Components
+
+@inherits SoarBeyondComponentBase
+
+@using SoarBeyond.Shared.Dto
+
+<div @attributes="@ComponentAttributes"
+     class="@ComponentClasses"
+     style="@ComponentStyles">
+    @if (ShowHeader)
+    {
+        <div class="container-fluid card-header">
+            <div class="d-flex align-items-center">
+                <span class="me-auto">
+                    @Thought.CreationDate.ToLocalTime().ToShortDateString()
+                </span>
+            </div>
+        </div>
+    }
+
+    <div class="card-body">
+        <p class="card-text">
+            @Thought.Details
+        </p>
+
+        @if (ShowActionButtons)
+        {
+            <div class="btn-group" role="group">
+                @*<button type="button" class="btn btn-sm btn-primary">
+                    Edit
+                </button>*@
+
+                <button type="button" class="btn btn-sm btn-danger"
+                        @onclick="@HandleDeleteThought"
+                        @onclick:stopPropagation="true">
+                    Delete
+                </button>
+            </div>
+        }
+    </div>
+</div>

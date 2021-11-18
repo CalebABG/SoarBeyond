@@ -1,0 +1,57 @@
+@namespace SoarBeyond.Web.Components
+
+@inherits InfoViewBase<Journal>
+
+@using Humanizer
+@using SoarBeyond.Shared.Dto
+@using static SoarBeyond.Shared.Extensions.CommonExtensions
+
+<BSCard ExtraClass="shadow mb-2">
+    <CardHeader>
+        <div class="container-fluid card-header">
+            <span class="h5">
+                @DefaultInfoTitle
+            </span>
+        </div>
+    </CardHeader>
+    <CardBody>
+        <div class="container py-3">
+            <div class="row mb-3">
+                <div class="col-12">
+                    <label class="form-label">
+                        @LabelFor(() => Model.Name)
+                    </label>
+                    <DebounceInput class="form-control"
+                                   @bind-Value="@Model.Name"
+                                   @bind-Value:event="oninput"
+                                   DebounceTime="@DebounceTime"
+                                   OnValueChanged="OnContentChanging"
+                                   ForceNotifyOnBlur="@false"
+                                   ForceNotifyByEnter="@false" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <label class="form-label">
+                        @LabelFor(() => Model.Description)
+                    </label>
+                    <DebounceTextArea class="form-control" rows="2"
+                                      @bind-Value="@Model.Description"
+                                      @bind-Value:event="oninput"
+                                      DebounceTime="@DebounceTime"
+                                      OnValueChanged="OnContentChanging"
+                                      ForceNotifyOnBlur="@false"
+                                      ForceNotifyByEnter="@false" />
+                </div>
+            </div>
+
+            @DefaultContentSavingTemplate
+        </div>
+    </CardBody>
+    <CardFooter>
+        <div class="container-fluid card-footer">
+            Created @Model.CreationDate.ToLocalTime().Humanize()
+        </div>
+    </CardFooter>
+</BSCard>

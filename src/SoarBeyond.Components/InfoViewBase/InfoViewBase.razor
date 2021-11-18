@@ -1,0 +1,43 @@
+﻿@namespace SoarBeyond.Components
+
+@inherits SoarBeyondComponentBase
+
+@typeparam T
+
+@using static SoarBeyond.Shared.Extensions.CommonExtensions
+
+@code {
+    protected bool IsChanging { get; set; }
+    protected uint DebounceTime { get; set; } = (uint)TimeSpan.FromMilliseconds(850).TotalMilliseconds;
+
+    [Parameter]
+    public T Model { get; set; }
+
+    [Parameter]
+    public EventCallback<string> OnContentChange { get; set; }
+
+    protected string DefaultInfoTitle => $"{LabelFor(typeof(T).Name)} Info";
+
+    protected virtual RenderFragment DefaultContentSavingTemplate => IsChanging ?
+        @<div class="row mt-2">
+            <div class="col-12">
+                <p class="text-muted">
+                    Saving...
+                </p>
+            </div>
+        </div>
+        : null;
+
+    protected virtual async Task OnContentChanging(string value)
+    {
+        if (OnContentChange.HasDelegate)
+        {
+            IsChanging = true;
+
+            await OnContentChange.InvokeAsync(value);
+
+            IsChanging = false;
+        }
+    }
+
+}

@@ -1,0 +1,51 @@
+﻿@namespace SoarBeyond.Components
+
+@typeparam TItem
+
+@using System.Collections
+
+@if (Data is null)
+{
+    @NullTemplate
+}
+else
+{
+    if (Data is ICollection collection)
+    {
+        if (UseEmptyTemplate && collection.Count < 1)
+        {
+            @EmptyTemplate
+        }
+        else
+        {
+            @PresentTemplate
+        }
+    }
+    else
+    {
+        @PresentTemplate
+    }
+}
+
+@code {
+
+    [Parameter]
+    public TItem Data { get; set; }
+
+    [Parameter]
+    public bool UseEmptyTemplate { get; set; }
+
+    [Parameter]
+    public RenderFragment NullTemplate { get; set; } = @<ProblemView>
+                                                           <BSpinner SpinnerType="BSpinnerType.Grow" Size="3.5rem" />
+                                                       </ProblemView>;
+
+    [Parameter]
+    public RenderFragment EmptyTemplate { get; set; } = @<ProblemView>
+                                                            <h3>Nothing to show yet ✨</h3>
+                                                        </ProblemView>;
+
+    [Parameter]
+    public RenderFragment PresentTemplate { get; set; }
+
+}
