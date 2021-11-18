@@ -1,4 +1,4 @@
-# Build: docker build -f src\SoarBeyond.Web\Dockerfile -t calebabg/soarbeyond:latest-dev . --no-cache
+# Build: docker build -f Dockerfile -t calebabg/soarbeyond:latest-dev . --no-cache
 # Scan:  docker scan calebabg/soarbeyond:latest-dev
 
 # Run:   docker-compose -f "docker-compose.yml" up
