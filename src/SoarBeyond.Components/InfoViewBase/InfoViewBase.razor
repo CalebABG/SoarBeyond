@@ -16,9 +16,9 @@
     [Parameter]
     public EventCallback<string> OnContentChange { get; set; }
 
-    protected string DefaultInfoTitle => $"{LabelFor(typeof(T).Name)} Info";
+    protected virtual string InfoTitle => $"{LabelFor(typeof(T).Name)} Info";
 
-    protected virtual RenderFragment DefaultContentSavingTemplate => IsChanging ?
+    protected virtual RenderFragment ContentSavingTemplate => IsChanging ?
         @<div class="row mt-2">
             <div class="col-12">
                 <p class="text-muted">
