@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SoarBeyond.Data;
+using SoarBeyond.Data.Seed;
 
 namespace SoarBeyond.Web;
 
