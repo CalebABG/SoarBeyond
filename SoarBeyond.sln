@@ -19,7 +19,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{53BEA46E-C
 		docs\Ideas.md = docs\Ideas.md
 		docs\Migrations.md = docs\Migrations.md
 		docs\Roadmap.md = docs\Roadmap.md
-		docs\Setup.md = docs\Setup.md
 		docs\Scaffolding.md = docs\Scaffolding.md
 	EndProjectSection
 EndProject
