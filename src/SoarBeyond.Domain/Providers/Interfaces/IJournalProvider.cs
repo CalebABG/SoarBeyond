@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using SoarBeyond.Domain.MediatR.Journals;
+﻿using SoarBeyond.Domain.MediatR.Journals;
 using SoarBeyond.Shared.Dto;
 using SoarBeyond.Shared.Poco;
 

@@ -1,9 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Humanizer;
+﻿using Humanizer;
 using MediatR;
-using Microsoft.Extensions.DependencyInjection;
 using SoarBeyond.Domain.MediatR.JournalEntries;
 using SoarBeyond.Shared.Dto;
 using SoarBeyond.Web.Components;

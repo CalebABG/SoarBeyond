@@ -1,6 +1,4 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
 using SoarBeyond.Domain.Providers.Interfaces;
 
 namespace SoarBeyond.Domain.MediatR.Journals

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace SoarBeyond.Shared.Dto;
+﻿namespace SoarBeyond.Shared.Dto;
 
 public class Journal
 {

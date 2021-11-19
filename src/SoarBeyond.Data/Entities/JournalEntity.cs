@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace SoarBeyond.Data.Entities;
+﻿namespace SoarBeyond.Data.Entities;
 
 public class JournalEntity : IHealthItem
 {

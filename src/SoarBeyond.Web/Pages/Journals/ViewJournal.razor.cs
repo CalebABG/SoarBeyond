@@ -1,11 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Blazored.Toast.Services;
+﻿using Blazored.Toast.Services;
 using Humanizer;
 using MediatR;
 using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.DependencyInjection;
 using SoarBeyond.Domain.MediatR.JournalEntries;
 using SoarBeyond.Domain.MediatR.Journals;
 using SoarBeyond.Shared.Dto;

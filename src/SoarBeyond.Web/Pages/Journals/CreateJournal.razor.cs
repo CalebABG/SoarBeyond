@@ -1,7 +1,5 @@
-﻿using System.Threading.Tasks;
-using Blazored.Toast.Services;
+﻿using Blazored.Toast.Services;
 using MediatR;
-using Microsoft.Extensions.DependencyInjection;
 using SoarBeyond.Domain.MediatR.Journals;
 using SoarBeyond.Shared.Dto;
 using SoarBeyond.Web.Components;

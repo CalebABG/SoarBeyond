@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SoarBeyond.Shared.Dto;
+﻿namespace SoarBeyond.Shared.Dto;
 
 public class Reflection
 {

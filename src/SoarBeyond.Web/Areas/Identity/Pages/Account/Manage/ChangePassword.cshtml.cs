@@ -1,9 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
 using SoarBeyond.Data.Entities;
 
 namespace SoarBeyond.Web.Areas.Identity.Pages.Account.Manage

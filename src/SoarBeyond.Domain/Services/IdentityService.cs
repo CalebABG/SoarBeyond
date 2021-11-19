@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using SoarBeyond.Data.Entities;
 using SoarBeyond.Domain.Services.Interfaces;
 

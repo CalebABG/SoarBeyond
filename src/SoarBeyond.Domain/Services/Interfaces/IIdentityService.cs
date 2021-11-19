@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using SoarBeyond.Data.Entities;
+﻿using SoarBeyond.Data.Entities;
 
 namespace SoarBeyond.Domain.Services.Interfaces;
 

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace SoarBeyond.Data.Entities;
+﻿namespace SoarBeyond.Data.Entities;
 
 public class ThoughtEntity : IHealthItem
 {

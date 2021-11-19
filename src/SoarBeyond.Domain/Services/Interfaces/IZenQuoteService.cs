@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using SoarBeyond.Shared.Poco;
+﻿using SoarBeyond.Shared.Poco;
 
 namespace SoarBeyond.Domain.Services.Interfaces;
 
