@@ -21,7 +21,7 @@
 # 1. dotnet dev-certs https --clean
 # 2. dotnet dev-certs https --trust -ep ${HOME}/.aspnet/https/aspnetapp.pfx -p password
 
-version: "3.7"
+version: "3.8"
 
 services:
   soarbeyond_db:
@@ -49,12 +49,12 @@ services:
       - soarbeyond_db
 
     # Uncomment to build image locally
-    build:
-      context: .
-      dockerfile: Dockerfile
+    #build:
+      #context: .
+      #dockerfile: Dockerfile
 
     environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
+      ASPNETCORE_ENVIRONMENT: "Production" # Set to 'Development' for testing/debug
 
       # Uncomment 3 lines below for enabling use of HTTPS
       # ASPNETCORE_URLS: "https://+:443;http://+:80"
