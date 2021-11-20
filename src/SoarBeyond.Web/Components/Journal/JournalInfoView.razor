@@ -7,51 +7,45 @@
 @using static SoarBeyond.Shared.Extensions.CommonExtensions
 
 <BSCard ExtraClass="shadow mb-2">
-    <CardHeader>
-        <div class="container-fluid card-header">
-            <span class="h5">
-                @InfoTitle
-            </span>
-        </div>
-    </CardHeader>
-    <CardBody>
-        <div class="container py-3">
-            <div class="row mb-3">
-                <div class="col-12">
-                    <label class="form-label">
-                        @LabelFor(() => Model.Name)
-                    </label>
-                    <DebounceInput class="form-control"
-                                   @bind-Value="@Model.Name"
-                                   @bind-Value:event="oninput"
-                                   DebounceTime="@DebounceTime"
-                                   OnValueChanged="OnContentChanging"
-                                   ForceNotifyOnBlur="@false"
-                                   ForceNotifyByEnter="@false" />
-                </div>
-            </div>
+    <BSCardHeader ExtraClass="container-fluid">
+        <h5 class="m-0">@InfoTitle</h5>
+    </BSCardHeader>
 
-            <div class="row">
-                <div class="col-12">
-                    <label class="form-label">
-                        @LabelFor(() => Model.Description)
-                    </label>
-                    <DebounceTextArea class="form-control" rows="2"
-                                      @bind-Value="@Model.Description"
-                                      @bind-Value:event="oninput"
-                                      DebounceTime="@DebounceTime"
-                                      OnValueChanged="OnContentChanging"
-                                      ForceNotifyOnBlur="@false"
-                                      ForceNotifyByEnter="@false" />
-                </div>
+    <BSCardBody ExtraClass="py-3">
+        <div class="row mb-3">
+            <div class="col-12">
+                <label class="form-label">
+                    @LabelFor(() => Model.Name)
+                </label>
+                <DebounceInput class="form-control"
+                               @bind-Value="@Model.Name"
+                               @bind-Value:event="oninput"
+                               DebounceTime="@DebounceTime"
+                               OnValueChanged="OnContentChanging"
+                               ForceNotifyOnBlur="@false"
+                               ForceNotifyByEnter="@false"/>
             </div>
+        </div>
 
-            @ContentSavingTemplate
+        <div class="row">
+            <div class="col-12">
+                <label class="form-label">
+                    @LabelFor(() => Model.Description)
+                </label>
+                <DebounceTextArea class="form-control" rows="2"
+                                  @bind-Value="@Model.Description"
+                                  @bind-Value:event="oninput"
+                                  DebounceTime="@DebounceTime"
+                                  OnValueChanged="OnContentChanging"
+                                  ForceNotifyOnBlur="@false"
+                                  ForceNotifyByEnter="@false"/>
+            </div>
         </div>
-    </CardBody>
-    <CardFooter>
-        <div class="container-fluid card-footer">
-            Created @Model.CreationDate.ToLocalTime().Humanize()
-        </div>
-    </CardFooter>
+
+        @ContentSavingTemplate
+    </BSCardBody>
+
+    <BSCardFooter ExtraClass="container-fluid">
+        Created @Model.CreationDate.ToLocalTime().Humanize()
+    </BSCardFooter>
 </BSCard>
