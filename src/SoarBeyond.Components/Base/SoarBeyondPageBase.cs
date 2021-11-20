@@ -4,19 +4,22 @@ using SoarBeyond.Shared.Extensions;
 
 namespace SoarBeyond.Components;
 
-public class SoarBeyondPageBase : SoarBeyondComponentBase
+public abstract class SoarBeyondPageBase : SoarBeyondComponentBase
 {
     [Inject] protected NavigationManager NavigationManager { get; set; }
     [CascadingParameter] public Task<AuthenticationState> AuthStateTask { get; set; }
 
     /// <summary>
-    /// Gets set by using the AuthenticationStateProvider and querying if the user is Authenticated, and if so, getting
-    /// the users Id from the ClaimsPrincipal.
+    /// Gets set by using the AuthenticationStateProvider
+    /// and querying if the user is Authenticated, and if so,
+    /// getting the users Id from the ClaimsPrincipal.
     /// <see cref="ClaimsPrincipalExtensions"/>
     /// </summary>
     protected async Task<int> GetUserId()
     {
         var authState = await AuthStateTask;
-        return int.TryParse(authState.User.GetUserId(), out var parsedUserId) ? parsedUserId : -1;
+        return int.TryParse(authState.User.GetUserId(), out var parsedUserId) 
+            ? parsedUserId 
+            : -1;
     }
 }

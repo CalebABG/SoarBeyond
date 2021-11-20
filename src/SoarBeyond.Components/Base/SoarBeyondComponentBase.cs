@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 
 namespace SoarBeyond.Components;
 
-public class SoarBeyondComponentBase : OwningComponentBase
+public abstract class SoarBeyondComponentBase : OwningComponentBase
 {
     private const int DebugTaskDelayTime = 150;
 
