@@ -1,5 +1,6 @@
 ﻿using Blazored.Toast.Services;
 using MediatR;
+using Microsoft.AspNetCore.Components;
 using SoarBeyond.Domain.MediatR.Journals;
 using SoarBeyond.Shared.Dto;
 using SoarBeyond.Web.Components;
@@ -8,22 +9,16 @@ namespace SoarBeyond.Web.Pages.Journals;
 
 public partial class CreateJournal
 {
-    private IMediator _mediator;
-    private IToastService _toastService;
+    [Inject] private IMediator Mediator { get; set; }
+    [Inject] private IToastService ToastService { get; set; }
 
     private CreateJournalForm _journalForm;
-
-    protected override void OnInitialized()
-    {
-        _mediator ??= ScopedServices.GetRequiredService<IMediator>();
-        _toastService ??= ScopedServices.GetRequiredService<IToastService>();
-    }
 
     private async Task CreateNewJournalAsync(Journal journal)
     {
         await BeyondComponentRunAsync(async () =>
         {
-            var resultJournal = await _mediator.Send(new CreateJournalRequest
+            var resultJournal = await Mediator.Send(new CreateJournalRequest
             {
                 UserId = await GetUserId(),
                 Journal = journal
@@ -32,12 +27,12 @@ public partial class CreateJournal
             if (resultJournal is not null)
             {
                 _journalForm.ResetForm();
-                _toastService.ShowSuccess("Created Journal");
+                ToastService.ShowSuccess("Created Journal");
                 NavigationManager.NavigateTo("Journals");
             }
             else
             {
-                _toastService.ShowError("Something went wrong creating " +
+                ToastService.ShowError("Something went wrong creating " +
                                         "your Journal, please try again.");
             }
         });

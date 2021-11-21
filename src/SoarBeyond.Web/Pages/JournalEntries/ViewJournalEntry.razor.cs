@@ -8,8 +8,7 @@ namespace SoarBeyond.Web.Pages.JournalEntries;
 public partial class ViewJournalEntry
 {
     [Parameter] public int JournalEntryId { get; set; }
-
-    private IMediator _mediator;
+    [Inject] private IMediator Mediator { get; set; }
 
     private JournalEntry _journalEntry;
     private LinkedList<Thought> _thoughts;
@@ -18,8 +17,6 @@ public partial class ViewJournalEntry
 
     protected override async Task OnInitializedAsync()
     {
-        _mediator ??= ScopedServices.GetRequiredService<IMediator>();
-
         await BeyondComponentRunAsync(async () =>
         {
             _requestFailed = false;
@@ -40,7 +37,7 @@ public partial class ViewJournalEntry
 
     private async Task<JournalEntry> GetJournalEntryFromDb()
     {
-        return await _mediator.Send(new GetJournalEntryRequest
+        return await Mediator.Send(new GetJournalEntryRequest
         {
             UserId = await GetUserId(),
             JournalEntryId = JournalEntryId,
@@ -58,7 +55,7 @@ public partial class ViewJournalEntry
                 JournalEntry = _journalEntry,
             };
 
-            _journalEntry = await _mediator.Send(request);
+            _journalEntry = await Mediator.Send(request);
         });
     }
 }

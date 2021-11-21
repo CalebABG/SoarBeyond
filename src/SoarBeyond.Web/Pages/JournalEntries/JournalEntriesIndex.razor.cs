@@ -1,5 +1,6 @@
 ﻿using Humanizer;
 using MediatR;
+using Microsoft.AspNetCore.Components;
 using SoarBeyond.Domain.MediatR.JournalEntries;
 using SoarBeyond.Shared.Dto;
 using SoarBeyond.Web.Components;
@@ -8,16 +9,11 @@ namespace SoarBeyond.Web.Pages.JournalEntries;
 
 public partial class JournalEntriesIndex
 {
-    private IMediator _mediator;
+    [Inject] private IMediator Mediator { get; set; }
 
     private ConfirmationDialog _confirmationDialog;
 
     private LinkedList<JournalEntry> _journalEntries;
-
-    protected override void OnInitialized()
-    {
-        _mediator ??= ScopedServices.GetRequiredService<IMediator>();
-    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -31,7 +27,7 @@ public partial class JournalEntriesIndex
 
     private async Task<IEnumerable<JournalEntry>> GetDbJournalEntriesAsync()
     {
-        return await _mediator.Send(new GetAllJournalEntriesRequest
+        return await Mediator.Send(new GetAllJournalEntriesRequest
         {
             UserId = await GetUserId()
         });
@@ -55,7 +51,7 @@ public partial class JournalEntriesIndex
                     JournalEntryId = journalEntry.Id
                 };
 
-                bool deleted = await _mediator.Send(deleteRequest);
+                bool deleted = await Mediator.Send(deleteRequest);
                 if (deleted) _journalEntries.Remove(journalEntry);
             });
         }

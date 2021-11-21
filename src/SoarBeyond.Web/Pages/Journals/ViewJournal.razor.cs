@@ -13,8 +13,8 @@ public partial class ViewJournal
 {
     [Parameter] public int JournalId { get; set; }
 
-    private IMediator _mediator;
-    private IToastService _toastService;
+    [Inject] private IMediator Mediator { get; set; }
+    [Inject] private IToastService ToastService { get; set; }
 
     private bool _showForm;
     private bool _requestFailed;
@@ -30,9 +30,6 @@ public partial class ViewJournal
 
     protected override async Task OnInitializedAsync()
     {
-        _mediator ??= ScopedServices.GetRequiredService<IMediator>();
-        _toastService ??= ScopedServices.GetRequiredService<IToastService>();
-
         await BeyondComponentRunAsync(async () =>
         {
             _requestFailed = false;
@@ -53,7 +50,7 @@ public partial class ViewJournal
 
     private async Task<Journal> GetJournalFromDb()
     {
-        return await _mediator.Send(new GetJournalRequest
+        return await Mediator.Send(new GetJournalRequest
         {
             UserId = await GetUserId(),
             JournalId = JournalId
@@ -72,7 +69,7 @@ public partial class ViewJournal
             };
 
             /* Todo: Handle case where update fails and response is null */
-            _journal = await _mediator.Send(request);
+            _journal = await Mediator.Send(request);
         });
     }
 
@@ -87,16 +84,16 @@ public partial class ViewJournal
                 JournalEntry = journalEntry
             };
 
-            var resultJournalEntry = await _mediator.Send(request);
+            var resultJournalEntry = await Mediator.Send(request);
             if (resultJournalEntry is not null)
             {
                 CloseForm();
                 _journalEntries.AddFirst(resultJournalEntry);
-                _toastService.ShowSuccess("Created Journal Entry");
+                ToastService.ShowSuccess("Created Journal Entry");
             }
             else
             {
-                _toastService.ShowError("Something went wrong creating " +
+                ToastService.ShowError("Something went wrong creating " +
                                         "your Journal Entry, please try again.");
             }
         });
@@ -121,7 +118,7 @@ public partial class ViewJournal
                 };
 
                 /* Todo: Add Modal for delete? Make sure you truly want to delete */
-                bool deleted = await _mediator.Send(deleteRequest);
+                bool deleted = await Mediator.Send(deleteRequest);
                 if (deleted) _journalEntries.Remove(journalEntry);
             });
         }

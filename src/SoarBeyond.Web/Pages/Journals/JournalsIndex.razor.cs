@@ -1,6 +1,7 @@
 ﻿using Blazored.Toast.Services;
 using Humanizer;
 using MediatR;
+using Microsoft.AspNetCore.Components;
 using SoarBeyond.Components;
 using SoarBeyond.Domain.MediatR.Journals;
 using SoarBeyond.Shared.Dto;
@@ -12,21 +13,14 @@ public partial class JournalsIndex : SoarBeyondPageBase
 {
     private bool _showDialog;
 
-    private IMediator _mediator;
-    private IToastService _toastService;
+    [Inject] private IMediator Mediator { get; set; }
+    [Inject] private IToastService ToastService { get; set; }
 
     private BSDialog _bsDialog;
     private ConfirmationDialog _confirmationDialog;
 
     /* Todo: Use Pagination for large sets of data */
-    /* Todo: LinkedList efficient add/insert O(1) - delete/search O(N) */
     private LinkedList<Journal> _journals;
-
-    protected override void OnInitialized()
-    {
-        _mediator ??= ScopedServices.GetRequiredService<IMediator>();
-        _toastService ??= ScopedServices.GetRequiredService<IToastService>();
-    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -40,7 +34,7 @@ public partial class JournalsIndex : SoarBeyondPageBase
 
     private async Task<IEnumerable<Journal>> GetJournalsFromDb()
     {
-        return await _mediator.Send(new GetAllJournalsRequest
+        return await Mediator.Send(new GetAllJournalsRequest
         {
             UserId = await GetUserId()
         });
@@ -56,16 +50,16 @@ public partial class JournalsIndex : SoarBeyondPageBase
                 Journal = journal
             };
 
-            var resultJournal = await _mediator.Send(createRequest);
+            var resultJournal = await Mediator.Send(createRequest);
             if (resultJournal is not null)
             {
                 _bsDialog.CloseDialog();
                 _journals.AddFirst(resultJournal);
-                _toastService.ShowSuccess("Created Journal");
+                ToastService.ShowSuccess("Created Journal");
             }
             else
             {
-                _toastService.ShowError("Something went wrong creating" +
+                ToastService.ShowError("Something went wrong creating" +
                                         " your Journal, please try again.");
             }
         });
@@ -88,7 +82,7 @@ public partial class JournalsIndex : SoarBeyondPageBase
                     JournalId = journal.Id
                 };
 
-                bool deleted = await _mediator.Send(request);
+                bool deleted = await Mediator.Send(request);
                 if (deleted) _journals.Remove(journal);
             });
         }
