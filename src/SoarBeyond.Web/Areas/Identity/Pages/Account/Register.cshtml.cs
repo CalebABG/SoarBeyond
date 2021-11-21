@@ -10,103 +10,102 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using SoarBeyond.Data.Entities;
 
-namespace SoarBeyond.Web.Areas.Identity.Pages.Account
+namespace SoarBeyond.Web.Areas.Identity.Pages.Account;
+
+[AllowAnonymous]
+public class RegisterModel : PageModel
 {
-    [AllowAnonymous]
-    public class RegisterModel : PageModel
+    private readonly SignInManager<SoarBeyondUserEntity> _signInManager;
+    private readonly UserManager<SoarBeyondUserEntity> _userManager;
+    private readonly ILogger<RegisterModel> _logger;
+    private readonly IEmailSender _emailSender;
+
+    public RegisterModel(
+        UserManager<SoarBeyondUserEntity> userManager,
+        SignInManager<SoarBeyondUserEntity> signInManager,
+        ILogger<RegisterModel> logger,
+        IEmailSender emailSender)
     {
-        private readonly SignInManager<SoarBeyondUserEntity> _signInManager;
-        private readonly UserManager<SoarBeyondUserEntity> _userManager;
-        private readonly ILogger<RegisterModel> _logger;
-        private readonly IEmailSender _emailSender;
+        _userManager = userManager;
+        _signInManager = signInManager;
+        _logger = logger;
+        _emailSender = emailSender;
+    }
 
-        public RegisterModel(
-            UserManager<SoarBeyondUserEntity> userManager,
-            SignInManager<SoarBeyondUserEntity> signInManager,
-            ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+    [BindProperty] public InputModel Input { get; set; }
+
+    public string ReturnUrl { get; set; }
+
+    public IList<AuthenticationScheme> ExternalLogins { get; set; }
+
+    public class InputModel
+    {
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Required]
+        [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.",
+            MinimumLength = 6)]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        public string Password { get; set; }
+
+        [DataType(DataType.Password)]
+        [Display(Name = "Confirm password")]
+        [Compare(nameof(Password), ErrorMessage = "The password and confirmation password do not match.")]
+        public string ConfirmPassword { get; set; }
+    }
+
+    public async Task OnGetAsync(string returnUrl = null)
+    {
+        ReturnUrl = returnUrl;
+        ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+    }
+
+    public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+    {
+        returnUrl ??= Url.Content("~/");
+        ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+        if (ModelState.IsValid)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _logger = logger;
-            _emailSender = emailSender;
-        }
+            var user = new SoarBeyondUserEntity { UserName = Input.Email, Email = Input.Email, };
+            var result = await _userManager.CreateAsync(user, Input.Password);
 
-        [BindProperty] public InputModel Input { get; set; }
-
-        public string ReturnUrl { get; set; }
-
-        public IList<AuthenticationScheme> ExternalLogins { get; set; }
-
-        public class InputModel
-        {
-            [Required]
-            [EmailAddress]
-            [Display(Name = "Email")]
-            public string Email { get; set; }
-
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.",
-                MinimumLength = 6)]
-            [DataType(DataType.Password)]
-            [Display(Name = "Password")]
-            public string Password { get; set; }
-
-            [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare(nameof(Password), ErrorMessage = "The password and confirmation password do not match.")]
-            public string ConfirmPassword { get; set; }
-        }
-
-        public async Task OnGetAsync(string returnUrl = null)
-        {
-            ReturnUrl = returnUrl;
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-        }
-
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
-        {
-            returnUrl ??= Url.Content("~/");
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
-            if (ModelState.IsValid)
+            if (result.Succeeded)
             {
-                var user = new SoarBeyondUserEntity { UserName = Input.Email, Email = Input.Email, };
-                var result = await _userManager.CreateAsync(user, Input.Password);
+                _logger.LogInformation("User created a new account with password.");
 
-                if (result.Succeeded)
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
+                var callbackUrl = Url.Page(
+                    "/Account/ConfirmEmail",
+                    pageHandler: null,
+                    values: new { area = "Identity", userId = user.Id, code = code },
+                    protocol: Request.Scheme);
+
+                await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+                if (_userManager.Options.SignIn.RequireConfirmedAccount)
                 {
-                    _logger.LogInformation("User created a new account with password.");
-
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { area = "Identity", userId = user.Id, code = code },
-                        protocol: Request.Scheme);
-
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                    {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email });
-                    }
-
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);
+                    return RedirectToPage("RegisterConfirmation", new { email = Input.Email });
                 }
 
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError(string.Empty, error.Description);
-                }
+                await _signInManager.SignInAsync(user, isPersistent: false);
+                return LocalRedirect(returnUrl);
             }
 
-            // If we got this far, something failed, redisplay form
-            return Page();
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
         }
+
+        // If we got this far, something failed, redisplay form
+        return Page();
     }
 }

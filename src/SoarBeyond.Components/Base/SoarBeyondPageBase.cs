@@ -18,8 +18,8 @@ public abstract class SoarBeyondPageBase : SoarBeyondComponentBase
     protected async Task<int> GetUserId()
     {
         var authState = await AuthStateTask;
-        return int.TryParse(authState.User.GetUserId(), out var parsedUserId) 
-            ? parsedUserId 
+        return int.TryParse(authState.User.GetUserId(), out var parsedUserId)
+            ? parsedUserId
             : -1;
     }
 }

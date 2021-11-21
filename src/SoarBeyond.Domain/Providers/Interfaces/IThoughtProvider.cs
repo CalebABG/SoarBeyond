@@ -1,10 +1,9 @@
 ﻿using SoarBeyond.Domain.MediatR.Thoughts;
 using SoarBeyond.Shared.Dto;
 
-namespace SoarBeyond.Domain.Providers.Interfaces
+namespace SoarBeyond.Domain.Providers.Interfaces;
+
+public interface IThoughtProvider
 {
-    public interface IThoughtProvider
-    {
-        Task<Thought> CreateAsync(CreateThoughtRequest request);
-    }
+    Task<Thought> CreateAsync(CreateThoughtRequest request);
 }

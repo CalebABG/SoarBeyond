@@ -1,9 +1,8 @@
-﻿namespace SoarBeyond.Domain.Providers.Interfaces
+﻿namespace SoarBeyond.Domain.Providers.Interfaces;
+
+public interface ISoarBeyondDbProvider
 {
-    public interface ISoarBeyondDbProvider
-    {
-        IJournalProvider JournalProvider { get; }
-        IJournalEntryProvider JournalEntryProvider { get; }
-        IThoughtProvider ThoughtProvider { get; }
-    }
+    IJournalProvider JournalProvider { get; }
+    IJournalEntryProvider JournalEntryProvider { get; }
+    IThoughtProvider ThoughtProvider { get; }
 }

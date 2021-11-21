@@ -2,27 +2,26 @@
 using SoarBeyond.Domain.Providers.Interfaces;
 using SoarBeyond.Shared.Dto;
 
-namespace SoarBeyond.Domain.MediatR.Journals
+namespace SoarBeyond.Domain.MediatR.Journals;
+
+public class GetAllJournalsRequest
+    : IRequest<IEnumerable<Journal>>
 {
-    public class GetAllJournalsRequest
-        : IRequest<IEnumerable<Journal>>
+    public int UserId { get; init; }
+}
+
+public class GetAllJournalsRequestHandler
+    : IRequestHandler<GetAllJournalsRequest, IEnumerable<Journal>>
+{
+    private readonly IJournalProvider _journalProvider;
+
+    public GetAllJournalsRequestHandler(IJournalProvider journalProvider)
     {
-        public int UserId { get; init; }
+        _journalProvider = journalProvider;
     }
 
-    public class GetAllJournalsRequestHandler
-        : IRequestHandler<GetAllJournalsRequest, IEnumerable<Journal>>
+    public async Task<IEnumerable<Journal>> Handle(GetAllJournalsRequest request, CancellationToken cancellationToken)
     {
-        private readonly IJournalProvider _journalProvider;
-
-        public GetAllJournalsRequestHandler(IJournalProvider journalProvider)
-        {
-            _journalProvider = journalProvider;
-        }
-
-        public async Task<IEnumerable<Journal>> Handle(GetAllJournalsRequest request, CancellationToken cancellationToken)
-        {
-            return await _journalProvider.GetAllAsync(request);
-        }
+        return await _journalProvider.GetAllAsync(request);
     }
 }

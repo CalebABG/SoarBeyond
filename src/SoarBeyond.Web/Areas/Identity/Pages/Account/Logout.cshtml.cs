@@ -4,35 +4,34 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SoarBeyond.Data.Entities;
 
-namespace SoarBeyond.Web.Areas.Identity.Pages.Account
+namespace SoarBeyond.Web.Areas.Identity.Pages.Account;
+
+[AllowAnonymous]
+[IgnoreAntiforgeryToken]
+public class LogoutModel : PageModel
 {
-    [AllowAnonymous]
-    [IgnoreAntiforgeryToken]
-    public class LogoutModel : PageModel
+    private readonly ILogger<LogoutModel> _logger;
+    private readonly SignInManager<SoarBeyondUserEntity> _signInManager;
+
+    public LogoutModel(SignInManager<SoarBeyondUserEntity> signInManager,
+        ILogger<LogoutModel> logger)
     {
-        private readonly ILogger<LogoutModel> _logger;
-        private readonly SignInManager<SoarBeyondUserEntity> _signInManager;
+        _signInManager = signInManager;
+        _logger = logger;
+    }
 
-        public LogoutModel(SignInManager<SoarBeyondUserEntity> signInManager,
-            ILogger<LogoutModel> logger)
+    public void OnGet()
+    {
+    }
+
+    public async Task<IActionResult> OnPost(string returnUrl = "/")
+    {
+        if (_signInManager.IsSignedIn(User))
         {
-            _signInManager = signInManager;
-            _logger = logger;
+            await _signInManager.SignOutAsync();
+            _logger.LogInformation("User logged out.");
         }
 
-        public void OnGet()
-        {
-        }
-
-        public async Task<IActionResult> OnPost(string returnUrl = "/")
-        {
-            if (_signInManager.IsSignedIn(User))
-            {
-                await _signInManager.SignOutAsync();
-                _logger.LogInformation("User logged out.");
-            }
-
-            return LocalRedirect(returnUrl);
-        }
+        return LocalRedirect(returnUrl);
     }
 }

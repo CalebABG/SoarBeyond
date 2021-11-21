@@ -2,29 +2,28 @@
 using SoarBeyond.Domain.Providers.Interfaces;
 using SoarBeyond.Shared.Dto;
 
-namespace SoarBeyond.Domain.MediatR.Thoughts
+namespace SoarBeyond.Domain.MediatR.Thoughts;
+
+public class CreateThoughtRequest
+    : IRequest<Thought>
 {
-    public class CreateThoughtRequest
-        : IRequest<Thought>
+    public int UserId { get; init; }
+    public int JournalEntryId { get; init; }
+    public Thought Thought { get; init; }
+}
+
+public class CreateThoughtRequestHandler
+    : IRequestHandler<CreateThoughtRequest, Thought>
+{
+    private readonly IThoughtProvider _thoughtProvider;
+
+    public CreateThoughtRequestHandler(IThoughtProvider thoughtProvider)
     {
-        public int UserId { get; init; }
-        public int JournalEntryId { get; init; }
-        public Thought Thought { get; init; }
+        _thoughtProvider = thoughtProvider;
     }
 
-    public class CreateThoughtRequestHandler
-        : IRequestHandler<CreateThoughtRequest, Thought>
+    public async Task<Thought> Handle(CreateThoughtRequest request, CancellationToken cancellationToken)
     {
-        private readonly IThoughtProvider _thoughtProvider;
-
-        public CreateThoughtRequestHandler(IThoughtProvider thoughtProvider)
-        {
-            _thoughtProvider = thoughtProvider;
-        }
-
-        public async Task<Thought> Handle(CreateThoughtRequest request, CancellationToken cancellationToken)
-        {
-            return await _thoughtProvider.CreateAsync(request);
-        }
+        return await _thoughtProvider.CreateAsync(request);
     }
 }

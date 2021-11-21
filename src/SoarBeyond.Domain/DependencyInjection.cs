@@ -16,74 +16,73 @@ using SoarBeyond.Domain.Services.Interfaces;
 using SoarBeyond.Shared.ConfigurationOptions;
 using SoarBeyond.Shared.Extensions;
 
-namespace SoarBeyond.Domain
+namespace SoarBeyond.Domain;
+
+public static class DependencyInjection
 {
-    public static class DependencyInjection
+    private const string InMemoryDbName = "SoarBeyondInMemoryDb";
+
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        private const string InMemoryDbName = "SoarBeyondInMemoryDb";
+        var soarBeyondSection = configuration.GetSoarBeyondConfigurationOptionsSection();
+        services.Configure<SoarBeyondConfigurationOptions>(soarBeyondSection);
 
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+        var tempOptions = soarBeyondSection.GetSoarBeyondConfigurationOptions(soarBeyondSection);
+
+        var useInMemDb = tempOptions.Persistence.UseInMemDb;
+        var connectionString = tempOptions.GetConnectionString();
+
+        services.AddDbContextFactory<SoarBeyondDbContext>(options =>
         {
-            var soarBeyondSection = configuration.GetSoarBeyondConfigurationOptionsSection();
-            services.Configure<SoarBeyondConfigurationOptions>(soarBeyondSection);
-
-            var tempOptions = soarBeyondSection.GetSoarBeyondConfigurationOptions(soarBeyondSection);
-
-            var useInMemDb = tempOptions.Persistence.UseInMemDb;
-            var connectionString = tempOptions.GetConnectionString();
-
-            services.AddDbContextFactory<SoarBeyondDbContext>(options =>
-            {
 #if DEBUG
-                if (useInMemDb)
-                {
-                    options.UseInMemoryDatabase(InMemoryDbName)
-                        .EnableSensitiveDataLogging()
-                        .EnableDetailedErrors();
-                }
-                else
-                {
-                    var detailedErrorConnString = connectionString + "Include Error Detail=true;";
-                    options.UseNpgsql(detailedErrorConnString)
-                        .EnableSensitiveDataLogging()
-                        .EnableDetailedErrors();
-                }
+            if (useInMemDb)
+            {
+                options.UseInMemoryDatabase(InMemoryDbName)
+                    .EnableSensitiveDataLogging()
+                    .EnableDetailedErrors();
+            }
+            else
+            {
+                var detailedErrorConnString = connectionString + "Include Error Detail=true;";
+                options.UseNpgsql(detailedErrorConnString)
+                    .EnableSensitiveDataLogging()
+                    .EnableDetailedErrors();
+            }
 #else
                 options.UseNpgsql(connectionString);
 #endif
-            });
-            services.AddTransient(p => p.GetRequiredService<IDbContextFactory<SoarBeyondDbContext>>().CreateDbContext());
+        });
+        services.AddTransient(p => p.GetRequiredService<IDbContextFactory<SoarBeyondDbContext>>().CreateDbContext());
 
-            services.AddDefaultIdentity<SoarBeyondUserEntity>(options =>
-                {
-                    /* Todo: Add Email conformation requirement for accounts */
-                    options.User.RequireUniqueEmail = true;
-                    options.Lockout.AllowedForNewUsers = true;
-                    options.Lockout.MaxFailedAccessAttempts = 5;
-                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(7);
-                })
-                .AddEntityFrameworkStores<SoarBeyondDbContext>();
+        services.AddDefaultIdentity<SoarBeyondUserEntity>(options =>
+            {
+                /* Todo: Add Email conformation requirement for accounts */
+                options.User.RequireUniqueEmail = true;
+                options.Lockout.AllowedForNewUsers = true;
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(7);
+            })
+            .AddEntityFrameworkStores<SoarBeyondDbContext>();
 
-            /* Todo: Add mechanism for upgrading/changing hashing algorithm (stronger/better) */
-            services.Configure<BCryptPasswordHasherOptions>(options => options.WorkFactor = 13);
-            services.AddScoped<IPasswordHasher<SoarBeyondUserEntity>, BCryptPasswordHasher<SoarBeyondUserEntity>>();
+        /* Todo: Add mechanism for upgrading/changing hashing algorithm (stronger/better) */
+        services.Configure<BCryptPasswordHasherOptions>(options => options.WorkFactor = 13);
+        services.AddScoped<IPasswordHasher<SoarBeyondUserEntity>, BCryptPasswordHasher<SoarBeyondUserEntity>>();
 
-            services.AddScoped<AuthenticationStateProvider, IdentityAuthStateProvider<SoarBeyondUserEntity>>();
+        services.AddScoped<AuthenticationStateProvider, IdentityAuthStateProvider<SoarBeyondUserEntity>>();
 
-            services.AddScoped<IIdentityService, IdentityService>();
+        services.AddScoped<IIdentityService, IdentityService>();
 
-            services.AddScoped<IJournalProvider, DbJournalProvider>();
-            services.AddScoped<IJournalEntryProvider, DbJournalEntryProvider>();
-            services.AddScoped<IThoughtProvider, DbThoughtProvider>();
-            services.AddScoped<ISoarBeyondDbProvider, SoarBeyondDbProvider>();
+        services.AddScoped<IJournalProvider, DbJournalProvider>();
+        services.AddScoped<IJournalEntryProvider, DbJournalEntryProvider>();
+        services.AddScoped<IThoughtProvider, DbThoughtProvider>();
+        services.AddScoped<ISoarBeyondDbProvider, SoarBeyondDbProvider>();
 
-            services.AddSingleton<IZenQuoteService, ZenQuoteService>();
+        services.AddSingleton<IZenQuoteService, ZenQuoteService>();
 
-            var assemblyMarker = typeof(IDomainAssemblyMarker);
-            services.AddAutoMapper(assemblyMarker);
-            services.AddMediatR(assemblyMarker);
+        var assemblyMarker = typeof(IDomainAssemblyMarker);
+        services.AddAutoMapper(assemblyMarker);
+        services.AddMediatR(assemblyMarker);
 
-            return services;
-        }
+        return services;
     }
 }
