@@ -22,22 +22,32 @@
     [Parameter]
     public string Size { get; set; }
 
-    protected override string ComponentClasses =>
-        base.ComponentStyles + SpinnerCssBuilder.Build();
+    protected override string ComponentClasses
+        => SpinnerClassBuilder.Build();
 
-    protected override string ComponentStyles =>
-        base.ComponentStyles + SpinnerSizeStyle;
+    protected override string ComponentStyles
+        => SpinnerStyleBuilder.Build();
 
-    private CssBuilder SpinnerCssBuilder
+    /* Todo: See if there's a way to simplify this */
+    private CssBuilder SpinnerClassBuilder
         => new CssBuilder()
-            .AddClass(NormalSpinnerClass)
-            .AddClass(SmallSpinnerClass, when: SmallSpinnerClassConditionSet);
+            .AddClass(SpinnerClass, when: SpinnerClassConditionSet)
+            .AddClass(SmallSpinnerClass, when: SpinnerClassConditionSet && SmallSpinnerClassConditionSet)
+            .AddClass(base.ComponentClasses);
 
-    private string NormalSpinnerClass
+    private StyleBuilder SpinnerStyleBuilder
+        => new StyleBuilder()
+            .AddStyle(SpinnerSizeStyle)
+            .AddStyle(base.ComponentStyles);
+
+    private string SpinnerClass
         => $"spinner-{SpinnerType.ToString().ToLower()}";
 
     private string SmallSpinnerClass
-        => NormalSpinnerClass + (Small ? "-sm" : string.Empty);
+        => SpinnerClass + (Small ? "-sm" : string.Empty);
+
+    private bool SpinnerClassConditionSet
+        => string.IsNullOrWhiteSpace(Class);
 
     private bool SmallSpinnerClassConditionSet
         => Small && string.IsNullOrWhiteSpace(Style);
