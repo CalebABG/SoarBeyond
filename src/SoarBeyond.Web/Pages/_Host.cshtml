@@ -1,7 +1,81 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Components.Web
 @namespace SoarBeyond.Web.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
 @{
-    Layout = "_Layout";
+    Layout = null;
 }
-<component type="@typeof(App)" render-mode="Server"/>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <base href="~/" />
+
+    <title>SoarBeyond</title>
+
+    @* BlazorPro SpinKit *@
+    <link rel="stylesheet" href="_content/BlazorPro.Spinkit/spinkit.min.css" />
+
+    @* Blazored Toasts *@
+    <link rel="stylesheet" href="_content/Blazored.Toast/blazored-toast.min.css" />
+
+    @* Font Awesome *@
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+
+    @* Google Fonts *@
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    @* Bootstrap *@
+    <link href="lib/bootstrap/bootstrap.min.css" rel="stylesheet">
+
+    @* SoarBeyond *@
+    <link rel="stylesheet" href="css/site.css" />
+    <link rel="stylesheet" href="SoarBeyond.Web.styles.css" />
+    <component type="@typeof(HeadOutlet)" render-mode="Server"/>
+</head>
+<body>
+    <component type="@typeof(App)" render-mode="Server" />
+
+    <div id="blazor-error-ui">
+        <environment include="Staging,Production">
+            An error has occurred. This application may no longer respond until reloaded.
+        </environment>
+        <environment include="Development">
+            An unhandled exception has occurred. See browser dev tools for details.
+        </environment>
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+
+    <div id="components-reconnect-modal">
+        <div id="blazorReconnect">
+            Attempting to reconnect to webserver ...
+        </div>
+
+        <div id="blazorFailedOrRejected">
+            Could not reconnect to webserver 
+            <button class="btn btn-sm btn-link" onclick="location.reload()">
+                Reload the page
+            </button>
+        </div>
+    </div>
+
+    @* Bootstrap *@
+    <script src="lib/bootstrap/bootstrap.bundle.min.js"></script>
+
+    @* SoarBeyond *@
+    <script src="_content/SoarBeyond.Components/soarbeyond.js"></script>
+
+    @* Blazor *@
+    <script src="_framework/blazor.server.js" autostart="false"></script>
+
+    @* Blazor options *@
+    <script>
+        Blazor.start({ reconnectionOptions: { maxRetries: 4, retryIntervalMilliseconds: 3000 } });
+    </script>
+</body>
+</html>
