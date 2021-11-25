@@ -2,7 +2,9 @@
 
 @if (_showDialog)
 {
-    <BSDialog @bind-ShowDialog="@_showDialog" CloseOnFocusLost="@false">
+    <BSDialog ExtraClass="modal-lg modal-dialog-centered"
+              @bind-ShowDialog="@_showDialog"
+              CloseOnFocusLost="@false">
         <DialogTitle>
             <h5 class="m-0">@Title</h5>
         </DialogTitle>
@@ -12,8 +14,14 @@
         </DialogBody>
 
         <DialogFooter>
-            <BSButton Class="btn btn-danger" @onclick="@SetCancelled">Cancel</BSButton>
-            <BSButton Class="btn btn-primary" @onclick="@SetOk">Ok</BSButton>
+            <BSButton Class="btn btn-danger" 
+                      @onclick="@SetCancelled">
+                Cancel
+            </BSButton>
+            <BSButton Class="btn btn-primary" 
+                      @onclick="@SetOk">
+                Ok
+            </BSButton>
         </DialogFooter>
     </BSDialog>
 }
@@ -25,12 +33,12 @@
     public string Title { get; set; } = "Confirmation";
     public string Description { get; set; } = "Are you sure you want to delete?";
 
-    public async Task<bool> ShowAsync(string title = null, string description = null)
+    public async Task<bool> ShowAsync(string title, string description)
     {
-        Title = string.IsNullOrWhiteSpace(title) ? Title : title;
-        Description = string.IsNullOrWhiteSpace(description) ? Description : description;
-        
         bool result;
+
+        Title = title;
+        Description = description;
 
         try
         {
@@ -48,13 +56,7 @@
         return result;
     }
 
-    private void SetOk()
-    {
-        _completionSource.SetResult(true);  
-    } 
-    private void SetCancelled()
-    {
-        _completionSource.SetResult(false);
-    }
+    private void SetOk() => _completionSource.SetResult(true);
+    private void SetCancelled() => _completionSource.SetResult(false);
 
 }
