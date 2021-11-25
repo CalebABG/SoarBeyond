@@ -60,8 +60,11 @@
         set
         {
             if (value == _showDialog) return;
+
             _showDialog = value;
-            ShowDialogChanged.InvokeAsync(ShowDialog);
+
+            if (ShowDialogChanged.HasDelegate)
+                ShowDialogChanged.InvokeAsync(ShowDialog);
         }
     }
 
@@ -85,17 +88,16 @@
 
     public BSDialog()
     {
-        Class = "modal-dialog modal-lg modal-dialog-centered";
+        Class = "modal-dialog";
         Style = "z-index: 1060";
     }
 
     public void OpenDialog() => ShowDialog = true;
-
     public void CloseDialog() => ShowDialog = false;
 
     private void FocusLostCloseDialog()
     {
-        if(CloseOnFocusLost)
+        if (CloseOnFocusLost)
             CloseDialog();
     }
 
