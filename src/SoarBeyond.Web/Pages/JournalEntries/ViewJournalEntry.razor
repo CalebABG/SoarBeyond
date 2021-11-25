@@ -2,8 +2,9 @@
 
 @attribute [Authorize]
 
-@using Humanizer
 @inherits SoarBeyondPageBase
+
+@using Humanizer
 
 <style> 
     body {
@@ -33,18 +34,18 @@ else
 
             <div class="container p-4">
                 <JournalEntryInfoView Model="@_journalEntry"
-                                      OnContentChange="@UpdateJournalEntryAsync" />
+                                      OnContentChange="@UpdateJournalEntryAsync"/>
 
                 <HeaderView ExtraClass="my-5">
                     <HumanizeCountView Count="@_thoughts.Count"
-                                       CountText="Thought" />
+                                       CountText="Thought"/>
                 </HeaderView>
 
                 <CollectionView Class="row row-cols-1 row-cols-md-2 g-4"
                                 Data="@_thoughts">
                     <ItemTemplate>
                         <div class="col" @key="@context.Id">
-                            <ThoughtView Thought="@context" />
+                            <ThoughtView Thought="@context"/>
                         </div>
                     </ItemTemplate>
                 </CollectionView>

@@ -33,15 +33,19 @@
                         <ValidationMessage For="@(() => _journalEntryModel.Content)" />
                     </div>
 
-                    <BSDialog @ref="@_bsDialog" @bind-ShowDialog="_addThoughts">
-                        <DialogTitle>
-                            <h5 class="m-0">Add a Thought</h5>
-                        </DialogTitle>
+                    @if (_addThoughts)
+                    {
+                        <BSDialog ExtraClass="modal-lg modal-dialog-centered" 
+                                  @bind-ShowDialog="_addThoughts">
+                            <DialogTitle>
+                                <h5 class="m-0">Add a Thought</h5>
+                            </DialogTitle>
 
-                        <DialogBody>
-                            <CreateThoughtForm OnValidSubmit="@AddThought"/>
-                        </DialogBody>
-                    </BSDialog>
+                            <DialogBody>
+                                <CreateThoughtForm OnValidSubmit="@AddThought"/>
+                            </DialogBody>
+                        </BSDialog>
+                    }
 
                     @if (_journalEntryModel.Thoughts.Count > 0)
                     {
@@ -72,7 +76,7 @@
                     <BSButton Class="btn btn-secondary"
                               Disabled="@IsBusy"
                               ShowSpinner="@false"
-                              @onclick="@ToggleViewThoughts">
+                              @onclick="@ToggleThoughtDialog">
                         Add Thoughts
                     </BSButton>
                 </div>

@@ -11,12 +11,11 @@ namespace SoarBeyond.Web.Pages.Journals;
 
 public partial class JournalsIndex : SoarBeyondPageBase
 {
-    private bool _showDialog;
-
     [Inject] private IMediator Mediator { get; set; }
     [Inject] private IToastService ToastService { get; set; }
 
-    private BSDialog _bsDialog;
+    private bool _showDialog;
+
     private ConfirmationDialog _confirmationDialog;
 
     /* Todo: Use Pagination for large sets of data */
@@ -40,6 +39,9 @@ public partial class JournalsIndex : SoarBeyondPageBase
         });
     }
 
+    private void OpenDialog() => _showDialog = true;
+    private void CloseDialog() => _showDialog = false;
+
     private async Task CreateJournalFromDialog(Journal journal)
     {
         await BeyondComponentRunAsync(async () =>
@@ -53,7 +55,7 @@ public partial class JournalsIndex : SoarBeyondPageBase
             var resultJournal = await Mediator.Send(createRequest);
             if (resultJournal is not null)
             {
-                _bsDialog.CloseDialog();
+                CloseDialog();
                 _journals.AddFirst(resultJournal);
                 ToastService.ShowSuccess("Created Journal");
             }

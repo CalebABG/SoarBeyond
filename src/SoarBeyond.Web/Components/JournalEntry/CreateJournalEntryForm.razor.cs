@@ -12,8 +12,6 @@ public partial class CreateJournalEntryForm
 
     private bool _addThoughts;
 
-    private BSDialog _bsDialog;
-
     private JournalEntry _journalEntryModel = new();
 
     public CreateJournalEntryForm()
@@ -34,7 +32,8 @@ public partial class CreateJournalEntryForm
         if (contains) return;
 
         _journalEntryModel.Thoughts.Add(thought);
-        _bsDialog.CloseDialog();
+
+        CloseDialog();
     }
 
     private void RemoveThought(Thought thought)
@@ -50,7 +49,9 @@ public partial class CreateJournalEntryForm
 
     private JournalEntry SetJournalEntryModel() => new();
 
-    private void ToggleViewThoughts()
+    private void CloseDialog() => _addThoughts = false;
+
+    private void ToggleThoughtDialog()
     {
         _addThoughts = !_addThoughts;
         if (!_addThoughts) _journalEntryModel.Thoughts.Clear();
