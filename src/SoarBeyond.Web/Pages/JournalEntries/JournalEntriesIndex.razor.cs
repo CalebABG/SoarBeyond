@@ -29,7 +29,7 @@ public partial class JournalEntriesIndex
     {
         return await Mediator.Send(new GetAllJournalEntriesRequest
         {
-            UserId = await GetUserId()
+            UserId = await GetUserIdAsync()
         });
     }
 
@@ -46,7 +46,7 @@ public partial class JournalEntriesIndex
             {
                 var deleteRequest = new DeleteJournalEntryRequest
                 {
-                    UserId = await GetUserId(),
+                    UserId = await GetUserIdAsync(),
                     JournalId = journalEntry.JournalId,
                     JournalEntryId = journalEntry.Id
                 };

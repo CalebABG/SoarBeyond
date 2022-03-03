@@ -35,7 +35,7 @@ public partial class JournalsIndex : SoarBeyondPageBase
     {
         return await Mediator.Send(new GetAllJournalsRequest
         {
-            UserId = await GetUserId()
+            UserId = await GetUserIdAsync()
         });
     }
 
@@ -48,7 +48,7 @@ public partial class JournalsIndex : SoarBeyondPageBase
         {
             CreateJournalRequest createRequest = new()
             {
-                UserId = await GetUserId(),
+                UserId = await GetUserIdAsync(),
                 Journal = journal
             };
 
@@ -80,7 +80,7 @@ public partial class JournalsIndex : SoarBeyondPageBase
             {
                 var request = new DeleteJournalRequest
                 {
-                    UserId = await GetUserId(),
+                    UserId = await GetUserIdAsync(),
                     JournalId = journal.Id
                 };
 

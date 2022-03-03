@@ -52,7 +52,7 @@ public partial class ViewJournal
     {
         return await Mediator.Send(new GetJournalRequest
         {
-            UserId = await GetUserId(),
+            UserId = await GetUserIdAsync(),
             JournalId = JournalId
         });
     }
@@ -63,7 +63,7 @@ public partial class ViewJournal
         {
             var request = new UpdateJournalRequest
             {
-                UserId = await GetUserId(),
+                UserId = await GetUserIdAsync(),
                 JournalId = JournalId,
                 Journal = _journal
             };
@@ -79,7 +79,7 @@ public partial class ViewJournal
         {
             var request = new CreateJournalEntryRequest
             {
-                UserId = await GetUserId(),
+                UserId = await GetUserIdAsync(),
                 JournalId = JournalId,
                 JournalEntry = journalEntry
             };
@@ -112,7 +112,7 @@ public partial class ViewJournal
             {
                 var deleteRequest = new DeleteJournalEntryRequest
                 {
-                    UserId = await GetUserId(),
+                    UserId = await GetUserIdAsync(),
                     JournalId = journalEntry.JournalId,
                     JournalEntryId = journalEntry.Id
                 };

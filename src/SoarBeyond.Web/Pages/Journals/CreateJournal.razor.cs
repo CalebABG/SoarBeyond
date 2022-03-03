@@ -20,7 +20,7 @@ public partial class CreateJournal
         {
             var resultJournal = await Mediator.Send(new CreateJournalRequest
             {
-                UserId = await GetUserId(),
+                UserId = await GetUserIdAsync(),
                 Journal = journal
             });
 

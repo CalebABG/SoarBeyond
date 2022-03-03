@@ -15,7 +15,7 @@ public abstract class SoarBeyondPageBase : SoarBeyondComponentBase
     /// getting the users Id from the ClaimsPrincipal.
     /// <see cref="ClaimsPrincipalExtensions"/>
     /// </summary>
-    protected async Task<int> GetUserId()
+    protected async Task<int> GetUserIdAsync()
     {
         var authState = await AuthStateTask;
         return int.TryParse(authState.User.GetUserId(), out var parsedUserId)

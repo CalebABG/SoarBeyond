@@ -100,16 +100,16 @@ public class DbJournalProvider : IJournalProvider
         return dto;
     }
 
-    public Task<HashSet<JournalNameId>> GetNameIdsAsync(GetJournalNameIdsRequest request)
+    public async Task<HashSet<JournalNameId>> GetNameIdsAsync(GetJournalNameIdsRequest request)
     {
-        using var dbContext = _dbContextFactory.CreateDbContext();
+        await using var dbContext = await _dbContextFactory.CreateDbContextAsync();
 
         var journalIdNames = dbContext.Journals
             .Where(j => j.UserId == request.UserId)
             .Select(j => new JournalNameId(j.Name, j.Id))
             .ToHashSet();
 
-        return Task.FromResult(journalIdNames);
+        return await Task.FromResult(journalIdNames);
     }
 
     public async Task<IEnumerable<Journal>> GetAllAsync(GetAllJournalsRequest request)
