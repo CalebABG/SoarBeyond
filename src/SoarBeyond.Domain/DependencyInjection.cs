@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using ScottBrady91.AspNetCore.Identity;
 using SoarBeyond.Data;
 using SoarBeyond.Data.Entities;
+using SoarBeyond.Data.Seed;
 using SoarBeyond.Domain.AssemblyMarkers;
 using SoarBeyond.Domain.AuthStateProviders;
 using SoarBeyond.Domain.Providers;
@@ -52,7 +54,6 @@ public static class DependencyInjection
                 options.UseNpgsql(connectionString);
 #endif
         });
-        services.AddTransient(p => p.GetRequiredService<IDbContextFactory<SoarBeyondDbContext>>().CreateDbContext());
 
         services.AddDefaultIdentity<SoarBeyondUserEntity>(options =>
             {
@@ -84,5 +85,33 @@ public static class DependencyInjection
         services.AddMediatR(assemblyMarker);
 
         return services;
+    }
+
+    public static async Task MigrateDatabaseAsync(this IHost host)
+    {
+        using var serviceScope = host.Services?.CreateScope();
+        if (serviceScope is not null)
+        {
+            await using var dbContext = serviceScope.ServiceProvider
+                .GetRequiredService<SoarBeyondDbContext>();
+
+            var isInMemDb = dbContext.Database.IsInMemory();
+            if (isInMemDb)
+            {
+                await dbContext.Database.EnsureCreatedAsync();
+            }
+            else
+            {
+                var pendingMigrations = await dbContext.Database.GetPendingMigrationsAsync();
+                if (pendingMigrations.Any())
+                {
+                    await dbContext.Database.MigrateAsync();
+                }
+            }
+
+#if DEBUG
+            await dbContext.SeedDatabase();
+#endif
+        }
     }
 }

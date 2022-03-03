@@ -1,54 +1,74 @@
-using Microsoft.EntityFrameworkCore;
-using SoarBeyond.Data;
-using SoarBeyond.Data.Seed;
+using Blazored.Toast;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.ResponseCompression;
+using SoarBeyond.Components;
+using SoarBeyond.Domain;
 
-namespace SoarBeyond.Web;
+var builder = WebApplication.CreateBuilder(args);
 
-public class Program
-{
-    public static async Task Main(string[] args)
-    {
-        var host = CreateHostBuilder(args).Build();
-
-        using var serviceScope = host.Services?.CreateScope();
-        if (serviceScope is not null)
-        {
-            await using var dbContext = serviceScope.ServiceProvider
-                .GetRequiredService<SoarBeyondDbContext>();
-
-            var isInMemDb = dbContext.Database.IsInMemory();
-            if (isInMemDb)
-            {
-                await dbContext.Database.EnsureCreatedAsync();
-            }
-            else
-            {
-                var pendingMigrations = await dbContext.Database.GetPendingMigrationsAsync();
-                if (pendingMigrations.Any())
-                {
-                    await dbContext.Database.MigrateAsync();
-                }
-            }
+// Add services to the container.
+builder.Services.AddRazorPages();
+builder.Services.AddControllers();
+builder.Services.AddServerSideBlazor();
 
 #if DEBUG
-            await dbContext.SeedDatabase();
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 #endif
-        }
 
-        await host.RunAsync();
-    }
+builder.Services.AddHttpClient();
+builder.Services.AddBlazoredToast();
 
-    private static IHostBuilder CreateHostBuilder(string[] args)
+builder.Services.AddScoped<SoarBeyondJsInterop>();
+
+builder.Services.AddResponseCompression(opts =>
+{
+    opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[]
     {
-        return Host.CreateDefaultBuilder(args)
-            .ConfigureAppConfiguration((_, configuration) =>
-            {
-                /* Temporary fix for Windows 'dotnet watch' not loading user secrets configuration */
-                configuration.AddUserSecrets<Startup>(optional: true);
-            })
-            .ConfigureWebHostDefaults(webBuilder =>
-            {
-                webBuilder.UseStartup<Startup>();
-            });
-    }
+        "application/octet-stream",
+    });
+});
+
+builder.Services.AddInfrastructure(builder.Configuration);
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+app.UseResponseCompression();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+    app.UseMigrationsEndPoint();
 }
+else
+{
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();
+
+app.UseStaticFiles();
+
+app.UseRouting();
+
+if (app.Environment.IsProduction()) // Reverse proxy
+{
+    app.UseForwardedHeaders(new ForwardedHeadersOptions
+    {
+        ForwardedHeaders = ForwardedHeaders.XForwardedFor |
+                           ForwardedHeaders.XForwardedProto
+    });
+}
+
+app.UseAuthentication();
+app.UseAuthorization();
+
+app.MapBlazorHub(options =>
+    options.WebSockets.CloseTimeout = TimeSpan.FromMinutes(30));
+
+app.MapControllers();
+app.MapFallbackToPage("/_Host");
+
+await app.MigrateDatabaseAsync();
+await app.RunAsync();
