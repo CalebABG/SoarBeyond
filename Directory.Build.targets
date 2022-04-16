@@ -32,7 +32,7 @@
         <PackageReference Update="Microsoft.EntityFrameworkCore" Version="6.0.3"/>
         <PackageReference Update="Microsoft.EntityFrameworkCore.Tools" Version="6.0.3"/>
         <PackageReference Update="Microsoft.EntityFrameworkCore.Design" Version="6.0.3"/>
-        <PackageReference Update="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.3"/>
+        <PackageReference Update="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.4"/>
         <PackageReference Update="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.3"/>
         <PackageReference Update="Microsoft.EntityFrameworkCore.Analyzers" Version="6.0.3"/>
 
