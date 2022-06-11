@@ -9,7 +9,7 @@
         <PackageReference Update="BlazorPro.Spinkit" Version="1.2.0"/>
         
         <PackageReference Update="Blazored.Toast" Version="3.2.2"/>
-        <PackageReference Update="Blazored.FluentValidation" Version="2.1.0-preview.1"/>
+        <PackageReference Update="Blazored.FluentValidation" Version="2.1.0-preview.2"/>
 
         <PackageReference Update="BlazorComponentUtilities" Version="1.8.0"/>
 
