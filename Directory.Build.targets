@@ -37,7 +37,7 @@
         <PackageReference Update="Microsoft.EntityFrameworkCore.Analyzers" Version="6.0.5"/>
 
         <PackageReference Update="Microsoft.AspNetCore.WebUtilities" Version="2.2.0"/>
-        <PackageReference Update="Microsoft.AspNetCore.Components.Web" Version="6.0.5"/>
+        <PackageReference Update="Microsoft.AspNetCore.Components.Web" Version="6.0.8"/>
         <PackageReference Update="Microsoft.AspNetCore.Components.Authorization" Version="6.0.5"/>
 
         <PackageReference Update="Microsoft.AspNetCore.Identity.UI" Version="6.0.5"/>
