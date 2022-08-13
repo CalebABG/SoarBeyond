@@ -41,7 +41,7 @@
         <PackageReference Update="Microsoft.AspNetCore.Components.Authorization" Version="6.0.5"/>
 
         <PackageReference Update="Microsoft.AspNetCore.Identity.UI" Version="6.0.5"/>
-        <PackageReference Update="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.5"/>
+        <PackageReference Update="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.8"/>
         <PackageReference Update="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.5"/>
 
         <PackageReference Update="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.5"/>
