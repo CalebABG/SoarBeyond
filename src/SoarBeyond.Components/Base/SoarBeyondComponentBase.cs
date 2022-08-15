@@ -13,29 +13,30 @@ public abstract class SoarBeyondComponentBase : ComponentBase
     [Parameter] public string ExtraClass { get; set; } = string.Empty;
     [Parameter] public string ExtraStyle { get; set; } = string.Empty;
 
-    [Parameter] public object Tag { get; set; }
-
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object> ComponentAttributes { get; set; } = new();
 
     protected bool IsBusy { get; set; }
 
-    protected virtual string ComponentClasses
+    protected virtual CssBuilder ComponentClassesBuilder
         => new CssBuilder()
             .AddClass(Class)
-            .AddClass(ExtraClass)
-            .Build();
+            .AddClass(ExtraClass);
 
-    protected virtual string ComponentStyles
+    protected virtual StyleBuilder ComponentStylesBuilder
         => new StyleBuilder()
             .AddStyle(Style)
-            .AddStyle(ExtraStyle)
-            .Build();
+            .AddStyle(ExtraStyle);
 
-    protected async Task BeyondComponentRunAsync(
+    protected string ComponentClasses => ComponentClassesBuilder.Build();
+    protected string ComponentStyles => ComponentStylesBuilder.Build(true);
+    
+    protected async Task ComponentRunAsync
+    (
         Func<Task> func,
         bool callStateHasChanged = true,
-        ILogger<SoarBeyondComponentBase> logger = null)
+        ILogger<SoarBeyondComponentBase> logger = null
+    )
     {
         if (IsBusy) return;
 
@@ -55,8 +56,14 @@ public abstract class SoarBeyondComponentBase : ComponentBase
         finally
         {
             IsBusy = false;
-            if (callStateHasChanged)
-                await InvokeAsync(StateHasChanged);
+            if (callStateHasChanged) 
+                StateHasChanged();
         }
     }
+}
+
+public static class BlazorComponentUtilitiesExtensions
+{
+    public static string Build(this StyleBuilder styleBuilder, bool removeTrailingSemicolon = false) 
+        => removeTrailingSemicolon ? styleBuilder.Build().TrimEnd(';') : styleBuilder.Build();
 }

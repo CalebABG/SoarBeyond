@@ -17,7 +17,7 @@ public partial class ViewJournalEntry
 
     protected override async Task OnInitializedAsync()
     {
-        await BeyondComponentRunAsync(async () =>
+        await ComponentRunAsync(async () =>
         {
             _requestFailed = false;
 
@@ -46,7 +46,7 @@ public partial class ViewJournalEntry
 
     private async Task UpdateJournalEntryAsync(string value)
     {
-        await BeyondComponentRunAsync(async () =>
+        await ComponentRunAsync(async () =>
         {
             var request = new UpdateJournalEntryRequest
             {

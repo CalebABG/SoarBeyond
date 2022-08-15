@@ -23,7 +23,7 @@ public partial class JournalsIndex : SoarBeyondPageBase
 
     protected override async Task OnInitializedAsync()
     {
-        await BeyondComponentRunAsync(async () =>
+        await ComponentRunAsync(async () =>
         {
             var journals = await GetJournalsFromDb();
             _journals = new LinkedList<Journal>(journals
@@ -44,7 +44,7 @@ public partial class JournalsIndex : SoarBeyondPageBase
 
     private async Task CreateJournalFromDialog(Journal journal)
     {
-        await BeyondComponentRunAsync(async () =>
+        await ComponentRunAsync(async () =>
         {
             CreateJournalRequest createRequest = new()
             {
@@ -76,7 +76,7 @@ public partial class JournalsIndex : SoarBeyondPageBase
 
         if (result)
         {
-            await BeyondComponentRunAsync(async () =>
+            await ComponentRunAsync(async () =>
             {
                 var request = new DeleteJournalRequest
                 {

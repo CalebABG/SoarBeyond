@@ -30,7 +30,7 @@ public partial class ViewJournal
 
     protected override async Task OnInitializedAsync()
     {
-        await BeyondComponentRunAsync(async () =>
+        await ComponentRunAsync(async () =>
         {
             _requestFailed = false;
 
@@ -59,7 +59,7 @@ public partial class ViewJournal
 
     private async Task UpdateJournalAsync(string value)
     {
-        await BeyondComponentRunAsync(async () =>
+        await ComponentRunAsync(async () =>
         {
             var request = new UpdateJournalRequest
             {
@@ -75,7 +75,7 @@ public partial class ViewJournal
 
     private async Task CreateJournalEntryAsync(JournalEntry journalEntry)
     {
-        await BeyondComponentRunAsync(async () =>
+        await ComponentRunAsync(async () =>
         {
             var request = new CreateJournalEntryRequest
             {
@@ -108,7 +108,7 @@ public partial class ViewJournal
 
         if (result)
         {
-            await BeyondComponentRunAsync(async () =>
+            await ComponentRunAsync(async () =>
             {
                 var deleteRequest = new DeleteJournalEntryRequest
                 {

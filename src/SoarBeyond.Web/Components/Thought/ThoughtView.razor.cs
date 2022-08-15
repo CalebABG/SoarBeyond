@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using BlazorComponentUtilities;
 using Microsoft.AspNetCore.Components;
 using SoarBeyond.Shared.Dto;
 
@@ -16,8 +17,9 @@ public partial class ThoughtView
         Class = "card shadow-sm";
     }
 
-    protected override string ComponentStyles
-        => base.ComponentStyles + $"border-left: 8px solid {Thought?.Color}";
+    protected override StyleBuilder ComponentStylesBuilder
+        => base.ComponentStylesBuilder
+            .AddStyle($"border-left: 8px solid {Thought?.Color}");
 
     private async Task HandleDeleteThought()
     {

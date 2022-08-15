@@ -17,7 +17,7 @@ public partial class JournalEntriesIndex
 
     protected override async Task OnInitializedAsync()
     {
-        await BeyondComponentRunAsync(async () =>
+        await ComponentRunAsync(async () =>
         {
             var journalEntries = await GetDbJournalEntriesAsync();
             _journalEntries = new LinkedList<JournalEntry>(journalEntries
@@ -42,7 +42,7 @@ public partial class JournalEntriesIndex
 
         if (result)
         {
-            await BeyondComponentRunAsync(async () =>
+            await ComponentRunAsync(async () =>
             {
                 var deleteRequest = new DeleteJournalEntryRequest
                 {

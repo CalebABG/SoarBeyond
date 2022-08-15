@@ -22,23 +22,14 @@
     [Parameter]
     public string Size { get; set; }
 
-    protected override string ComponentClasses
-        => SpinnerClassBuilder.Build();
-
-    protected override string ComponentStyles
-        => SpinnerStyleBuilder.Build();
-
-    /* Todo: See if there's a way to simplify this */
-    private CssBuilder SpinnerClassBuilder
-        => new CssBuilder()
+    protected override CssBuilder ComponentClassesBuilder
+        => base.ComponentClassesBuilder
             .AddClass(SpinnerClass, when: SpinnerClassConditionSet)
-            .AddClass(SmallSpinnerClass, when: SpinnerClassConditionSet && SmallSpinnerClassConditionSet)
-            .AddClass(base.ComponentClasses);
+            .AddClass(SmallSpinnerClass, when: SpinnerClassConditionSet && SmallSpinnerClassConditionSet);
 
-    private StyleBuilder SpinnerStyleBuilder
-        => new StyleBuilder()
-            .AddStyle(SpinnerSizeStyle)
-            .AddStyle(base.ComponentStyles);
+    protected override StyleBuilder ComponentStylesBuilder
+        => base.ComponentStylesBuilder
+            .AddStyle(SpinnerSizeStyle);
 
     private string SpinnerClass
         => $"spinner-{SpinnerType.ToString().ToLower()}";

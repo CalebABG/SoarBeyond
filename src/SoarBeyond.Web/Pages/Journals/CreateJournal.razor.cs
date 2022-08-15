@@ -16,7 +16,7 @@ public partial class CreateJournal
 
     private async Task CreateNewJournalAsync(Journal journal)
     {
-        await BeyondComponentRunAsync(async () =>
+        await ComponentRunAsync(async () =>
         {
             var resultJournal = await Mediator.Send(new CreateJournalRequest
             {
