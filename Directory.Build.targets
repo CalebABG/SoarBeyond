@@ -33,7 +33,7 @@
         <PackageReference Update="Microsoft.EntityFrameworkCore.Tools" Version="6.0.8"/>
         <PackageReference Update="Microsoft.EntityFrameworkCore.Design" Version="6.0.8"/>
         <PackageReference Update="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.8"/>
-        <PackageReference Update="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.8"/>
+        <PackageReference Update="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.9"/>
         <PackageReference Update="Microsoft.EntityFrameworkCore.Analyzers" Version="6.0.8"/>
 
         <PackageReference Update="Microsoft.AspNetCore.WebUtilities" Version="2.2.0"/>
