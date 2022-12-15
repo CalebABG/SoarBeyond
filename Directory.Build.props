@@ -1,7 +1,0 @@
-﻿<Project>
-  <PropertyGroup Label="Common Solution Properties">
-    <Product>SoarBeyond</Product>
-    <Authors>CalebABG</Authors>
-    <RepositoryUrl>https://github.com/CalebABG/SoarBeyond</RepositoryUrl>
-  </PropertyGroup>
-</Project>
