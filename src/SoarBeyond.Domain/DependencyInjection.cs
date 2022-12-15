@@ -71,8 +71,6 @@ public static class DependencyInjection
 
         services.AddScoped<AuthenticationStateProvider, IdentityAuthStateProvider<SoarBeyondUserEntity>>();
 
-        services.AddScoped<IIdentityService, IdentityService>();
-
         services.AddScoped<IJournalProvider, DbJournalProvider>();
         services.AddScoped<IJournalEntryProvider, DbJournalEntryProvider>();
         services.AddScoped<IThoughtProvider, DbThoughtProvider>();

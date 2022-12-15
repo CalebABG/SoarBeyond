@@ -34,6 +34,7 @@
     <component type="@typeof(HeadOutlet)" render-mode="Server"/>
 </head>
 <body>
+
 @RenderBody()
 
 <div id="blazor-error-ui">
@@ -71,7 +72,7 @@
 
 @* Blazor options *@
 <script>
-        Blazor.start({ reconnectionOptions: { maxRetries: 4, retryIntervalMilliseconds: 3000 } });
-    </script>
+    Blazor.start({ reconnectionOptions: { maxRetries: 4, retryIntervalMilliseconds: 3000 } });
+</script>
 </body>
 </html>

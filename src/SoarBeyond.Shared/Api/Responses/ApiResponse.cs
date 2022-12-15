@@ -1,10 +1,13 @@
 ﻿namespace SoarBeyond.Shared.Api.Responses;
 
-public class ApiResponse<T>
+public class ApiResponse<T> : ApiResponse
+{
+    public T Payload { get; set; }
+}
+
+public class ApiResponse
 {
     public bool Succeeded { get; set; }
-    public T Payload { get; set; }
-
-    public static ApiResponse<T> Success(T result) => new() { Succeeded = true, Payload = result };
-    public static ApiResponse<T> Fail(T result = default) => new() { Succeeded = false, Payload = result };
+    public int StatusCode { get; set; }
+    public string Message { get; set; }
 }
