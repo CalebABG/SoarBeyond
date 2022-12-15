@@ -32,7 +32,7 @@ services:
     environment:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
-      POSTGRES_DB: "SoarBeyondDb"
+      POSTGRES_DB: "soarbeyond"
     
     # Uncomment one line below to use a volume or a mapping
     volumes:
@@ -66,7 +66,7 @@ services:
       SoarBeyond__Persistence__Port: "5432"
       SoarBeyond__Persistence__Username: "postgres"
       SoarBeyond__Persistence__Password: "postgres"
-      SoarBeyond__Persistence__Database: "SoarBeyondDb"
+      SoarBeyond__Persistence__Database: "soarbeyond"
 
     # Uncomment one line below to add a volume for UserSecrets
     # volumes:

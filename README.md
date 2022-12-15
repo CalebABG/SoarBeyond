@@ -38,7 +38,7 @@ SoarBeyond uses [PostgreSQL](https://www.postgresql.org/) for its backend databa
       "Persistence": {
          "Host": "localhost",
          "Port": "5432",
-         "Database": "SoarBeyondDb",
+         "Database": "soarbeyond",
          "Username": "postgres",
          "Password": ""
       }
