@@ -2,7 +2,7 @@
 using SoarBeyond.Domain.Providers.Interfaces;
 using SoarBeyond.Shared.Dto;
 
-namespace SoarBeyond.Domain.MediatR.Journals;
+namespace SoarBeyond.Domain.Mediator.Journals;
 
 public class GetAllJournalsRequest
     : IRequest<IEnumerable<Journal>>

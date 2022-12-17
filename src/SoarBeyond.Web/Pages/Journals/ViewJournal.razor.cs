@@ -3,8 +3,8 @@ using Humanizer;
 using MediatR;
 using Microsoft.AspNetCore.Components;
 using SoarBeyond.Components;
-using SoarBeyond.Domain.MediatR.JournalEntries;
-using SoarBeyond.Domain.MediatR.Journals;
+using SoarBeyond.Domain.Mediator.JournalEntries;
+using SoarBeyond.Domain.Mediator.Journals;
 using SoarBeyond.Shared.Dto;
 
 namespace SoarBeyond.Web.Pages.Journals;

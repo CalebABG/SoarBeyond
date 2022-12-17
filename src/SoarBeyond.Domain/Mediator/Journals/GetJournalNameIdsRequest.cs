@@ -3,7 +3,7 @@ using SoarBeyond.Data;
 using SoarBeyond.Domain.Providers.Interfaces;
 using SoarBeyond.Shared.Poco;
 
-namespace SoarBeyond.Domain.MediatR.Journals;
+namespace SoarBeyond.Domain.Mediator.Journals;
 
 public class GetJournalNameIdsRequest : IRequest<HashSet<JournalNameId>>
 {

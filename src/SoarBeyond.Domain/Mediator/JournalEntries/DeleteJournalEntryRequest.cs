@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using SoarBeyond.Domain.Providers.Interfaces;
 
-namespace SoarBeyond.Domain.MediatR.JournalEntries;
+namespace SoarBeyond.Domain.Mediator.JournalEntries;
 
 public class DeleteJournalEntryRequest : IRequest<bool>
 {

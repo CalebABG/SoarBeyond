@@ -1,4 +1,4 @@
-﻿using SoarBeyond.Domain.MediatR.Journals;
+﻿using SoarBeyond.Domain.Mediator.Journals;
 using SoarBeyond.Shared.Dto;
 using SoarBeyond.Shared.Poco;
 

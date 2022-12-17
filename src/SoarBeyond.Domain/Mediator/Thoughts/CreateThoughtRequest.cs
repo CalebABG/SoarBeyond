@@ -2,7 +2,7 @@
 using SoarBeyond.Domain.Providers.Interfaces;
 using SoarBeyond.Shared.Dto;
 
-namespace SoarBeyond.Domain.MediatR.Thoughts;
+namespace SoarBeyond.Domain.Mediator.Thoughts;
 
 public class CreateThoughtRequest
     : IRequest<Thought>

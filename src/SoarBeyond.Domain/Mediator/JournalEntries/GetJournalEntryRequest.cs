@@ -2,7 +2,7 @@ using MediatR;
 using SoarBeyond.Domain.Providers.Interfaces;
 using SoarBeyond.Shared.Dto;
 
-namespace SoarBeyond.Domain.MediatR.JournalEntries;
+namespace SoarBeyond.Domain.Mediator.JournalEntries;
 
 public class GetJournalEntryRequest
     : IRequest<JournalEntry>

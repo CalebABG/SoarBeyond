@@ -1,4 +1,4 @@
-﻿using SoarBeyond.Domain.MediatR.Thoughts;
+﻿using SoarBeyond.Domain.Mediator.Thoughts;
 using SoarBeyond.Shared.Dto;
 
 namespace SoarBeyond.Domain.Providers.Interfaces;

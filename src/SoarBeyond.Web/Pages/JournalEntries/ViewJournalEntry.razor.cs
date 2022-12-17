@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Components;
-using SoarBeyond.Domain.MediatR.JournalEntries;
+using SoarBeyond.Domain.Mediator.JournalEntries;
 using SoarBeyond.Shared.Dto;
 
 namespace SoarBeyond.Web.Pages.JournalEntries;

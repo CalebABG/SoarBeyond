@@ -1,4 +1,4 @@
-﻿using SoarBeyond.Domain.MediatR.JournalEntries;
+﻿using SoarBeyond.Domain.Mediator.JournalEntries;
 using SoarBeyond.Shared.Dto;
 
 namespace SoarBeyond.Domain.Providers.Interfaces;

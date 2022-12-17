@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using SoarBeyond.Data;
 using SoarBeyond.Data.Entities;
-using SoarBeyond.Domain.MediatR.Thoughts;
+using SoarBeyond.Domain.Mediator.Thoughts;
 using SoarBeyond.Domain.Providers.Interfaces;
 using SoarBeyond.Shared.Dto;
 

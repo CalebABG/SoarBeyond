@@ -3,7 +3,7 @@ using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using SoarBeyond.Data;
 using SoarBeyond.Data.Entities;
-using SoarBeyond.Domain.MediatR.JournalEntries;
+using SoarBeyond.Domain.Mediator.JournalEntries;
 using SoarBeyond.Domain.Providers.Interfaces;
 using SoarBeyond.Shared.Dto;
 
