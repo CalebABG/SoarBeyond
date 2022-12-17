@@ -5,7 +5,8 @@ using SoarBeyond.Data.Entities;
 
 namespace SoarBeyond.Data;
 
-public class SoarBeyondDbContext : IdentityDbContext<SoarBeyondUserEntity, IdentityRole<int>, int>
+public class SoarBeyondDbContext 
+    : IdentityDbContext<SoarBeyondUserEntity, IdentityRole<int>, int>
 {
     public SoarBeyondDbContext(DbContextOptions<SoarBeyondDbContext> options)
         : base(options)
@@ -30,9 +31,9 @@ public class SoarBeyondDbContext : IdentityDbContext<SoarBeyondUserEntity, Ident
         base.Dispose();
     }
 
-    public override ValueTask DisposeAsync()
+    public override async ValueTask DisposeAsync()
     {
         Console.WriteLine($"{ContextId} context disposed async");
-        return base.DisposeAsync();
+        await base.DisposeAsync();
     }
 }
