@@ -16,23 +16,23 @@
         }
 
         <div class="card-text">
-            <EditForm Model="@_model" OnValidSubmit="@HandleValidSubmitAsync">
+            <EditForm Model="@_journal" OnValidSubmit="@HandleValidSubmitAsync">
                 <FluentValidationValidator />
 
                 <div class="form-group mb-3">
                     <label class="form-label">
-                        @LabelFor(() => _model.Name)
+                        @LabelFor(() => _journal.Name)
                     </label>
-                    <InputText class="form-control" @bind-Value="_model.Name" />
-                    <ValidationMessage For="@(() => _model.Name)" />
+                    <InputText class="form-control" @bind-Value="_journal.Name" />
+                    <ValidationMessage For="@(() => _journal.Name)" />
                 </div>
 
                 <div class="form-group mb-3">
                     <label class="form-label">
-                        @LabelFor(() => _model.Description)
+                        @LabelFor(() => _journal.Description)
                     </label>
-                    <InputTextArea class="form-control" rows="4" @bind-Value="_model.Description" />
-                    <ValidationMessage For="@(() => _model.Description)" />
+                    <InputTextArea class="form-control" rows="4" @bind-Value="_journal.Description" />
+                    <ValidationMessage For="@(() => _journal.Description)" />
                 </div>
 
                 <div class="d-grid">

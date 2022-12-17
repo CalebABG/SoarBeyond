@@ -2,10 +2,10 @@
 using Humanizer;
 using MediatR;
 using Microsoft.AspNetCore.Components;
+using SoarBeyond.Components;
 using SoarBeyond.Domain.MediatR.JournalEntries;
 using SoarBeyond.Domain.MediatR.Journals;
 using SoarBeyond.Shared.Dto;
-using SoarBeyond.Web.Components;
 
 namespace SoarBeyond.Web.Pages.Journals;
 
@@ -93,8 +93,7 @@ public partial class ViewJournal
             }
             else
             {
-                ToastService.ShowError("Something went wrong creating " +
-                                        "your Journal Entry, please try again.");
+                ToastService.ShowError("Something went wrong creating your Journal Entry, please try again.");
             }
         });
     }

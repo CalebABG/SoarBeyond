@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using SoarBeyond.Shared.Poco;
 
-namespace SoarBeyond.Web.Components;
+namespace SoarBeyond.Components;
 
 public partial class ZenQuoteView
 {

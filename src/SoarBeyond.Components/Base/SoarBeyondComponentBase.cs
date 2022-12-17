@@ -6,7 +6,7 @@ namespace SoarBeyond.Components;
 
 public abstract class SoarBeyondComponentBase : ComponentBase
 {
-    private const int DebugTaskDelayTime = 150;
+    private const int DebugTaskDelayTime = 650;
 
     [Parameter] public string Class { get; set; } = string.Empty;
     [Parameter] public string Style { get; set; } = string.Empty;

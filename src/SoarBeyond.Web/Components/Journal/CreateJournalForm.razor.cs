@@ -9,7 +9,7 @@ public partial class CreateJournalForm
     [Parameter] public bool ShowTitle { get; set; } = true;
     [Parameter] public EventCallback<Journal> OnValidSubmit { get; set; }
 
-    private Journal _model = new();
+    private Journal _journal = new();
 
     public CreateJournalForm()
     {
@@ -19,13 +19,13 @@ public partial class CreateJournalForm
     private async Task HandleValidSubmitAsync()
     {
         IsBusy = true;
-        await OnValidSubmit.InvokeAsync(_model);
+        await OnValidSubmit.InvokeAsync(_journal);
         IsBusy = false;
     }
 
     private void ResetModel()
     {
-        _model = new();
+        _journal = new();
     }
 
     public void ResetForm()

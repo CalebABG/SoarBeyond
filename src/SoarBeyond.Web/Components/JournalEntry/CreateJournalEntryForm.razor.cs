@@ -7,12 +7,10 @@ namespace SoarBeyond.Web.Components;
 
 public partial class CreateJournalEntryForm
 {
-    [Parameter] public int JournalId { get; set; }
     [Parameter] public EventCallback<JournalEntry> OnValidSubmit { get; set; }
 
     private bool _addThoughts;
-
-    private JournalEntry _journalEntryModel = new();
+    private JournalEntry _journalEntry = new();
 
     public CreateJournalEntryForm()
     {
@@ -22,38 +20,34 @@ public partial class CreateJournalEntryForm
     private async Task HandleValidSubmitAsync()
     {
         IsBusy = true;
-        await OnValidSubmit.InvokeAsync(_journalEntryModel);
+        await OnValidSubmit.InvokeAsync(_journalEntry);
         IsBusy = false;
     }
 
     private void AddThought(Thought thought)
     {
-        var contains = _journalEntryModel.Thoughts.Contains(thought);
+        var contains = _journalEntry.Thoughts.Contains(thought);
         if (contains) return;
 
-        _journalEntryModel.Thoughts.Add(thought);
+        _journalEntry.Thoughts.Add(thought);
 
-        CloseDialog();
+        _addThoughts = false;
     }
 
     private void RemoveThought(Thought thought)
     {
-        var contains = _journalEntryModel.Thoughts.Contains(thought);
-        if (contains) _journalEntryModel.Thoughts.Remove(thought);
+        var contains = _journalEntry.Thoughts.Contains(thought);
+        if (contains) _journalEntry.Thoughts.Remove(thought);
     }
 
-    private void ResetModelFields()
+    private void ResetModel()
     {
-        _journalEntryModel = SetJournalEntryModel();
+        _journalEntry = new();
     }
-
-    private JournalEntry SetJournalEntryModel() => new();
-
-    private void CloseDialog() => _addThoughts = false;
 
     private void ToggleThoughtDialog()
     {
         _addThoughts = !_addThoughts;
-        if (!_addThoughts) _journalEntryModel.Thoughts.Clear();
+        if (!_addThoughts) _journalEntry.Thoughts.Clear();
     }
 }

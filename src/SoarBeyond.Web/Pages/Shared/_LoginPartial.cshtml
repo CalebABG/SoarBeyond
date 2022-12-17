@@ -1,8 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using SoarBeyond.Data.Entities
-@inject SignInManager<SoarBeyondUserEntity> SignInManager
-@inject UserManager<SoarBeyondUserEntity> UserManager
+
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@inject SignInManager<SoarBeyondUserEntity> SignInManager
 
 <div class="my-2">
     @if (SignInManager.IsSignedIn(User))
