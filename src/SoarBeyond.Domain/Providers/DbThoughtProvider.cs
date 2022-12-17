@@ -11,32 +11,33 @@ namespace SoarBeyond.Domain.Providers;
 public class DbThoughtProvider : IThoughtProvider
 {
     private readonly IMapper _mapper;
-    private readonly IDbContextFactory<SoarBeyondDbContext> _dbContextFactory;
+    private readonly IDbContextFactory<SoarBeyondDbContext> _contextFactory;
 
     public DbThoughtProvider(
-        IDbContextFactory<SoarBeyondDbContext> dbContextFactory,
+        IDbContextFactory<SoarBeyondDbContext> contextFactory,
         IMapper mapper)
     {
-        _dbContextFactory = dbContextFactory;
+        _contextFactory = contextFactory;
         _mapper = mapper;
     }
 
     public async Task<Thought> CreateAsync(CreateThoughtRequest request)
     {
-        await using var dbContext = await _dbContextFactory.CreateDbContextAsync();
+        await using var context = await _contextFactory.CreateDbContextAsync();
 
-        var dbEntry = await dbContext.Thoughts
+        var entry = await context.Thoughts
             .FirstOrDefaultAsync(t => t.Id == request.Thought.Id
                                       && t.JournalEntryId == request.JournalEntryId
                                       && t.UserId == request.UserId);
 
-        if (dbEntry is not null) return null;
+        if (entry is not null)
+            return null;
 
         ThoughtEntity thought = _mapper.Map<Thought, ThoughtEntity>(request.Thought);
         thought.UserId = request.UserId;
 
-        var addedThought = dbContext.Thoughts.Add(thought);
-        await dbContext.SaveChangesAsync();
+        var addedThought = context.Thoughts.Add(thought);
+        await context.SaveChangesAsync();
 
         var dto = _mapper.Map<ThoughtEntity, Thought>(addedThought.Entity);
         return dto;

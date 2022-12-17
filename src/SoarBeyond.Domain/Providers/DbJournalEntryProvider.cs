@@ -12,21 +12,21 @@ namespace SoarBeyond.Domain.Providers;
 public class DbJournalEntryProvider : IJournalEntryProvider
 {
     private readonly IMapper _mapper;
-    private readonly IDbContextFactory<SoarBeyondDbContext> _dbContextFactory;
+    private readonly IDbContextFactory<SoarBeyondDbContext> _contextFactory;
 
     public DbJournalEntryProvider(
-        IDbContextFactory<SoarBeyondDbContext> dbContextFactory,
+        IDbContextFactory<SoarBeyondDbContext> contextFactory,
         IMapper mapper)
     {
-        _dbContextFactory = dbContextFactory;
+        _contextFactory = contextFactory;
         _mapper = mapper;
     }
 
     public async Task<JournalEntry> CreateAsync(CreateJournalEntryRequest request)
     {
-        await using var dbContext = await _dbContextFactory.CreateDbContextAsync();
+        await using var context = await _contextFactory.CreateDbContextAsync();
 
-        var dbJournalEntry = await dbContext.JournalEntries
+        var dbJournalEntry = await context.JournalEntries
             .Include(je => je.Thoughts)
             .FirstOrDefaultAsync(je => je.Id == request.JournalEntry.Id
                                        && je.JournalId == request.JournalId
@@ -44,8 +44,8 @@ public class DbJournalEntryProvider : IJournalEntryProvider
         foreach (var t in thoughts)
             t.UserId = request.UserId;
 
-        var addedJournalEntry = dbContext.JournalEntries.Add(journalEntry);
-        await dbContext.SaveChangesAsync();
+        var addedJournalEntry = context.JournalEntries.Add(journalEntry);
+        await context.SaveChangesAsync();
 
         var dto = _mapper.Map<JournalEntryEntity, JournalEntry>(addedJournalEntry.Entity);
         return dto;
@@ -53,43 +53,43 @@ public class DbJournalEntryProvider : IJournalEntryProvider
 
     public async Task<bool> DeleteAsync(DeleteJournalEntryRequest request)
     {
-        await using var dbContext = await _dbContextFactory.CreateDbContextAsync();
+        await using var context = await _contextFactory.CreateDbContextAsync();
 
-        var dbJournalEntry = await dbContext.JournalEntries
+        var entry = await context.JournalEntries
             .FirstOrDefaultAsync(je => je.JournalId == request.JournalId
                                        && je.Id == request.JournalEntryId
                                        && je.UserId == request.UserId);
 
-        if (dbJournalEntry is null)
+        if (entry is null)
             return false;
 
-        dbContext.JournalEntries.Remove(dbJournalEntry);
+        context.JournalEntries.Remove(entry);
 
-        var deleted = await dbContext.SaveChangesAsync() > 0;
+        var deleted = await context.SaveChangesAsync() > 0;
         return deleted;
     }
 
     public async Task<JournalEntry> GetAsync(GetJournalEntryRequest request)
     {
-        await using var dbContext = await _dbContextFactory.CreateDbContextAsync();
+        await using var context = await _contextFactory.CreateDbContextAsync();
 
-        var dbJournalEntry = await dbContext.JournalEntries
+        var entry = await context.JournalEntries
             .Include(je => je.Thoughts)
             .FirstOrDefaultAsync(je => je.Id == request.JournalEntryId
                                        && je.UserId == request.UserId);
 
-        if (dbJournalEntry is null)
+        if (entry is null)
             return null;
 
-        var dto = _mapper.Map<JournalEntryEntity, JournalEntry>(dbJournalEntry);
+        var dto = _mapper.Map<JournalEntryEntity, JournalEntry>(entry);
         return dto;
     }
 
     public async Task<JournalEntry> UpdateAsync(UpdateJournalEntryRequest request)
     {
-        await using var dbContext = await _dbContextFactory.CreateDbContextAsync();
+        await using var context = await _contextFactory.CreateDbContextAsync();
 
-        var dbJournalEntry = await dbContext.JournalEntries
+        var dbJournalEntry = await context.JournalEntries
             .Include(je => je.Thoughts)
             .FirstOrDefaultAsync(je => je.UserId == request.UserId &&
                                        je.Id == request.JournalEntryId);
@@ -98,7 +98,7 @@ public class DbJournalEntryProvider : IJournalEntryProvider
             return null;
 
         _mapper.Map(request.JournalEntry, dbJournalEntry);
-        await dbContext.SaveChangesAsync();
+        await context.SaveChangesAsync();
 
         var dto = _mapper.Map<JournalEntryEntity, JournalEntry>(dbJournalEntry);
         return dto;
@@ -106,32 +106,24 @@ public class DbJournalEntryProvider : IJournalEntryProvider
 
     public async Task<IEnumerable<JournalEntry>> GetByJournalIdAsync(GetJournalEntriesByJournalIdRequest request)
     {
-        await using var dbContext = await _dbContextFactory.CreateDbContextAsync();
+        await using var context = await _contextFactory.CreateDbContextAsync();
 
-        var journalEntries = dbContext.JournalEntries
+        var entries = context.JournalEntries
             .Include(je => je.Thoughts)
             .Where(je => je.JournalId == request.JournalId
                          && je.UserId == request.UserId);
 
-        var entries = await journalEntries
-            .ProjectTo<JournalEntry>(_mapper.ConfigurationProvider)
-            .ToListAsync();
-
-        return entries;
+        return entries.ProjectTo<JournalEntry>(_mapper.ConfigurationProvider);
     }
 
     public async Task<IEnumerable<JournalEntry>> GetAllAsync(GetAllJournalEntriesRequest request)
     {
-        await using var dbContext = await _dbContextFactory.CreateDbContextAsync();
+        await using var context = await _contextFactory.CreateDbContextAsync();
 
-        var journalEntries = dbContext.JournalEntries
+        var entities = context.JournalEntries
             .Include(je => je.Thoughts)
             .Where(je => je.UserId == request.UserId);
 
-        var entries = await journalEntries
-            .ProjectTo<JournalEntry>(_mapper.ConfigurationProvider)
-            .ToListAsync();
-
-        return entries;
+        return entities.ProjectTo<JournalEntry>(_mapper.ConfigurationProvider);
     }
 }
