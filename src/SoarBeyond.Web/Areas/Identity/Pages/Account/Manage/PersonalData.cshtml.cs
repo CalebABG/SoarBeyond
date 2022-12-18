@@ -7,11 +7,11 @@ namespace SoarBeyond.Web.Areas.Identity.Pages.Account.Manage;
 
 public class PersonalDataModel : PageModel
 {
-    private readonly UserManager<SoarBeyondUserEntity> _userManager;
+    private readonly UserManager<UserEntity> _userManager;
     private readonly ILogger<PersonalDataModel> _logger;
 
     public PersonalDataModel(
-        UserManager<SoarBeyondUserEntity> userManager,
+        UserManager<UserEntity> userManager,
         ILogger<PersonalDataModel> logger)
     {
         _userManager = userManager;

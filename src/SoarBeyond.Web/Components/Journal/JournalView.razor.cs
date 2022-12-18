@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using SoarBeyond.Shared.Dto;
+using SoarBeyond.Domain.Dto;
 
 namespace SoarBeyond.Web.Components;
 
@@ -16,7 +16,7 @@ public partial class JournalView
         Class = "card shadow";
     }
 
-    private bool CanShowBadgeCount => ShowBadgeCount && Journal?.JournalEntries.Count > 0;
+    private bool CanShowBadgeCount => ShowBadgeCount && Journal?.Moments.Count > 0;
 
     private void NavigateToViewPage()
     {

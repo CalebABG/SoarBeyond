@@ -8,13 +8,13 @@ namespace SoarBeyond.Web.Areas.Identity.Pages.Account.Manage;
 
 public class ChangePasswordModel : PageModel
 {
-    private readonly UserManager<SoarBeyondUserEntity> _userManager;
-    private readonly SignInManager<SoarBeyondUserEntity> _signInManager;
+    private readonly UserManager<UserEntity> _userManager;
+    private readonly SignInManager<UserEntity> _signInManager;
     private readonly ILogger<ChangePasswordModel> _logger;
 
     public ChangePasswordModel(
-        UserManager<SoarBeyondUserEntity> userManager,
-        SignInManager<SoarBeyondUserEntity> signInManager,
+        UserManager<UserEntity> userManager,
+        SignInManager<UserEntity> signInManager,
         ILogger<ChangePasswordModel> logger)
     {
         _userManager = userManager;

@@ -12,10 +12,10 @@ namespace SoarBeyond.Web.Areas.Identity.Pages.Account;
 [AllowAnonymous]
 public class RegisterConfirmationModel : PageModel
 {
-    private readonly UserManager<SoarBeyondUserEntity> _userManager;
+    private readonly UserManager<UserEntity> _userManager;
     private readonly IEmailSender _sender;
 
-    public RegisterConfirmationModel(UserManager<SoarBeyondUserEntity> userManager, IEmailSender sender)
+    public RegisterConfirmationModel(UserManager<UserEntity> userManager, IEmailSender sender)
     {
         _userManager = userManager;
         _sender = sender;

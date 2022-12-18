@@ -1,33 +1,34 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using SoarBeyond.Data.Entities;
+using SoarBeyond.Shared;
 
 namespace SoarBeyond.Data.EntityConfigurations;
 
 public class JournalEntityConfiguration : IEntityTypeConfiguration<JournalEntity>
 {
-    private const int NameLength = 150;
-    private const int DescriptionLength = 500;
-
     public void Configure(EntityTypeBuilder<JournalEntity> builder)
     {
-        builder.Property(j => j.Id)
-            .UseIdentityColumn();
+        builder.HasKey(j => j.Id);
 
         builder.Property(j => j.Name)
-            .HasMaxLength(NameLength)
-            .IsRequired();
+            .IsRequired()
+            .HasMaxLength(JournalConstraints.NameLength);
 
         builder.Property(j => j.Description)
-            .HasMaxLength(DescriptionLength)
-            .IsRequired();
+            .IsRequired()
+            .HasMaxLength(JournalConstraints.DescriptionLength);
 
-        builder.Property(j => j.CreationDate)
-            .HasDefaultValue(DateTime.UtcNow)
+        builder.Property(j => j.CreatedDate)
+            .HasDefaultValue(DateTimeOffset.UtcNow)
             .ValueGeneratedOnAdd();
 
-        builder.HasMany(journal => journal.JournalEntries)
-            .WithOne(journalEntry => journalEntry.Journal)
-            .HasForeignKey(journalEntry => journalEntry.JournalId);
+        builder.Property(j => j.UpdatedDate)
+            .HasDefaultValue(DateTimeOffset.UtcNow)
+            .ValueGeneratedOnAddOrUpdate();
+
+        builder.HasMany(j => j.Moments)
+            .WithOne(m => m.Journal)
+            .HasForeignKey(m => m.JournalId);
     }
 }

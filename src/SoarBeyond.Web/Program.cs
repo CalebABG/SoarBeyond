@@ -17,7 +17,6 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddHttpClient();
 builder.Services.AddBlazoredToast();
-
 builder.Services.AddScoped<SoarBeyondJsInterop>();
 
 builder.Services.AddResponseCompression(opts =>
@@ -52,8 +51,9 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-if (app.Environment.IsProduction()) // Reverse proxy
+if (app.Environment.IsProduction())
 {
+    // Reverse proxy
     app.UseForwardedHeaders(new ForwardedHeadersOptions
     {
         ForwardedHeaders = ForwardedHeaders.XForwardedFor |

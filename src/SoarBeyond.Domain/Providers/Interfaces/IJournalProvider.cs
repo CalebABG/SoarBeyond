@@ -1,5 +1,5 @@
-﻿using SoarBeyond.Domain.Mediator.Journals;
-using SoarBeyond.Shared.Dto;
+﻿using SoarBeyond.Domain.Dto;
+using SoarBeyond.Domain.Mediator.Journals;
 using SoarBeyond.Shared.Poco;
 
 namespace SoarBeyond.Domain.Providers.Interfaces;
@@ -10,6 +10,6 @@ public interface IJournalProvider
     Task<Journal> UpdateAsync(UpdateJournalRequest request);
     Task<bool> DeleteAsync(DeleteJournalRequest request);
     Task<Journal> GetAsync(GetJournalRequest request);
-    Task<HashSet<JournalNameId>> GetNameIdsAsync(GetJournalNameIdsRequest request);
+    Task<IEnumerable<JournalName>> GetNamesAsync(GetJournalNamesRequest request);
     Task<IEnumerable<Journal>> GetAllAsync(GetAllJournalsRequest request);
 }

@@ -1,15 +1,13 @@
 ﻿namespace SoarBeyond.Data.Entities;
 
-public class ReflectionEntity : IHealthItem
+public class ReflectionEntity
 {
     public int Id { get; set; }
     public string Title { get; set; }
     public string Details { get; set; }
-    public DateTime CreationDate { get; set; }
+    public DateTimeOffset CreatedDate { get; set; }
+    public DateTimeOffset UpdatedDate { get; set; }
 
-    // Relationships
-    // public JournalEntry JournalEntry { get; set; }
-
-    public int UserId { set; get; }
-    public SoarBeyondUserEntity User { get; set; }
+    public int MomentId { get; set; }
+    public MomentEntity Moment { get; set; }
 }

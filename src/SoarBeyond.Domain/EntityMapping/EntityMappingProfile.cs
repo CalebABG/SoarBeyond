@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using SoarBeyond.Data.Entities;
-using SoarBeyond.Shared.Dto;
+using SoarBeyond.Domain.Dto;
 
 namespace SoarBeyond.Domain.EntityMapping;
 
@@ -11,10 +11,13 @@ public class EntityMappingProfile : Profile
         CreateMap<JournalEntity, Journal>()
             .ReverseMap();
 
-        CreateMap<JournalEntryEntity, JournalEntry>()
+        CreateMap<MomentEntity, Moment>()
             .ReverseMap();
 
-        CreateMap<ThoughtEntity, Thought>()
+        CreateMap<NoteEntity, Note>()
+            .ReverseMap();
+
+        CreateMap<ReflectionEntity, Reflection>()
             .ReverseMap();
     }
 }

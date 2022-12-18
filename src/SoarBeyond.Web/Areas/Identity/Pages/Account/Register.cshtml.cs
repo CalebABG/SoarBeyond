@@ -15,14 +15,14 @@ namespace SoarBeyond.Web.Areas.Identity.Pages.Account;
 [AllowAnonymous]
 public class RegisterModel : PageModel
 {
-    private readonly SignInManager<SoarBeyondUserEntity> _signInManager;
-    private readonly UserManager<SoarBeyondUserEntity> _userManager;
+    private readonly SignInManager<UserEntity> _signInManager;
+    private readonly UserManager<UserEntity> _userManager;
     private readonly ILogger<RegisterModel> _logger;
     private readonly IEmailSender _emailSender;
 
     public RegisterModel(
-        UserManager<SoarBeyondUserEntity> userManager,
-        SignInManager<SoarBeyondUserEntity> signInManager,
+        UserManager<UserEntity> userManager,
+        SignInManager<UserEntity> signInManager,
         ILogger<RegisterModel> logger,
         IEmailSender emailSender)
     {
@@ -71,7 +71,7 @@ public class RegisterModel : PageModel
 
         if (ModelState.IsValid)
         {
-            var user = new SoarBeyondUserEntity { UserName = Input.Email, Email = Input.Email, };
+            var user = new UserEntity { UserName = Input.Email, Email = Input.Email, };
             var result = await _userManager.CreateAsync(user, Input.Password);
 
             if (result.Succeeded)

@@ -9,13 +9,13 @@ public class TwoFactorAuthenticationModel : PageModel
 {
     private const string AuthenicatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}";
 
-    private readonly UserManager<SoarBeyondUserEntity> _userManager;
-    private readonly SignInManager<SoarBeyondUserEntity> _signInManager;
+    private readonly UserManager<UserEntity> _userManager;
+    private readonly SignInManager<UserEntity> _signInManager;
     private readonly ILogger<TwoFactorAuthenticationModel> _logger;
 
     public TwoFactorAuthenticationModel(
-        UserManager<SoarBeyondUserEntity> userManager,
-        SignInManager<SoarBeyondUserEntity> signInManager,
+        UserManager<UserEntity> userManager,
+        SignInManager<UserEntity> signInManager,
         ILogger<TwoFactorAuthenticationModel> logger)
     {
         _userManager = userManager;

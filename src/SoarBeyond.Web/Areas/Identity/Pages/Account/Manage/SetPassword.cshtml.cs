@@ -8,12 +8,12 @@ namespace SoarBeyond.Web.Areas.Identity.Pages.Account.Manage;
 
 public class SetPasswordModel : PageModel
 {
-    private readonly UserManager<SoarBeyondUserEntity> _userManager;
-    private readonly SignInManager<SoarBeyondUserEntity> _signInManager;
+    private readonly UserManager<UserEntity> _userManager;
+    private readonly SignInManager<UserEntity> _signInManager;
 
     public SetPasswordModel(
-        UserManager<SoarBeyondUserEntity> userManager,
-        SignInManager<SoarBeyondUserEntity> signInManager)
+        UserManager<UserEntity> userManager,
+        SignInManager<UserEntity> signInManager)
     {
         _userManager = userManager;
         _signInManager = signInManager;

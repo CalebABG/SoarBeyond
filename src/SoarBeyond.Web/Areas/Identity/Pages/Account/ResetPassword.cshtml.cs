@@ -12,9 +12,9 @@ namespace SoarBeyond.Web.Areas.Identity.Pages.Account;
 [AllowAnonymous]
 public class ResetPasswordModel : PageModel
 {
-    private readonly UserManager<SoarBeyondUserEntity> _userManager;
+    private readonly UserManager<UserEntity> _userManager;
 
-    public ResetPasswordModel(UserManager<SoarBeyondUserEntity> userManager)
+    public ResetPasswordModel(UserManager<UserEntity> userManager)
     {
         _userManager = userManager;
     }

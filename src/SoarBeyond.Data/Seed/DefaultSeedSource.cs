@@ -1,5 +1,4 @@
 ﻿using Bogus;
-using Bogus.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ScottBrady91.AspNetCore.Identity;
@@ -13,13 +12,13 @@ public class DefaultSeedSource : ISeedSource<SoarBeyondDbContext>
     private const string AdminPass = "Pass123!";
     private const string AdminRoleName = "admin";
 
-    public async Task Seed(SoarBeyondDbContext dbContext)
+    public async Task Seed(SoarBeyondDbContext context)
     {
-        if (!await dbContext.Users.AnyAsync())
+        if (!await context.Users.AnyAsync())
         {
-            var pwHasher = new BCryptPasswordHasher<SoarBeyondUserEntity>();
+            var pwHasher = new BCryptPasswordHasher<UserEntity>();
 
-            var admin = new SoarBeyondUserEntity
+            var admin = new UserEntity
             {
                 Email = AdminEmail,
                 NormalizedEmail = AdminEmail.ToUpper(),
@@ -32,16 +31,16 @@ public class DefaultSeedSource : ISeedSource<SoarBeyondDbContext>
                 LockoutEnabled = true,
             };
 
-            dbContext.Users.Add(admin);
-            await dbContext.SaveChangesAsync();
+            context.Users.Add(admin);
+            await context.SaveChangesAsync();
 
             Console.WriteLine("ADDED SEED DATA: 'Users'");
         }
 
-        if (!await dbContext.Roles.AnyAsync())
+        if (!await context.Roles.AnyAsync())
         {
             Console.WriteLine("ADDED SEED DATA: 'Roles'");
-            dbContext.Roles.AddRange(new List<IdentityRole<int>>
+            context.Roles.AddRange(new List<IdentityRole<int>>
             {
                 new()
                 {
@@ -50,15 +49,15 @@ public class DefaultSeedSource : ISeedSource<SoarBeyondDbContext>
                     ConcurrencyStamp = Guid.NewGuid().ToString()
                 }
             });
-            await dbContext.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }
 
-        if (!await dbContext.UserRoles.AnyAsync())
+        if (!await context.UserRoles.AnyAsync())
         {
-            var adminUser = await GetAdminUser(dbContext);
-            var adminUserRole = await GetAdminUserRole(dbContext);
+            var adminUser = await GetAdminUser(context);
+            var adminUserRole = await GetAdminUserRole(context);
 
-            dbContext.UserRoles.AddRange(new List<IdentityUserRole<int>>
+            context.UserRoles.AddRange(new List<IdentityUserRole<int>>
             {
                 new()
                 {
@@ -66,87 +65,72 @@ public class DefaultSeedSource : ISeedSource<SoarBeyondDbContext>
                     UserId = adminUser.Id,
                 }
             });
-            await dbContext.SaveChangesAsync();
+            await context.SaveChangesAsync();
 
             Console.WriteLine("ADDED SEED DATA: 'User Roles'");
         }
 
-        if (!await dbContext.Journals.AnyAsync())
+        if (!await context.Journals.AnyAsync())
         {
-            var adminUser = await GetAdminUser(dbContext);
+            var adminUser = await GetAdminUser(context);
 
             var journalsFaker = new Faker<JournalEntity>()
-                .RuleFor(m => m.Name, f => f.Lorem.Sentence(5))
-                .RuleFor(m => m.Description, f => f.Lorem.Sentences(3))
-                .RuleFor(m => m.CreationDate, f => f.Date.Between(DateTime.UtcNow.AddMonths(-5), DateTime.UtcNow))
+                .RuleFor(m => m.Name, f => f.Lorem.Sentence(4))
+                .RuleFor(m => m.Description, f => f.Lorem.Sentences(4))
+                .RuleFor(m => m.CreatedDate, f => f.Date.BetweenOffset(DateTimeOffset.UtcNow.AddMonths(-7), DateTimeOffset.UtcNow))
+                .RuleFor(m => m.UpdatedDate, f => f.Date.BetweenOffset(DateTimeOffset.UtcNow.AddMonths(-5), DateTimeOffset.UtcNow))
                 .RuleFor(m => m.UserId, f => adminUser.Id);
 
-            var journalFakerData = journalsFaker.GenerateBetween(46, 68);
+            context.Journals.AddRange(journalsFaker.GenerateBetween(46, 68));
+            await context.SaveChangesAsync();
 
-            dbContext.Journals.AddRange(journalFakerData);
-            await dbContext.SaveChangesAsync();
-
-            Console.WriteLine("ADDED SEED DATA: 'Journals'");
+            Console.WriteLine($"ADDED SEED DATA: '{nameof(JournalEntity)}'");
         }
 
-        if (!await dbContext.JournalEntries.AnyAsync())
+        if (!await context.Moments.AnyAsync())
         {
-            var users = await dbContext.Users.ToListAsync();
-            var journals = await dbContext.Journals.ToListAsync();
-
-            var usersCount = users.Count;
+            var journals = await context.Journals.ToListAsync();
             var journalsCount = journals.Count;
+            var journalIndex = 0;
 
-            var journalEntryUserIndex = 0;
-            var journalEntryJournalIndex = 0;
-
-            var journalEntriesFaker = new Faker<JournalEntryEntity>()
+            var momentFaker = new Faker<MomentEntity>()
                 .RuleFor(m => m.Title, f => f.Lorem.Sentence(5))
                 .RuleFor(m => m.Content, f => f.Lorem.Sentences(3))
-                .RuleFor(m => m.CreationDate, f => f.Date.Between(DateTime.UtcNow.AddMonths(-5), DateTime.UtcNow))
-                .RuleFor(m => m.UserId, f => users[DataIndex(ref journalEntryUserIndex, usersCount)].Id)
-                .RuleFor(m => m.JournalId, f => journals[DataIndex(ref journalEntryJournalIndex, journalsCount)].Id);
+                .RuleFor(m => m.Color, f => f.Internet.Color())
+                .RuleFor(m => m.CreatedDate, f => f.Date.BetweenOffset(DateTimeOffset.UtcNow.AddMonths(-7), DateTimeOffset.UtcNow))
+                .RuleFor(m => m.UpdatedDate, f => f.Date.BetweenOffset(DateTimeOffset.UtcNow.AddMonths(-5), DateTimeOffset.UtcNow))
+                .RuleFor(m => m.JournalId, f => journals[DataIndex(ref journalIndex, journalsCount)].Id);
 
-            var journalEntriesFakerData = journalEntriesFaker.GenerateBetween(95, 145);
+            context.Moments.AddRange(momentFaker.GenerateBetween(95, 145));
+            await context.SaveChangesAsync();
 
-            dbContext.JournalEntries.AddRange(journalEntriesFakerData);
-            await dbContext.SaveChangesAsync();
-
-            Console.WriteLine("ADDED SEED DATA: 'JournalEntries'");
+            Console.WriteLine($"ADDED SEED DATA: '${nameof(MomentEntity)}'");
         }
 
-        if (!await dbContext.Thoughts.AnyAsync())
+        if (!await context.Notes.AnyAsync())
         {
-            var users = await dbContext.Users.ToListAsync();
-            var journalEntries = await dbContext.JournalEntries.ToListAsync();
+            var moments = await context.Moments.ToListAsync();
+            var momentsCount = moments.Count;
+            var momentIndex = 0;
 
-            var usersCount = users.Count;
-            var journalEntriesCount = journalEntries.Count;
+            var noteFaker = new Faker<NoteEntity>()
+                .RuleFor(m => m.Details, f => f.Lorem.Sentences(2))
+                .RuleFor(m => m.CreatedDate, f => f.Date.BetweenOffset(DateTimeOffset.UtcNow.AddMonths(-5), DateTimeOffset.UtcNow))
+                .RuleFor(m => m.UpdatedDate, f => f.Date.BetweenOffset(DateTimeOffset.UtcNow.AddMonths(-2), DateTimeOffset.UtcNow))
+                .RuleFor(m => m.MomentId, f => moments[DataIndex(ref momentIndex, momentsCount)].Id);
 
-            var thoughtUserIndex = 0;
-            var thoughtJournalEntryIndex = 0;
+            context.Notes.AddRange(noteFaker.GenerateBetween(150, 250));
+            await context.SaveChangesAsync();
 
-            var thoughtFaker = new Faker<ThoughtEntity>()
-                .RuleFor(m => m.Details, f => f.Lorem.Sentences(1))
-                .RuleFor(m => m.Color, f => f.Internet.Color())
-                .RuleFor(m => m.CreationDate, f => f.Date.Between(DateTime.UtcNow.AddMonths(-5), DateTime.UtcNow))
-                .RuleFor(m => m.UserId, f => users[DataIndex(ref thoughtUserIndex, usersCount)].Id)
-                .RuleFor(m => m.JournalEntryId, f => journalEntries[DataIndex(ref thoughtJournalEntryIndex, journalEntriesCount)].Id);
-
-            var thoughtFakerData = thoughtFaker.GenerateBetween(150, 250);
-
-            dbContext.Thoughts.AddRange(thoughtFakerData);
-            await dbContext.SaveChangesAsync();
-
-            Console.WriteLine("ADDED SEED DATA: 'Thoughts'");
+            Console.WriteLine($"ADDED SEED DATA: '{nameof(NoteEntity)}'");
         }
     }
 
-    private static async Task<SoarBeyondUserEntity> GetAdminUser(SoarBeyondDbContext dbContext)
-        => await dbContext.Users.FirstOrDefaultAsync(u => u.Email.Equals(AdminEmail));
+    private static async Task<UserEntity> GetAdminUser(SoarBeyondDbContext context)
+        => await context.Users.FirstOrDefaultAsync(u => u.Email.Equals(AdminEmail));
 
-    private static async Task<IdentityRole<int>> GetAdminUserRole(SoarBeyondDbContext dbContext)
-        => await dbContext.Roles.FirstOrDefaultAsync(r => r.Name.Equals(AdminRoleName));
+    private static async Task<IdentityRole<int>> GetAdminUserRole(SoarBeyondDbContext context)
+        => await context.Roles.FirstOrDefaultAsync(r => r.Name.Equals(AdminRoleName));
 
     private static int DataIndex(ref int currentIndex, int total)
     {

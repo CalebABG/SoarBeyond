@@ -7,12 +7,12 @@ namespace SoarBeyond.Web.Areas.Identity.Pages.Account.Manage;
 
 public partial class IndexModel : PageModel
 {
-    private readonly UserManager<SoarBeyondUserEntity> _userManager;
-    private readonly SignInManager<SoarBeyondUserEntity> _signInManager;
+    private readonly UserManager<UserEntity> _userManager;
+    private readonly SignInManager<UserEntity> _signInManager;
 
     public IndexModel(
-        UserManager<SoarBeyondUserEntity> userManager,
-        SignInManager<SoarBeyondUserEntity> signInManager)
+        UserManager<UserEntity> userManager,
+        SignInManager<UserEntity> signInManager)
     {
         _userManager = userManager;
         _signInManager = signInManager;
@@ -23,7 +23,7 @@ public partial class IndexModel : PageModel
     [TempData]
     public string StatusMessage { get; set; }
 
-    private async Task LoadAsync(SoarBeyondUserEntity user)
+    private async Task LoadAsync(UserEntity user)
     {
         var userName = await _userManager.GetUserNameAsync(user);
         Username = userName;

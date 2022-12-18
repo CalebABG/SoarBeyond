@@ -10,10 +10,10 @@ namespace SoarBeyond.Web.Areas.Identity.Pages.Account;
 [AllowAnonymous]
 public class LoginWith2faModel : PageModel
 {
-    private readonly SignInManager<SoarBeyondUserEntity> _signInManager;
+    private readonly SignInManager<UserEntity> _signInManager;
     private readonly ILogger<LoginWith2faModel> _logger;
 
-    public LoginWith2faModel(SignInManager<SoarBeyondUserEntity> signInManager, ILogger<LoginWith2faModel> logger)
+    public LoginWith2faModel(SignInManager<UserEntity> signInManager, ILogger<LoginWith2faModel> logger)
     {
         _signInManager = signInManager;
         _logger = logger;

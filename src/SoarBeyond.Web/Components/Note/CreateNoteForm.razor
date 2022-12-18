@@ -1,0 +1,62 @@
+﻿@namespace SoarBeyond.Web.Components
+
+@inherits SoarBeyondComponentBase
+@using static SoarBeyond.Shared.Extensions.CommonExtensions
+@using SoarBeyond.Domain.Dto
+
+<div @attributes="@ComponentAttributes"
+     class="@ComponentClasses"
+     style="@ComponentStyles">
+    <div class="card-body">
+        <div class="card-text">
+            <EditForm Model="@_note" OnValidSubmit="@HandleValidSubmitAsync">
+                <FluentValidationValidator/>
+
+                <div class="form-group mb-3">
+                    <label class="form-label">
+                        @LabelFor(() => _note.Details)
+                    </label>
+                    <InputTextArea class="form-control" rows="4" @bind-Value="@_note.Details"/>
+                    <ValidationMessage For="@(() => _note.Details)"/>
+                </div>
+
+                <div class="d-grid">
+                    <BSButton Type="submit" Disabled="@IsBusy">
+                        Add
+                    </BSButton>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public EventCallback<Note> OnValidSubmit { get; set; }
+
+    private Note _note = new();
+
+    public CreateNoteForm()
+    {
+        Class = "card shadow";
+    }
+
+    private async Task HandleValidSubmitAsync()
+    {
+        IsBusy = true;
+        await OnValidSubmit.InvokeAsync(_note);
+        IsBusy = false;
+    }
+
+    private void ResetModel()
+    {
+        _note = new();
+    }
+
+    public void ResetForm()
+    {
+        ResetModel();
+    }
+
+}

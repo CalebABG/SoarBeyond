@@ -55,7 +55,7 @@ public static class DependencyInjection
 #endif
         });
 
-        services.AddDefaultIdentity<SoarBeyondUserEntity>(options =>
+        services.AddDefaultIdentity<UserEntity>(options =>
             {
                 /* Todo: Add Email conformation requirement for accounts */
                 options.User.RequireUniqueEmail = true;
@@ -67,14 +67,13 @@ public static class DependencyInjection
 
         /* Todo: Add mechanism for upgrading/changing hashing algorithm (stronger/better) */
         services.Configure<BCryptPasswordHasherOptions>(options => options.WorkFactor = 13);
-        services.AddScoped<IPasswordHasher<SoarBeyondUserEntity>, BCryptPasswordHasher<SoarBeyondUserEntity>>();
+        services.AddScoped<IPasswordHasher<UserEntity>, BCryptPasswordHasher<UserEntity>>();
 
-        services.AddScoped<AuthenticationStateProvider, IdentityAuthStateProvider<SoarBeyondUserEntity>>();
+        services.AddScoped<AuthenticationStateProvider, IdentityAuthStateProvider<UserEntity>>();
 
         services.AddScoped<IJournalProvider, DbJournalProvider>();
-        services.AddScoped<IJournalEntryProvider, DbJournalEntryProvider>();
-        services.AddScoped<IThoughtProvider, DbThoughtProvider>();
-        services.AddScoped<ISoarBeyondDbProvider, SoarBeyondDbProvider>();
+        services.AddScoped<IMomentProvider, DbMomentProvider>();
+        services.AddScoped<INoteProvider, DbNoteProvider>();
 
         services.AddSingleton<IZenQuoteService, ZenQuoteService>();
 
@@ -87,29 +86,22 @@ public static class DependencyInjection
 
     public static async Task MigrateDatabaseAsync(this IHost host)
     {
-        using var serviceScope = host.Services?.CreateScope();
-        if (serviceScope is not null)
-        {
-            await using var dbContext = serviceScope.ServiceProvider
-                .GetRequiredService<SoarBeyondDbContext>();
+        using var serviceScope = host.Services.CreateScope();
+        await using var dbContext = serviceScope.ServiceProvider.GetRequiredService<SoarBeyondDbContext>();
 
-            var isInMemDb = dbContext.Database.IsInMemory();
-            if (isInMemDb)
-            {
-                await dbContext.Database.EnsureCreatedAsync();
-            }
-            else
-            {
-                var pendingMigrations = await dbContext.Database.GetPendingMigrationsAsync();
-                if (pendingMigrations.Any())
-                {
-                    await dbContext.Database.MigrateAsync();
-                }
-            }
+        var isInMemDb = dbContext.Database.IsInMemory();
+        if (isInMemDb)
+        {
+            await dbContext.Database.EnsureCreatedAsync();
+        }
+        else
+        {
+            var pendingMigrations = await dbContext.Database.GetPendingMigrationsAsync();
+            if (pendingMigrations.Any()) await dbContext.Database.MigrateAsync();
+        }
 
 #if DEBUG
-            await dbContext.SeedDatabase();
+        await dbContext.SeedDatabase();
 #endif
-        }
     }
 }

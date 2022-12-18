@@ -11,9 +11,9 @@ namespace SoarBeyond.Web.Areas.Identity.Pages.Account;
 public class LogoutModel : PageModel
 {
     private readonly ILogger<LogoutModel> _logger;
-    private readonly SignInManager<SoarBeyondUserEntity> _signInManager;
+    private readonly SignInManager<UserEntity> _signInManager;
 
-    public LogoutModel(SignInManager<SoarBeyondUserEntity> signInManager,
+    public LogoutModel(SignInManager<UserEntity> signInManager,
         ILogger<LogoutModel> logger)
     {
         _signInManager = signInManager;

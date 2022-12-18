@@ -1,0 +1,39 @@
+﻿@namespace SoarBeyond.Web.Components
+
+@inherits SoarBeyondComponentBase
+
+<div @attributes="@ComponentAttributes"
+     class="@ComponentClasses"
+     style="@ComponentStyles">
+    @if (ShowHeader)
+    {
+        <div class="container-fluid card-header">
+            <div class="d-flex align-items-center">
+                <span class="me-auto">
+                    @Note.CreatedDate.LocalDateTime.ToShortDateString()
+                </span>
+            </div>
+        </div>
+    }
+
+    <div class="card-body">
+        <p class="card-text">
+            @Note.Details
+        </p>
+
+        @if (ShowActionButtons)
+        {
+            <div class="btn-group" role="group">
+                @*<button type="button" class="btn btn-sm btn-primary">
+                    Edit
+                </button>*@
+
+                <button type="button" class="btn btn-sm btn-danger"
+                        @onclick="@HandleDeleteNote"
+                        @onclick:stopPropagation="true">
+                    Delete
+                </button>
+            </div>
+        }
+    </div>
+</div>

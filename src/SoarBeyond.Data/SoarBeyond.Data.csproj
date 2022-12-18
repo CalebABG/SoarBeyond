@@ -16,4 +16,8 @@
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
         <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" />
     </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\SoarBeyond.Shared\SoarBeyond.Shared.csproj" />
+    </ItemGroup>
 </Project>

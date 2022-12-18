@@ -1,6 +1,6 @@
 ﻿using MediatR;
+using SoarBeyond.Domain.Dto;
 using SoarBeyond.Domain.Providers.Interfaces;
-using SoarBeyond.Shared.Dto;
 
 namespace SoarBeyond.Domain.Mediator.Journals;
 

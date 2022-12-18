@@ -8,14 +8,14 @@
     <div class="container-fluid card-header">
         <div class="d-flex align-items-center">
             <span class="me-auto">
-                @Journal.CreationDate.ToLocalTime().ToShortDateString()
+                @Journal.CreatedDate.LocalDateTime.ToShortDateString()
             </span>
 
             @if (CanShowBadgeCount)
             {
                 <h5>
                     <span class="badge bg-primary">
-                        @Journal.JournalEntries.Count
+                        @Journal.Moments.Count
                     </span>
                 </h5>
             }

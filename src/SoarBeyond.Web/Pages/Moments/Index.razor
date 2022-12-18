@@ -1,0 +1,30 @@
+﻿@page "/Moments"
+
+@attribute [Authorize]
+
+@inherits SoarBeyondPageBase
+
+<PageTitle>Moments</PageTitle>
+
+<ContentLoadingView Data="@_moments">
+    <PresentTemplate>
+        <div class="container p-4">
+            <HumanizeCountView ExtraClass="mb-5"
+                               Count="@_moments.Count"
+                               CountText="Moment" />
+
+            <ConfirmationDialog @ref="_confirmationDialog" />
+
+            <CollectionView Class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
+                            Data="@_moments">
+                <ItemTemplate>
+                    <div class="col" @key="@context.Id">
+                        <MomentView Moment="@context"
+                                    ShowNotes="@false"
+                                    OnDeleteMoment="@DeleteMomentAsync" />
+                    </div>
+                </ItemTemplate>
+            </CollectionView>
+        </div>
+    </PresentTemplate>
+</ContentLoadingView>

@@ -1,0 +1,50 @@
+@page "/Moments/{MomentId:int}"
+
+@attribute [Authorize]
+
+@inherits SoarBeyondPageBase
+
+@using Humanizer
+
+<style> 
+    body {
+      background: #9b9aff;
+    }
+</style>
+
+@if (_requestFailed)
+{
+    <ProblemView>
+        <div class="text-center">
+            <h3 class="mb-3">Uh Oh 😓! Something went wrong.</h3>
+            <h4>The requested resource either couldn't be found or the request failed.</h4>
+        </div>
+    </ProblemView>
+}
+else
+{
+    <ContentLoadingView Data="@_moment">
+        <PresentTemplate>
+            <PageTitle>@_moment.Title.Truncate(50)</PageTitle>
+
+            <div class="container p-4">
+                <MomentInfoView Model="@_moment"
+                                      OnContentChange="@UpdateMomentAsync"/>
+
+                <HeaderView ExtraClass="my-5">
+                    <HumanizeCountView Count="@_notes.Count"
+                                       CountText="Note"/>
+                </HeaderView>
+
+                <CollectionView Class="row row-cols-1 row-cols-md-2 g-4"
+                                Data="@_notes">
+                    <ItemTemplate>
+                        <div class="col" @key="@context.Id">
+                            <NoteView Note="@context"/>
+                        </div>
+                    </ItemTemplate>
+                </CollectionView>
+            </div>
+        </PresentTemplate>
+    </ContentLoadingView>
+}

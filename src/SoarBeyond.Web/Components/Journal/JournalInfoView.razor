@@ -1,9 +1,8 @@
 @namespace SoarBeyond.Web.Components
 
-@inherits InfoViewBase<Journal>
+@inherits InfoViewBase<SoarBeyond.Domain.Dto.Journal>
 
 @using Humanizer
-@using SoarBeyond.Shared.Dto
 @using static SoarBeyond.Shared.Extensions.CommonExtensions
 
 <BSCard ExtraClass="shadow mb-2">
@@ -32,7 +31,7 @@
                 <label class="form-label">
                     @LabelFor(() => Model.Description)
                 </label>
-                <DebounceTextArea class="form-control" rows="2"
+                <DebounceTextArea class="form-control" rows="5"
                                   @bind-Value="@Model.Description"
                                   @bind-Value:event="oninput"
                                   DebounceTime="@DebounceTime"
@@ -46,6 +45,6 @@
     </BSCardBody>
 
     <BSCardFooter ExtraClass="container-fluid">
-        Created @Model.CreationDate.ToLocalTime().Humanize()
+        Created @Model.CreatedDate.ToLocalTime().Humanize()
     </BSCardFooter>
 </BSCard>

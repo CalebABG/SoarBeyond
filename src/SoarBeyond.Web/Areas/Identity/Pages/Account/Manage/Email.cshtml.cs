@@ -12,13 +12,13 @@ namespace SoarBeyond.Web.Areas.Identity.Pages.Account.Manage;
 
 public partial class EmailModel : PageModel
 {
-    private readonly UserManager<SoarBeyondUserEntity> _userManager;
-    private readonly SignInManager<SoarBeyondUserEntity> _signInManager;
+    private readonly UserManager<UserEntity> _userManager;
+    private readonly SignInManager<UserEntity> _signInManager;
     private readonly IEmailSender _emailSender;
 
     public EmailModel(
-        UserManager<SoarBeyondUserEntity> userManager,
-        SignInManager<SoarBeyondUserEntity> signInManager,
+        UserManager<UserEntity> userManager,
+        SignInManager<UserEntity> signInManager,
         IEmailSender emailSender)
     {
         _userManager = userManager;
@@ -47,7 +47,7 @@ public partial class EmailModel : PageModel
         public string NewEmail { get; set; }
     }
 
-    private async Task LoadAsync(SoarBeyondUserEntity user)
+    private async Task LoadAsync(UserEntity user)
     {
         var emailConfirmationEnabled = _signInManager.Options.SignIn.RequireConfirmedEmail;
         var email = await _userManager.GetEmailAsync(user);

@@ -3,9 +3,9 @@ using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using SoarBeyond.Data;
 using SoarBeyond.Data.Entities;
+using SoarBeyond.Domain.Dto;
 using SoarBeyond.Domain.Mediator.Journals;
 using SoarBeyond.Domain.Providers.Interfaces;
-using SoarBeyond.Shared.Dto;
 using SoarBeyond.Shared.Poco;
 
 namespace SoarBeyond.Domain.Providers;
@@ -16,11 +16,11 @@ public class DbJournalProvider : IJournalProvider
     private readonly IDbContextFactory<SoarBeyondDbContext> _contextFactory;
 
     public DbJournalProvider(
-        IDbContextFactory<SoarBeyondDbContext> contextFactory,
-        IMapper mapper)
+        IMapper mapper,
+        IDbContextFactory<SoarBeyondDbContext> contextFactory)
     {
-        _contextFactory = contextFactory;
         _mapper = mapper;
+        _contextFactory = contextFactory;
     }
 
     public async Task<Journal> CreateAsync(CreateJournalRequest request)
@@ -28,8 +28,9 @@ public class DbJournalProvider : IJournalProvider
         await using var context = await _contextFactory.CreateDbContextAsync();
 
         var dbJournal = await context.Journals
-            .Include(j => j.JournalEntries)
-            .ThenInclude(je => je.Thoughts)
+            .Include(j => j.Moments)
+            .ThenInclude(m => m.Notes)
+            .AsNoTracking()
             .FirstOrDefaultAsync(j => j.UserId == request.UserId &&
                                       j.Id == request.Journal.Id);
 
@@ -42,17 +43,18 @@ public class DbJournalProvider : IJournalProvider
         var addedJournal = context.Journals.Add(journal);
         await context.SaveChangesAsync();
 
-        var dto = _mapper.Map<JournalEntity, Journal>(addedJournal.Entity);
-        return dto;
+        return _mapper.Map<JournalEntity, Journal>(addedJournal.Entity);
     }
 
     public async Task<Journal> UpdateAsync(UpdateJournalRequest request)
     {
         await using var context = await _contextFactory.CreateDbContextAsync();
 
+        // Todo: Place AsNoTracking after props for inclusion where needed
         var journal = await context.Journals
-            .Include(j => j.JournalEntries)
-            .ThenInclude(je => je.Thoughts)
+            .Include(j => j.Moments)
+            .ThenInclude(m => m.Notes)
+            .AsNoTracking()
             .FirstOrDefaultAsync(j => j.UserId == request.UserId &&
                                       j.Id == request.JournalId);
 
@@ -60,9 +62,11 @@ public class DbJournalProvider : IJournalProvider
             return null;
 
         _mapper.Map(request.Journal, journal);
+        var updatedEntry = context.Journals.Update(journal);
+
         await context.SaveChangesAsync();
 
-        return _mapper.Map<JournalEntity, Journal>(journal);
+        return _mapper.Map<JournalEntity, Journal>(updatedEntry.Entity);
     }
 
     public async Task<bool> DeleteAsync(DeleteJournalRequest request)
@@ -70,6 +74,7 @@ public class DbJournalProvider : IJournalProvider
         await using var context = await _contextFactory.CreateDbContextAsync();
 
         var journal = await context.Journals
+            .AsNoTracking()
             .FirstOrDefaultAsync(j => j.UserId == request.UserId &&
                                       j.Id == request.JournalId);
 
@@ -86,8 +91,9 @@ public class DbJournalProvider : IJournalProvider
         await using var context = await _contextFactory.CreateDbContextAsync();
 
         var journal = await context.Journals
-            .Include(j => j.JournalEntries)
-            .ThenInclude(je => je.Thoughts)
+            .Include(j => j.Moments)
+            .ThenInclude(je => je.Notes)
+            .AsNoTracking()
             .FirstOrDefaultAsync(j => j.UserId == request.UserId &&
                                       j.Id == request.JournalId);
 
@@ -97,29 +103,29 @@ public class DbJournalProvider : IJournalProvider
         return _mapper.Map<JournalEntity, Journal>(journal);
     }
 
-    public async Task<HashSet<JournalNameId>> GetNameIdsAsync(GetJournalNameIdsRequest request)
+    public async Task<IEnumerable<JournalName>> GetNamesAsync(GetJournalNamesRequest request)
     {
         await using var context = await _contextFactory.CreateDbContextAsync();
 
-        var journalIdNames = context.Journals
+        var names = context.Journals
+            .AsNoTracking()
             .Where(j => j.UserId == request.UserId)
-            .Select(j => new JournalNameId(j.Name, j.Id))
-            .ToHashSet();
+            .Select(j => new JournalName(j.Name, j.Id))
+            .AsEnumerable();
 
-        return await Task.FromResult(journalIdNames);
+        return await Task.FromResult(names);
     }
 
-    // Todo: Return IEnumerable (client side filtering) or IQueryable (server side filtering) where possible
-    // Todo: Use AsNoTracking where possible (when readonly data), especially using DTOs
     public async Task<IEnumerable<Journal>> GetAllAsync(GetAllJournalsRequest request)
     {
         await using var context = await _contextFactory.CreateDbContextAsync();
 
         var journals = context.Journals
-            .Include(j => j.JournalEntries)
-            .ThenInclude(journalEntry => journalEntry.Thoughts)
+            .Include(j => j.Moments)
+            .ThenInclude(m => m.Notes)
+            .AsNoTracking()
             .Where(j => j.UserId == request.UserId);
 
-        return journals.ProjectTo<Journal>(_mapper.ConfigurationProvider);
+        return await journals.ProjectTo<Journal>(_mapper.ConfigurationProvider).ToListAsync();
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using SoarBeyond.Shared.Dto;
+using SoarBeyond.Domain.Dto;
 
 namespace SoarBeyond.Web.Components;
 

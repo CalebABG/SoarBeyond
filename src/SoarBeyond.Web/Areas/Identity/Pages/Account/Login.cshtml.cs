@@ -11,13 +11,13 @@ namespace SoarBeyond.Web.Areas.Identity.Pages.Account;
 [AllowAnonymous]
 public class LoginModel : PageModel
 {
-    private readonly UserManager<SoarBeyondUserEntity> _userManager;
-    private readonly SignInManager<SoarBeyondUserEntity> _signInManager;
+    private readonly UserManager<UserEntity> _userManager;
+    private readonly SignInManager<UserEntity> _signInManager;
     private readonly ILogger<LoginModel> _logger;
 
-    public LoginModel(SignInManager<SoarBeyondUserEntity> signInManager,
+    public LoginModel(SignInManager<UserEntity> signInManager,
         ILogger<LoginModel> logger,
-        UserManager<SoarBeyondUserEntity> userManager)
+        UserManager<UserEntity> userManager)
     {
         _userManager = userManager;
         _signInManager = signInManager;

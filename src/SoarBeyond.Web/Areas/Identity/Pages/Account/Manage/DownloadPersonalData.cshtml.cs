@@ -8,11 +8,11 @@ namespace SoarBeyond.Web.Areas.Identity.Pages.Account.Manage;
 
 public class DownloadPersonalDataModel : PageModel
 {
-    private readonly UserManager<SoarBeyondUserEntity> _userManager;
+    private readonly UserManager<UserEntity> _userManager;
     private readonly ILogger<DownloadPersonalDataModel> _logger;
 
     public DownloadPersonalDataModel(
-        UserManager<SoarBeyondUserEntity> userManager,
+        UserManager<UserEntity> userManager,
         ILogger<DownloadPersonalDataModel> logger)
     {
         _userManager = userManager;
@@ -31,7 +31,7 @@ public class DownloadPersonalDataModel : PageModel
 
         // Only include personal data for download
         var personalData = new Dictionary<string, string>();
-        var personalDataProps = typeof(SoarBeyondUserEntity).GetProperties().Where(
+        var personalDataProps = typeof(UserEntity).GetProperties().Where(
             prop => Attribute.IsDefined(prop, typeof(PersonalDataAttribute)));
         foreach (var p in personalDataProps)
         {

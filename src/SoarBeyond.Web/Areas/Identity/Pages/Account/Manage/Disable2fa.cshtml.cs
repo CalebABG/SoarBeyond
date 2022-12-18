@@ -7,11 +7,11 @@ namespace SoarBeyond.Web.Areas.Identity.Pages.Account.Manage;
 
 public class Disable2faModel : PageModel
 {
-    private readonly UserManager<SoarBeyondUserEntity> _userManager;
+    private readonly UserManager<UserEntity> _userManager;
     private readonly ILogger<Disable2faModel> _logger;
 
     public Disable2faModel(
-        UserManager<SoarBeyondUserEntity> userManager,
+        UserManager<UserEntity> userManager,
         ILogger<Disable2faModel> logger)
     {
         _userManager = userManager;

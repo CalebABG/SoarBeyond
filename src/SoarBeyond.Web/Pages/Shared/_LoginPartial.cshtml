@@ -3,7 +3,7 @@
 
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
-@inject SignInManager<SoarBeyondUserEntity> SignInManager
+@inject SignInManager<UserEntity> SignInManager
 
 <div class="my-2">
     @if (SignInManager.IsSignedIn(User))

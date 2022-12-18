@@ -15,14 +15,14 @@ namespace SoarBeyond.Web.Areas.Identity.Pages.Account;
 [AllowAnonymous]
 public class ExternalLoginModel : PageModel
 {
-    private readonly SignInManager<SoarBeyondUserEntity> _signInManager;
-    private readonly UserManager<SoarBeyondUserEntity> _userManager;
+    private readonly SignInManager<UserEntity> _signInManager;
+    private readonly UserManager<UserEntity> _userManager;
     private readonly IEmailSender _emailSender;
     private readonly ILogger<ExternalLoginModel> _logger;
 
     public ExternalLoginModel(
-        SignInManager<SoarBeyondUserEntity> signInManager,
-        UserManager<SoarBeyondUserEntity> userManager,
+        SignInManager<UserEntity> signInManager,
+        UserManager<UserEntity> userManager,
         ILogger<ExternalLoginModel> logger,
         IEmailSender emailSender)
     {
@@ -117,7 +117,7 @@ public class ExternalLoginModel : PageModel
 
         if (ModelState.IsValid)
         {
-            var user = new SoarBeyondUserEntity { UserName = Input.Email, Email = Input.Email };
+            var user = new UserEntity { UserName = Input.Email, Email = Input.Email };
 
             var result = await _userManager.CreateAsync(user);
             if (result.Succeeded)

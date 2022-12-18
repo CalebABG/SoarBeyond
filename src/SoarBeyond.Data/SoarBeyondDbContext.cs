@@ -6,18 +6,18 @@ using SoarBeyond.Data.Entities;
 namespace SoarBeyond.Data;
 
 public class SoarBeyondDbContext 
-    : IdentityDbContext<SoarBeyondUserEntity, IdentityRole<int>, int>
+    : IdentityDbContext<UserEntity, IdentityRole<int>, int>
 {
+    public DbSet<JournalEntity> Journals { get; set; }
+    public DbSet<MomentEntity> Moments { get; set; }
+    public DbSet<NoteEntity> Notes { get; set; }
+    public DbSet<ReflectionEntity> Reflections { get; set; }
+
     public SoarBeyondDbContext(DbContextOptions<SoarBeyondDbContext> options)
         : base(options)
     {
         Console.WriteLine($"{ContextId} context created");
     }
-
-    public DbSet<JournalEntity> Journals { get; set; }
-    public DbSet<JournalEntryEntity> JournalEntries { get; set; }
-    public DbSet<ThoughtEntity> Thoughts { get; set; }
-    public DbSet<ReflectionEntity> Reflections { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

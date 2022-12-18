@@ -7,18 +7,18 @@ namespace SoarBeyond.Domain.Services;
 
 public class ZenQuoteService : IZenQuoteService
 {
-    private const string QuoteApiBaseUrl = "https://zenquotes.io/api/";
-    private const string QuoteOfTheDayUrl = QuoteApiBaseUrl + "today";
-    private const string RandomQuoteUrl = QuoteApiBaseUrl + "random";
+    private const string QuoteApiBaseUrl = "https://zenquotes.io/api";
+    private const string QuoteOfTheDayUrl = $"{QuoteApiBaseUrl}/today";
+    private const string RandomQuoteUrl = $"{QuoteApiBaseUrl}/random";
 
     private const byte ZenQuoteApiMaxRequests = 5;
     private static readonly TimeSpan ApiRateLimitTimeout = TimeSpan.FromSeconds(30);
 
     private ZenQuote _quoteOfTheDay;
-    private DateTime _nextQuoteOfTheDayFetchTime;
+    private DateTimeOffset _nextQuoteOfTheDayFetchTime;
 
     private byte _requestCount;
-    private DateTime _nextRequestTime;
+    private DateTimeOffset _nextRequestTime;
 
     private readonly IHttpClientFactory _clientFactory;
 
@@ -44,7 +44,7 @@ public class ZenQuoteService : IZenQuoteService
         else
         {
             // Next day, fetch another days quote
-            if (_nextQuoteOfTheDayFetchTime < DateTime.UtcNow)
+            if (_nextQuoteOfTheDayFetchTime < DateTimeOffset.UtcNow)
                 await FetchQuoteOfTheDayAsync();
         }
 
@@ -59,16 +59,13 @@ public class ZenQuoteService : IZenQuoteService
 
     private void UpdateQuoteOfTheDayFetchTime()
     {
-        var now = DateTime.UtcNow;
-        now = new DateTime(now.Year, now.Month, now.Day, 0, 0, 0, DateTimeKind.Utc);
-        _nextQuoteOfTheDayFetchTime = now + TimeSpan.FromDays(1);
+        _nextQuoteOfTheDayFetchTime = DateTimeOffset.UtcNow + TimeSpan.FromDays(1);
     }
 
     public async Task<ZenQuote> GetRandomQuoteAsync()
     {
-        ZenQuote zenQuote = await SendRateLimitedRequest(async () => await GetZenQuoteAsync(RandomQuoteUrl))
-                            ?? new DefaultZenQuote();
-        return zenQuote;
+        return await SendRateLimitedRequest(async () => await GetZenQuoteAsync(RandomQuoteUrl))
+               ?? new DefaultZenQuote();
     }
 
     public Task<ZenQuote> GetDefaultQuoteAsync()
@@ -106,15 +103,15 @@ public class ZenQuoteService : IZenQuoteService
         }
         else
         {
-            if (_nextRequestTime == DateTime.MinValue)
-                _nextRequestTime = DateTime.UtcNow + ApiRateLimitTimeout;
+            if (_nextRequestTime == DateTimeOffset.MinValue)
+                _nextRequestTime = DateTimeOffset.UtcNow + ApiRateLimitTimeout;
 
-            if (_nextRequestTime >= DateTime.UtcNow)
+            if (_nextRequestTime >= DateTimeOffset.UtcNow)
                 return result;
 
             _requestCount = 1;
             result = await rateLimitedRequest.Invoke();
-            _nextRequestTime = DateTime.MinValue;
+            _nextRequestTime = DateTimeOffset.MinValue;
         }
 
         return result;

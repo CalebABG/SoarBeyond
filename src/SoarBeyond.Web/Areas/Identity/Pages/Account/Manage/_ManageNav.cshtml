@@ -1,5 +1,5 @@
 @using SoarBeyond.Data.Entities
-@inject SignInManager<SoarBeyondUserEntity> SignInManager
+@inject SignInManager<UserEntity> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }

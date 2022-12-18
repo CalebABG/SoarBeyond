@@ -51,9 +51,9 @@
 - Use PostgreSQL
 - Use Lucid Chart to create an Entity Relationship Diagram
 - Define clear User model
-- Define Journal and JournalEntry models
+- Define Journal and Moment models
 - Define Reflection model (and it's relationship b/w other models)
-- Define Thought model (formerly Occurrence model)
+- Define Note model
 
 ---
 

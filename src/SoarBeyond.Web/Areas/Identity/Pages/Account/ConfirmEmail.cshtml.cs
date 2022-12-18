@@ -11,9 +11,9 @@ namespace SoarBeyond.Web.Areas.Identity.Pages.Account;
 [AllowAnonymous]
 public class ConfirmEmailModel : PageModel
 {
-    private readonly UserManager<SoarBeyondUserEntity> _userManager;
+    private readonly UserManager<UserEntity> _userManager;
 
-    public ConfirmEmailModel(UserManager<SoarBeyondUserEntity> userManager)
+    public ConfirmEmailModel(UserManager<UserEntity> userManager)
     {
         _userManager = userManager;
     }
