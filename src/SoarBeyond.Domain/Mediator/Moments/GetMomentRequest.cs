@@ -4,14 +4,10 @@ using SoarBeyond.Domain.Providers.Interfaces;
 
 namespace SoarBeyond.Domain.Mediator.Moments;
 
-public class GetMomentRequest
-    : IRequest<Moment>
-{
-    public int UserId { get; init; }
-    public int MomentId { get; init; }
-}
+public sealed record GetMomentRequest(int UserId, int MomentId)
+    : IRequest<Moment>;
 
-public class GetMomentRequestHandler
+internal sealed class GetMomentRequestHandler
     : IRequestHandler<GetMomentRequest, Moment>
 {
     private readonly IMomentProvider _momentProvider;

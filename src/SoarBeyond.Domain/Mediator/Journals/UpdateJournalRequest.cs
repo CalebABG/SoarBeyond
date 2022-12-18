@@ -4,15 +4,10 @@ using SoarBeyond.Domain.Providers.Interfaces;
 
 namespace SoarBeyond.Domain.Mediator.Journals;
 
-public class UpdateJournalRequest
-    : IRequest<Journal>
-{
-    public int UserId { get; init; }
-    public int JournalId { get; init; }
-    public Journal Journal { get; init; }
-}
+public sealed record UpdateJournalRequest(int UserId, Journal Journal)
+    : IRequest<Journal>;
 
-public class UpdateJournalRequestHandler
+internal sealed class UpdateJournalRequestHandler
     : IRequestHandler<UpdateJournalRequest, Journal>
 {
     private readonly IJournalProvider _journalProvider;

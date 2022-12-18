@@ -3,14 +3,10 @@ using SoarBeyond.Domain.Providers.Interfaces;
 
 namespace SoarBeyond.Domain.Mediator.Journals;
 
-public class DeleteJournalRequest
-    : IRequest<bool>
-{
-    public int UserId { get; init; }
-    public int JournalId { get; init; }
-}
+public sealed record DeleteJournalRequest(int UserId, int JournalId)
+    : IRequest<bool>;
 
-public class DeleteJournalRequestHandler
+internal sealed class DeleteJournalRequestHandler
     : IRequestHandler<DeleteJournalRequest, bool>
 {
     private readonly IJournalProvider _journalProvider;

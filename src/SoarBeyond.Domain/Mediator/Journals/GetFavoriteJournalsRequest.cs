@@ -4,13 +4,10 @@ using SoarBeyond.Domain.Providers.Interfaces;
 
 namespace SoarBeyond.Domain.Mediator.Journals;
 
-public class GetFavoriteJournalsRequest
-    : IRequest<IEnumerable<Journal>>
-{
-    public int UserId { get; init; }
-}
+public sealed record GetFavoriteJournalsRequest(int UserId)
+    : IRequest<IEnumerable<Journal>>;
 
-public class GetFavoriteJournalsRequestHandler
+internal sealed class GetFavoriteJournalsRequestHandler
     : IRequestHandler<GetFavoriteJournalsRequest, IEnumerable<Journal>>
 {
     private readonly IJournalProvider _journalProvider;

@@ -4,13 +4,10 @@ using SoarBeyond.Domain.Providers.Interfaces;
 
 namespace SoarBeyond.Domain.Mediator.Moments;
 
-public class GetAllMomentsRequest
-    : IRequest<IEnumerable<Moment>>
-{
-    public int UserId { get; init; }
-}
+public sealed record GetAllMomentsRequest(int UserId)
+    : IRequest<IEnumerable<Moment>>;
 
-public class GetAllMomentsRequestHandler
+internal sealed class GetAllMomentsRequestHandler
     : IRequestHandler<GetAllMomentsRequest, IEnumerable<Moment>>
 {
     private readonly IMomentProvider _momentProvider;

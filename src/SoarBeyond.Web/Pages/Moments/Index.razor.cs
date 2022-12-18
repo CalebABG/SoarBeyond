@@ -27,10 +27,7 @@ public partial class Index
 
     private async Task<IEnumerable<Moment>> GetDbMomentsAsync()
     {
-        return await Mediator.Send(new GetAllMomentsRequest
-        {
-            UserId = await GetUserIdAsync()
-        });
+        return await Mediator.Send(new GetAllMomentsRequest(await GetUserIdAsync()));
     }
 
     private async Task DeleteMomentAsync(Moment moment)
@@ -44,12 +41,7 @@ public partial class Index
         {
             await ComponentRunAsync(async () =>
             {
-                var request = new DeleteMomentRequest
-                {
-                    UserId = await GetUserIdAsync(),
-                    JournalId = moment.JournalId,
-                    MomentId = moment.Id
-                };
+                var request = new DeleteMomentRequest(await GetUserIdAsync(), moment.Id);
 
                 bool deleted = await Mediator.Send(request);
                 if (deleted) _moments.Remove(moment);

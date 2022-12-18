@@ -34,7 +34,7 @@ public partial class View
         {
             _requestFailed = false;
 
-            var resultJournal = await GetJournalFromDb();
+            var resultJournal = await GetJournalFromDbAsync();
             if (resultJournal is not null)
             {
                 _journal = resultJournal;
@@ -48,25 +48,16 @@ public partial class View
         });
     }
 
-    private async Task<Journal> GetJournalFromDb()
+    private async Task<Journal> GetJournalFromDbAsync()
     {
-        return await Mediator.Send(new GetJournalRequest
-        {
-            UserId = await GetUserIdAsync(),
-            JournalId = JournalId
-        });
+        return await Mediator.Send(new GetJournalRequest(await GetUserIdAsync(), JournalId));
     }
 
     private async Task UpdateJournalAsync(string value)
     {
         await ComponentRunAsync(async () =>
         {
-            var request = new UpdateJournalRequest
-            {
-                UserId = await GetUserIdAsync(),
-                JournalId = JournalId,
-                Journal = _journal
-            };
+            var request = new UpdateJournalRequest(await GetUserIdAsync(), _journal);
 
             /* Todo: Handle case where update fails and response is null */
             _journal = await Mediator.Send(request);
@@ -77,30 +68,26 @@ public partial class View
     {
         await ComponentRunAsync(async () =>
         {
-            var request = new CreateMomentRequest
-            {
-                UserId = await GetUserIdAsync(),
-                JournalId = JournalId,
-                Moment = moment
-            };
+            var request = new CreateMomentRequest(await GetUserIdAsync(), JournalId, moment);
 
             var result = await Mediator.Send(request);
             if (result is not null)
             {
                 CloseForm();
                 _moments.AddFirst(result);
-                ToastService.ShowSuccess("Created Moment");
+                ToastService.ShowSuccess("Created");
             }
             else
             {
-                ToastService.ShowError("Something went wrong creating your Moment, please try again.");
+                ToastService.ShowError("Something went wrong when creating. Please try again.");
             }
         });
     }
 
     private async Task DeleteMomentAsync(Moment moment)
     {
-        var result = await _confirmationDialog.ShowAsync(
+        var result = await _confirmationDialog.ShowAsync
+        (
             "Confirm Delete",
             $"Are you sure you want to delete `{moment.Title.Truncate(50)}`"
         );
@@ -109,12 +96,7 @@ public partial class View
         {
             await ComponentRunAsync(async () =>
             {
-                var request = new DeleteMomentRequest
-                {
-                    UserId = await GetUserIdAsync(),
-                    JournalId = moment.JournalId,
-                    MomentId = moment.Id
-                };
+                var request = new DeleteMomentRequest(await GetUserIdAsync(), moment.Id);
 
                 /* Todo: Add Modal for delete? Make sure you truly want to delete */
                 bool deleted = await Mediator.Send(request);

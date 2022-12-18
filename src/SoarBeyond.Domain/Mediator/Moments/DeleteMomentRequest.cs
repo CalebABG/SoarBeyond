@@ -3,14 +3,10 @@ using SoarBeyond.Domain.Providers.Interfaces;
 
 namespace SoarBeyond.Domain.Mediator.Moments;
 
-public class DeleteMomentRequest : IRequest<bool>
-{
-    public int UserId { get; init; }
-    public int JournalId { get; init; }
-    public int MomentId { get; init; }
-}
+public sealed record DeleteMomentRequest(int UserId, int MomentId)
+    : IRequest<bool>;
 
-public class DeleteMomentRequestHandler
+internal sealed class DeleteMomentRequestHandler
     : IRequestHandler<DeleteMomentRequest, bool>
 {
     private readonly IMomentProvider _momentProvider;

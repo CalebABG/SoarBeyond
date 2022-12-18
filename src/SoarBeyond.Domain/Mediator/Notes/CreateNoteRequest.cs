@@ -4,15 +4,10 @@ using SoarBeyond.Domain.Providers.Interfaces;
 
 namespace SoarBeyond.Domain.Mediator.Notes;
 
-public class CreateNoteRequest
-    : IRequest<Note>
-{
-    public int UserId { get; init; }
-    public int MomentId { get; init; }
-    public Note Note { get; init; }
-}
+public sealed record CreateNoteRequest(int UserId, int MomentId, Note Note)
+    : IRequest<Note>;
 
-public class CreateNoteRequestHandler
+internal sealed class CreateNoteRequestHandler
     : IRequestHandler<CreateNoteRequest, Note>
 {
     private readonly INoteProvider _noteProvider;

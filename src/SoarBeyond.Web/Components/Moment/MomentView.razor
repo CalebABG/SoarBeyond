@@ -33,11 +33,11 @@
 
         <div class="card-text">
             <div class="btn-group btn-group-sm shadow-none" role="group">
-                <button type="button" class="btn btn-light" style="color: dodgerblue" @onclick="@NavigateToViewPage">
-                    View / Edit
+                <button type="button" class="btn btn-light" @onclick="@NavigateToViewPage">
+                    <span class="text-primary">View / Edit</span>
                 </button>
-                <button type="button" class="btn btn-light" style="color: red" @onclick="@DeleteMomentAsync">
-                    Delete
+                <button type="button" class="btn btn-light" @onclick="@DeleteMomentAsync">
+                    <span class="text-danger">Delete</span>
                 </button>
             </div>
         </div>

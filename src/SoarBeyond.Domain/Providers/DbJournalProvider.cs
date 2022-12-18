@@ -37,13 +37,13 @@ public class DbJournalProvider : IJournalProvider
         if (dbJournal is not null)
             return null;
 
-        JournalEntity journal = _mapper.Map<Journal, JournalEntity>(request.Journal);
-        journal.UserId = request.UserId;
+        var mappedJournal = _mapper.Map<Journal, JournalEntity>(request.Journal);
+        mappedJournal.UserId = request.UserId;
 
-        var addedJournal = context.Journals.Add(journal);
+        var addedEntry = context.Journals.Add(mappedJournal);
         await context.SaveChangesAsync();
 
-        return _mapper.Map<JournalEntity, Journal>(addedJournal.Entity);
+        return _mapper.Map<JournalEntity, Journal>(addedEntry.Entity);
     }
 
     public async Task<Journal> UpdateAsync(UpdateJournalRequest request)
@@ -51,18 +51,18 @@ public class DbJournalProvider : IJournalProvider
         await using var context = await _contextFactory.CreateDbContextAsync();
 
         // Todo: Place AsNoTracking after props for inclusion where needed
-        var journal = await context.Journals
+        var dbJournal = await context.Journals
             .Include(j => j.Moments)
             .ThenInclude(m => m.Notes)
             .AsNoTracking()
-            .FirstOrDefaultAsync(j => j.UserId == request.UserId &&
-                                      j.Id == request.JournalId);
+            .FirstOrDefaultAsync(j => j.Id == request.Journal.Id && 
+                                      j.UserId == request.UserId);
 
-        if (journal is null)
+        if (dbJournal is null)
             return null;
 
-        _mapper.Map(request.Journal, journal);
-        var updatedEntry = context.Journals.Update(journal);
+        _mapper.Map(request.Journal, dbJournal);
+        var updatedEntry = context.Journals.Update(dbJournal);
 
         await context.SaveChangesAsync();
 
@@ -73,15 +73,15 @@ public class DbJournalProvider : IJournalProvider
     {
         await using var context = await _contextFactory.CreateDbContextAsync();
 
-        var journal = await context.Journals
+        var dbJournal = await context.Journals
             .AsNoTracking()
             .FirstOrDefaultAsync(j => j.UserId == request.UserId &&
                                       j.Id == request.JournalId);
 
-        if (journal is null)
+        if (dbJournal is null)
             return false;
 
-        context.Journals.Remove(journal);
+        context.Journals.Remove(dbJournal);
 
         return await context.SaveChangesAsync() > 0;
     }
@@ -90,17 +90,17 @@ public class DbJournalProvider : IJournalProvider
     {
         await using var context = await _contextFactory.CreateDbContextAsync();
 
-        var journal = await context.Journals
+        var dbJournal = await context.Journals
             .Include(j => j.Moments)
-            .ThenInclude(je => je.Notes)
+            .ThenInclude(m => m.Notes)
             .AsNoTracking()
             .FirstOrDefaultAsync(j => j.UserId == request.UserId &&
                                       j.Id == request.JournalId);
 
-        if (journal is null)
+        if (dbJournal is null)
             return null;
 
-        return _mapper.Map<JournalEntity, Journal>(journal);
+        return _mapper.Map<JournalEntity, Journal>(dbJournal);
     }
 
     public async Task<IEnumerable<JournalName>> GetNamesAsync(GetJournalNamesRequest request)
@@ -124,9 +124,11 @@ public class DbJournalProvider : IJournalProvider
             .Include(j => j.Moments)
             .ThenInclude(m => m.Notes)
             .AsNoTracking()
-            .Where(j => j.UserId == request.UserId);
+            .Where(j => j.UserId == request.UserId)
+            .ProjectTo<Journal>(_mapper.ConfigurationProvider)
+            .ToListAsync();
 
-        return await journals.ProjectTo<Journal>(_mapper.ConfigurationProvider).ToListAsync();
+        return await journals;
     }
 
     public async Task<IEnumerable<Journal>> GetFavoritesAsync(GetFavoriteJournalsRequest request)
@@ -137,9 +139,11 @@ public class DbJournalProvider : IJournalProvider
             .Include(j => j.Moments)
             .ThenInclude(m => m.Notes)
             .AsNoTracking()
-            .Where(j => j.UserId == request.UserId && j.Favored);
+            .Where(j => j.UserId == request.UserId && j.Favored)
+            .ProjectTo<Journal>(_mapper.ConfigurationProvider)
+            .ToListAsync();
 
-        return await journals.ProjectTo<Journal>(_mapper.ConfigurationProvider).ToListAsync();
+        return await journals;
     }
 
     public async Task<bool> UpdateFavoriteStatusAsync(UpdateJournalFavoriteStatusRequest request)

@@ -32,10 +32,7 @@ public partial class Index : SoarBeyondPageBase
 
     private async Task<IEnumerable<Journal>> GetJournalsFromDb()
     {
-        return await Mediator.Send(new GetAllJournalsRequest
-        {
-            UserId = await GetUserIdAsync()
-        });
+        return await Mediator.Send(new GetAllJournalsRequest(await GetUserIdAsync()));
     }
 
     private void OpenDialog() => _showDialog = true;
@@ -45,22 +42,18 @@ public partial class Index : SoarBeyondPageBase
     {
         await ComponentRunAsync(async () =>
         {
-            CreateJournalRequest createRequest = new()
-            {
-                UserId = await GetUserIdAsync(),
-                Journal = journal
-            };
+             var createRequest = new CreateJournalRequest(await GetUserIdAsync(), journal);
 
             var resultJournal = await Mediator.Send(createRequest);
             if (resultJournal is not null)
             {
                 CloseDialog();
                 _journals.AddFirst(resultJournal);
-                ToastService.ShowSuccess("Created Journal");
+                ToastService.ShowSuccess("Created");
             }
             else
             {
-                ToastService.ShowError("Something went wrong creating your Journal, please try again.");
+                ToastService.ShowError("Something went wrong when creating. Please try again.");
             }
         });
     }
@@ -76,11 +69,7 @@ public partial class Index : SoarBeyondPageBase
         {
             await ComponentRunAsync(async () =>
             {
-                var request = new DeleteJournalRequest
-                {
-                    UserId = await GetUserIdAsync(),
-                    JournalId = journal.Id
-                };
+                var request = new DeleteJournalRequest(await GetUserIdAsync(), journal.Id);
 
                 bool deleted = await Mediator.Send(request);
                 if (deleted) _journals.Remove(journal);
@@ -93,12 +82,7 @@ public partial class Index : SoarBeyondPageBase
         await ComponentRunAsync(async () =>
         {
             var newStatus = !journal.Favored;
-            var request = new UpdateJournalFavoriteStatusRequest
-            {
-                UserId = await GetUserIdAsync(),
-                JournalId = journal.Id,
-                Favored = newStatus
-            };
+            var request = new UpdateJournalFavoriteStatusRequest(await GetUserIdAsync(), journal.Id, newStatus);
 
             bool updated = await Mediator.Send(request);
             if (updated) journal.Favored = newStatus;

@@ -29,18 +29,18 @@ public class DbNoteProvider : INoteProvider
             .Include(n => n.Moment)
             .ThenInclude(m => m.Journal)
             .AsNoTracking()
-            .FirstOrDefaultAsync(t => t.Id == request.Note.Id
-                                      && t.MomentId == request.MomentId
-                                      && t.Moment.Journal.UserId == request.UserId);
+            .FirstOrDefaultAsync(n => n.Id == request.Note.Id && 
+                                      n.MomentId == request.MomentId && 
+                                      n.Moment.Journal.UserId == request.UserId);
 
         if (dbNote is not null)
             return null;
 
-        NoteEntity note = _mapper.Map<Note, NoteEntity>(request.Note);
+        var mappedNote = _mapper.Map<Note, NoteEntity>(request.Note);
 
-        var addedNote = context.Notes.Add(note);
+        var addedEntry = context.Notes.Add(mappedNote);
         await context.SaveChangesAsync();
 
-        return _mapper.Map<NoteEntity, Note>(addedNote.Entity);
+        return _mapper.Map<NoteEntity, Note>(addedEntry.Entity);
     }
 }

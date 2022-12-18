@@ -21,12 +21,13 @@ public partial class View
         {
             _requestFailed = false;
 
-            var moment = await GetMomentFromDb();
+            var moment = await GetMomentFromDbAsync();
             if (moment is not null)
             {
                 _moment = moment;
                 _notes = new LinkedList<Note>(_moment.Notes
-                    .OrderByDescending(je => je.CreatedDate).ToList());
+                    .OrderByDescending(n => n.CreatedDate)
+                    .ToList());
             }
             else
             {
@@ -35,26 +36,16 @@ public partial class View
         });
     }
 
-    private async Task<Moment> GetMomentFromDb()
+    private async Task<Moment> GetMomentFromDbAsync()
     {
-        return await Mediator.Send(new GetMomentRequest
-        {
-            UserId = await GetUserIdAsync(),
-            MomentId = MomentId,
-        });
+        return await Mediator.Send(new GetMomentRequest(await GetUserIdAsync(), MomentId));
     }
 
     private async Task UpdateMomentAsync(string value)
     {
         await ComponentRunAsync(async () =>
         {
-            var request = new UpdateMomentRequest
-            {
-                UserId = await GetUserIdAsync(),
-                MomentId = MomentId,
-                Moment = _moment,
-            };
-
+            var request = new UpdateMomentRequest(await GetUserIdAsync(), _moment);
             _moment = await Mediator.Send(request);
         });
     }

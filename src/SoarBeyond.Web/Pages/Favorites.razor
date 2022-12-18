@@ -48,10 +48,7 @@
 
     private async Task<IEnumerable<Journal>> GetFavoriteJournalsAsync()
     {
-        return await Mediator.Send(new GetFavoriteJournalsRequest
-        {
-            UserId = await GetUserIdAsync()
-        });
+        return await Mediator.Send(new GetFavoriteJournalsRequest(await GetUserIdAsync()));
     }
 
 }

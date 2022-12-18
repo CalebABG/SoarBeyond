@@ -30,20 +30,20 @@ public class DbMomentProvider : IMomentProvider
             .Include(m => m.Journal)
             .Include(m => m.Notes)
             .AsNoTracking()
-            .FirstOrDefaultAsync(m => m.Id == request.Moment.Id
-                                       && m.JournalId == request.JournalId
-                                       && m.Journal.UserId == request.UserId);
+            .FirstOrDefaultAsync(m => m.Id == request.Moment.Id && 
+                                      m.JournalId == request.JournalId && 
+                                      m.Journal.UserId == request.UserId);
 
         if (dbMoment is not null)
             return null;
 
-        var moment = _mapper.Map<Moment, MomentEntity>(request.Moment);
-        moment.JournalId = request.JournalId;
+        var mappedMoment = _mapper.Map<Moment, MomentEntity>(request.Moment);
+        mappedMoment.JournalId = request.JournalId;
 
-        var addedMoment = context.Moments.Add(moment);
+        var addedEntry = context.Moments.Add(mappedMoment);
         await context.SaveChangesAsync();
 
-        return _mapper.Map<MomentEntity, Moment>(addedMoment.Entity);
+        return _mapper.Map<MomentEntity, Moment>(addedEntry.Entity);
     }
 
     public async Task<bool> DeleteAsync(DeleteMomentRequest request)
@@ -53,8 +53,7 @@ public class DbMomentProvider : IMomentProvider
         var moment = await context.Moments
             .Include(m => m.Journal)
             .AsNoTracking()
-            .FirstOrDefaultAsync(m => m.JournalId == request.JournalId && 
-                                      m.Id == request.MomentId && 
+            .FirstOrDefaultAsync(m => m.Id == request.MomentId && 
                                       m.Journal.UserId == request.UserId);
 
         if (moment is null)
@@ -73,8 +72,8 @@ public class DbMomentProvider : IMomentProvider
             .Include(m => m.Journal)
             .Include(m => m.Notes)
             .AsNoTracking()
-            .FirstOrDefaultAsync(m => m.Id == request.MomentId
-                                      && m.Journal.UserId == request.UserId);
+            .FirstOrDefaultAsync(m => m.Id == request.MomentId && 
+                                      m.Journal.UserId == request.UserId);
 
         if (moment is null)
             return null;
@@ -90,8 +89,8 @@ public class DbMomentProvider : IMomentProvider
             .Include(m => m.Journal)
             .Include(m => m.Notes)
             .AsNoTracking()
-            .FirstOrDefaultAsync(m => m.Journal.UserId == request.UserId &&
-                                       m.Id == request.MomentId);
+            .FirstOrDefaultAsync(m => m.Id == request.Moment.Id && 
+                                      m.Journal.UserId == request.UserId);
 
         if (moment is null)
             return null;
@@ -101,8 +100,7 @@ public class DbMomentProvider : IMomentProvider
         
         await context.SaveChangesAsync();
 
-        var dto = _mapper.Map<MomentEntity, Moment>(updatedEntry.Entity);
-        return dto;
+        return _mapper.Map<MomentEntity, Moment>(updatedEntry.Entity);
     }
 
     public async Task<IEnumerable<Moment>> GetByJournalIdAsync(GetMomentsFromJournalRequest request)
@@ -114,9 +112,11 @@ public class DbMomentProvider : IMomentProvider
             .Include(m => m.Notes)
             .AsNoTracking()
             .Where(m => m.JournalId == request.JournalId && 
-                         m.Journal.UserId == request.UserId);
+                        m.Journal.UserId == request.UserId)
+            .ProjectTo<Moment>(_mapper.ConfigurationProvider)
+            .ToListAsync();
 
-        return await moments.ProjectTo<Moment>(_mapper.ConfigurationProvider).ToListAsync();
+        return await moments;
     }
 
     public async Task<IEnumerable<Moment>> GetAllAsync(GetAllMomentsRequest request)
@@ -127,8 +127,10 @@ public class DbMomentProvider : IMomentProvider
             .Include(m => m.Journal)
             .Include(m => m.Notes)
             .AsNoTracking()
-            .Where(m => m.Journal.UserId == request.UserId);
+            .Where(m => m.Journal.UserId == request.UserId)
+            .ProjectTo<Moment>(_mapper.ConfigurationProvider)
+            .ToListAsync();
 
-        return await moments.ProjectTo<Moment>(_mapper.ConfigurationProvider).ToListAsync();
+        return await moments;
     }
 }

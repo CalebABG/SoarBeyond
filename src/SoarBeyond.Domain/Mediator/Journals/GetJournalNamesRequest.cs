@@ -5,12 +5,10 @@ using SoarBeyond.Shared.Poco;
 
 namespace SoarBeyond.Domain.Mediator.Journals;
 
-public class GetJournalNamesRequest : IRequest<HashSet<JournalName>>
-{
-    public int UserId { get; init; }
-}
+public sealed record GetJournalNamesRequest(int UserId)
+    : IRequest<HashSet<JournalName>>;
 
-public class GetJournalNamesRequestHandler
+internal sealed class GetJournalNamesRequestHandler
     : IRequestHandler<GetJournalNamesRequest, IEnumerable<JournalName>>
 {
     private readonly IJournalProvider _journalProvider;

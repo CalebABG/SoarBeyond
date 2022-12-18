@@ -3,14 +3,10 @@ using SoarBeyond.Domain.Providers.Interfaces;
 
 namespace SoarBeyond.Domain.Mediator.Journals;
 
-public class UpdateJournalFavoriteStatusRequest : IRequest<bool>
-{
-    public int UserId { get; init; }
-    public int JournalId { get; init; }
-    public bool Favored { get; init; }
-}
+public sealed record UpdateJournalFavoriteStatusRequest(int UserId, int JournalId, bool Favored)
+    : IRequest<bool>;
 
-public class UpdateJournalFavoriteStatusRequestHandler
+internal sealed class UpdateJournalFavoriteStatusRequestHandler
     : IRequestHandler<UpdateJournalFavoriteStatusRequest, bool>
 {
     private readonly IJournalProvider _journalProvider;

@@ -5,12 +5,12 @@
 @using Humanizer
 @using static SoarBeyond.Shared.Extensions.CommonExtensions
 
-<BSCard ExtraClass="shadow mb-2">
-    <BSCardHeader ExtraClass="container-fluid">
+<div class="card shadow mb-2">
+    <div class="card-header container-fluid">
         <h5 class="m-0">@InfoTitle</h5>
-    </BSCardHeader>
+    </div>
 
-    <BSCardBody ExtraClass="py-3">
+    <div class="card-body py-3">
         <div class="row mb-3">
             <div class="col-12">
                 <label class="form-label">
@@ -42,9 +42,9 @@
         </div>
 
         @ContentSavingTemplate
-    </BSCardBody>
+    </div>
 
-    <BSCardFooter ExtraClass="container-fluid">
-        Created @Model.CreatedDate.ToLocalTime().Humanize()
-    </BSCardFooter>
-</BSCard>
+    <div class="card-footer container-fluid">
+        Created @Model.CreatedDate.LocalDateTime.Humanize()
+    </div>
+</div>
