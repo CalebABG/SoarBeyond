@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using BlazorComponentUtilities;
 using Microsoft.AspNetCore.Components;
 using SoarBeyond.Domain.Dto;
 
@@ -16,6 +17,10 @@ public partial class MomentView
     {
         Class = "card shadow";
     }
+
+    protected override StyleBuilder ComponentStylesBuilder
+        => base.ComponentStylesBuilder
+            .AddStyle($"border-top: 8px solid {Moment?.Color}");
 
     private bool CanShowNotes => ShowNotes && Moment?.Notes.Count > 0;
     private bool CanShowNoteCount => ShowNoteCount && Moment?.Notes.Count > 0;
