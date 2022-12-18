@@ -1,0 +1,57 @@
+@page "/Favorites"
+
+@using SoarBeyond.Domain.Dto
+@using MediatR
+@using SoarBeyond.Domain.Mediator.Journals
+
+@attribute [Authorize]
+
+@inherits SoarBeyondPageBase
+
+@inject IMediator Mediator
+
+<PageTitle>Favorites</PageTitle>
+
+<ContentLoadingView Data="@_journals">
+    <PresentTemplate>
+        <div class="container p-4">
+            <HeaderView ExtraClass="mb-5">
+                <HumanizeCountView Count="@_journals.Count"
+                                   CountText="Favorite"/>
+            </HeaderView>
+
+            <CollectionView Class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
+                            Data="@_journals">
+                <ItemTemplate>
+                    <div class="col" @key="@context.Id">
+                        <JournalView Journal="@context"/>
+                    </div>
+                </ItemTemplate>
+            </CollectionView>
+        </div>
+    </PresentTemplate>
+</ContentLoadingView>
+
+@code {
+    private List<Journal> _journals;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await ComponentRunAsync(async () =>
+        {
+            var journals = await GetFavoriteJournalsAsync();
+            _journals = journals
+                .OrderByDescending(j => j.UpdatedDate)
+                .ToList();
+        });
+    }
+
+    private async Task<IEnumerable<Journal>> GetFavoriteJournalsAsync()
+    {
+        return await Mediator.Send(new GetFavoriteJournalsRequest
+        {
+            UserId = await GetUserIdAsync()
+        });
+    }
+
+}

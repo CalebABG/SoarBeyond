@@ -11,13 +11,19 @@
                 @Journal.CreatedDate.LocalDateTime.ToShortDateString()
             </span>
 
+            <div @onclick="@ToggleFavoriteAsync" style="cursor: pointer">
+                <h4 class="my-0">
+                    <i class="@(Journal.Favored ? "fas fa-star" : "far fa-star")"></i>
+                </h4>
+            </div>
+
             @if (CanShowBadgeCount)
             {
-                <h5>
+                <h4 class="ms-1 my-0">
                     <span class="badge bg-primary">
                         @Journal.Moments.Count
                     </span>
-                </h5>
+                </h4>
             }
         </div>
     </div>

@@ -87,4 +87,21 @@ public partial class Index : SoarBeyondPageBase
             });
         }
     }
+
+    private async Task ToggleFavoriteAsync(Journal journal)
+    {
+        await ComponentRunAsync(async () =>
+        {
+            var newStatus = !journal.Favored;
+            var request = new UpdateJournalFavoriteStatusRequest
+            {
+                UserId = await GetUserIdAsync(),
+                JournalId = journal.Id,
+                Favored = newStatus
+            };
+
+            bool updated = await Mediator.Send(request);
+            if (updated) journal.Favored = newStatus;
+        });
+    }
 }

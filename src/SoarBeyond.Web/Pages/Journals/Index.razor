@@ -43,7 +43,8 @@
                 <ItemTemplate>
                     <div class="col" @key="@context.Id">
                         <JournalView Journal="@context"
-                                     OnDeleteJournal="@DeleteJournalAsync"/>
+                                     OnDeleteJournal="@DeleteJournalAsync" 
+                                     OnToggleFavorite="@ToggleFavoriteAsync" />
                     </div>
                 </ItemTemplate>
             </CollectionView>

@@ -12,4 +12,6 @@ public interface IJournalProvider
     Task<Journal> GetAsync(GetJournalRequest request);
     Task<IEnumerable<JournalName>> GetNamesAsync(GetJournalNamesRequest request);
     Task<IEnumerable<Journal>> GetAllAsync(GetAllJournalsRequest request);
+    Task<IEnumerable<Journal>> GetFavoritesAsync(GetFavoriteJournalsRequest request);
+    Task<bool> UpdateFavoriteStatusAsync(UpdateJournalFavoriteStatusRequest request);
 }

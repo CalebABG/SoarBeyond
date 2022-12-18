@@ -128,4 +128,35 @@ public class DbJournalProvider : IJournalProvider
 
         return await journals.ProjectTo<Journal>(_mapper.ConfigurationProvider).ToListAsync();
     }
+
+    public async Task<IEnumerable<Journal>> GetFavoritesAsync(GetFavoriteJournalsRequest request)
+    {
+        await using var context = await _contextFactory.CreateDbContextAsync();
+
+        var journals = context.Journals
+            .Include(j => j.Moments)
+            .ThenInclude(m => m.Notes)
+            .AsNoTracking()
+            .Where(j => j.UserId == request.UserId && j.Favored);
+
+        return await journals.ProjectTo<Journal>(_mapper.ConfigurationProvider).ToListAsync();
+    }
+
+    public async Task<bool> UpdateFavoriteStatusAsync(UpdateJournalFavoriteStatusRequest request)
+    {
+        await using var context = await _contextFactory.CreateDbContextAsync();
+
+        var journal = await context.Journals
+            .AsNoTracking()
+            .FirstOrDefaultAsync(j => j.UserId == request.UserId &&
+                                      j.Id == request.JournalId);
+
+        if (journal is null)
+            return false;
+
+        journal.Favored = request.Favored;
+        context.Journals.Update(journal);
+
+        return await context.SaveChangesAsync() > 0;
+    }
 }

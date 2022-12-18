@@ -10,6 +10,7 @@ public partial class JournalView
     [Parameter] public Journal Journal { get; set; }
     [Parameter] public bool ShowBadgeCount { get; set; } = true;
     [Parameter] public EventCallback<Journal> OnDeleteJournal { get; set; }
+    [Parameter] public EventCallback<Journal> OnToggleFavorite { get; set; }
 
     public JournalView()
     {
@@ -26,5 +27,10 @@ public partial class JournalView
     private async Task DeleteJournalAsync()
     {
         await OnDeleteJournal.InvokeAsync(Journal);
+    }
+
+    private async Task ToggleFavoriteAsync()
+    {
+        await OnToggleFavorite.InvokeAsync(Journal);
     }
 }
