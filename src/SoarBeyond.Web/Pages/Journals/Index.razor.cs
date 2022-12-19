@@ -49,7 +49,6 @@ public partial class Index : SoarBeyondPageBase
             {
                 CloseDialog();
                 _journals.AddFirst(resultJournal);
-                ToastService.ShowSuccess("Created");
             }
             else
             {
@@ -60,10 +59,7 @@ public partial class Index : SoarBeyondPageBase
 
     private async Task DeleteJournalAsync(Journal journal)
     {
-        var result = await _confirmationDialog.ShowAsync(
-            "Confirm Delete",
-            $"Are you sure you want to delete `{journal.Name.Truncate(50)}`"
-        );
+        var result = await _confirmationDialog.ShowAsync("Delete?", journal.Name.Truncate(50));
 
         if (result)
         {

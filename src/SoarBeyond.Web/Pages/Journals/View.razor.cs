@@ -59,8 +59,15 @@ public partial class View
         {
             var request = new UpdateJournalRequest(await GetUserIdAsync(), _journal);
 
-            /* Todo: Handle case where update fails and response is null */
-            _journal = await Mediator.Send(request);
+            var result = await Mediator.Send(request);
+            if (result is not null)
+            { 
+                _journal = result;
+            }
+            else
+            {
+                ToastService.ShowError("Something went wrong when updating. Please try again.");
+            }
         });
     }
 
@@ -75,7 +82,6 @@ public partial class View
             {
                 CloseForm();
                 _moments.AddFirst(result);
-                ToastService.ShowSuccess("Created");
             }
             else
             {
@@ -86,11 +92,7 @@ public partial class View
 
     private async Task DeleteMomentAsync(Moment moment)
     {
-        var result = await _confirmationDialog.ShowAsync
-        (
-            "Confirm Delete",
-            $"Are you sure you want to delete `{moment.Title.Truncate(50)}`"
-        );
+        var result = await _confirmationDialog.ShowAsync("Delete?", moment.Title.Truncate(50));
 
         if (result)
         {
@@ -98,7 +100,6 @@ public partial class View
             {
                 var request = new DeleteMomentRequest(await GetUserIdAsync(), moment.Id);
 
-                /* Todo: Add Modal for delete? Make sure you truly want to delete */
                 bool deleted = await Mediator.Send(request);
                 if (deleted) _moments.Remove(moment);
             });

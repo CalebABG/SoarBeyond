@@ -22,7 +22,6 @@ public partial class Create
             if (result is not null)
             {
                 _journalForm.ResetForm();
-                ToastService.ShowSuccess("Created");
                 NavigationManager.NavigateTo("Journals");
             }
             else

@@ -2,15 +2,19 @@
 
 @if (_showDialog)
 {
-    <BSDialog ExtraClass="modal-lg modal-dialog-centered"
+    <BSDialog ExtraClass="modal modal-dialog-centered"
               @bind-ShowDialog="@_showDialog"
               CloseOnFocusLost="@false">
         <DialogTitle>
-            <h5 class="m-0">@Title</h5>
+            <h4 class="m-0">@Title</h4>
         </DialogTitle>
 
         <DialogBody>
-            @Description
+            <h5 class="m-0">
+                <mark class="rounded p-2">
+                    @Description
+                </mark>
+            </h5>
         </DialogBody>
 
         <DialogFooter>
@@ -30,8 +34,8 @@
     private bool _showDialog;
     private TaskCompletionSource<bool> _completionSource = new();
 
-    public string Title { get; set; } = "Confirmation";
-    public string Description { get; set; } = "Are you sure you want to delete?";
+    public string Title { get; set; } = "Confirm";
+    public string Description { get; set; } = string.Empty;
 
     public async Task<bool> ShowAsync(string title, string description)
     {

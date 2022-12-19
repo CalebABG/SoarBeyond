@@ -32,10 +32,7 @@ public partial class Index
 
     private async Task DeleteMomentAsync(Moment moment)
     {
-        var result = await _confirmationDialog.ShowAsync(
-            "Confirm Delete",
-            $"Are you sure you want to delete `{moment.Title.Truncate(50)}`"
-        );
+        var result = await _confirmationDialog.ShowAsync("Delete?", moment.Title.Truncate(50));
 
         if (result)
         {
