@@ -71,7 +71,13 @@ public class RegisterModel : PageModel
 
         if (ModelState.IsValid)
         {
-            var user = new UserEntity { UserName = Input.Email, Email = Input.Email, };
+            var user = new UserEntity
+            {
+                UserName = Input.Email, 
+                Email = Input.Email,
+                CreatedDate = DateTimeOffset.UtcNow,
+            };
+
             var result = await _userManager.CreateAsync(user, Input.Password);
 
             if (result.Succeeded)

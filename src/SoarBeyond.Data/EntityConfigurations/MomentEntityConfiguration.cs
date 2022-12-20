@@ -22,14 +22,6 @@ public class MomentEntityConfiguration : IEntityTypeConfiguration<MomentEntity>
             .IsRequired()
             .HasMaxLength(MomentConstraints.DescriptionLength);
 
-        builder.Property(m => m.CreatedDate)
-            .HasDefaultValue(DateTimeOffset.UtcNow)
-            .ValueGeneratedOnAdd();
-
-        builder.Property(o => o.UpdatedDate)
-            .HasDefaultValue(DateTimeOffset.UtcNow)
-            .ValueGeneratedOnAddOrUpdate();
-
         builder.HasMany(m => m.Notes)
             .WithOne(n => n.Moment)
             .HasForeignKey(n => n.MomentId);

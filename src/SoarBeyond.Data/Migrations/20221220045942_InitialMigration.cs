@@ -33,7 +33,7 @@ namespace SoarBeyond.Data.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    CreatedDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTimeOffset(new DateTime(2022, 12, 18, 2, 2, 36, 141, DateTimeKind.Unspecified).AddTicks(8190), new TimeSpan(0, 0, 0, 0, 0))),
+                    CreatedDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     NickName = table.Column<string>(type: "text", nullable: true),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -170,8 +170,8 @@ namespace SoarBeyond.Data.Migrations
                     Favored = table.Column<bool>(type: "boolean", nullable: false),
                     Name = table.Column<string>(type: "character varying(1250)", maxLength: 1250, nullable: false),
                     Description = table.Column<string>(type: "character varying(2500)", maxLength: 2500, nullable: false),
-                    CreatedDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTimeOffset(new DateTime(2022, 12, 18, 2, 2, 36, 140, DateTimeKind.Unspecified).AddTicks(6092), new TimeSpan(0, 0, 0, 0, 0))),
-                    UpdatedDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTimeOffset(new DateTime(2022, 12, 18, 2, 2, 36, 140, DateTimeKind.Unspecified).AddTicks(6452), new TimeSpan(0, 0, 0, 0, 0))),
+                    CreatedDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    UpdatedDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -194,8 +194,8 @@ namespace SoarBeyond.Data.Migrations
                     Title = table.Column<string>(type: "character varying(1250)", maxLength: 1250, nullable: false),
                     Content = table.Column<string>(type: "character varying(12500)", maxLength: 12500, nullable: false),
                     Color = table.Column<string>(type: "character varying(8)", maxLength: 8, nullable: true),
-                    CreatedDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTimeOffset(new DateTime(2022, 12, 18, 2, 2, 36, 140, DateTimeKind.Unspecified).AddTicks(9746), new TimeSpan(0, 0, 0, 0, 0))),
-                    UpdatedDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTimeOffset(new DateTime(2022, 12, 18, 2, 2, 36, 141, DateTimeKind.Unspecified).AddTicks(80), new TimeSpan(0, 0, 0, 0, 0))),
+                    CreatedDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    UpdatedDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     JournalId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -216,8 +216,8 @@ namespace SoarBeyond.Data.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Details = table.Column<string>(type: "character varying(2500)", maxLength: 2500, nullable: false),
-                    CreatedDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTimeOffset(new DateTime(2022, 12, 18, 2, 2, 36, 141, DateTimeKind.Unspecified).AddTicks(3982), new TimeSpan(0, 0, 0, 0, 0))),
-                    UpdatedDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTimeOffset(new DateTime(2022, 12, 18, 2, 2, 36, 141, DateTimeKind.Unspecified).AddTicks(4339), new TimeSpan(0, 0, 0, 0, 0))),
+                    CreatedDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    UpdatedDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     MomentId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -239,8 +239,8 @@ namespace SoarBeyond.Data.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Title = table.Column<string>(type: "character varying(1250)", maxLength: 1250, nullable: false),
                     Details = table.Column<string>(type: "character varying(12500)", maxLength: 12500, nullable: false),
-                    CreatedDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTimeOffset(new DateTime(2022, 12, 18, 2, 2, 36, 141, DateTimeKind.Unspecified).AddTicks(6289), new TimeSpan(0, 0, 0, 0, 0))),
-                    UpdatedDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false, defaultValue: new DateTimeOffset(new DateTime(2022, 12, 18, 2, 2, 36, 141, DateTimeKind.Unspecified).AddTicks(6563), new TimeSpan(0, 0, 0, 0, 0))),
+                    CreatedDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
+                    UpdatedDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     MomentId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>

@@ -50,7 +50,6 @@ public class DbJournalProvider : IJournalProvider
     {
         await using var context = await _contextFactory.CreateDbContextAsync();
 
-        // Todo: Place AsNoTracking after props for inclusion where needed
         var dbJournal = await context.Journals
             .Include(j => j.Moments)
             .ThenInclude(m => m.Notes)
@@ -62,6 +61,8 @@ public class DbJournalProvider : IJournalProvider
             return null;
 
         _mapper.Map(request.Journal, dbJournal);
+
+        dbJournal.UpdatedDate = DateTimeOffset.UtcNow;
         var updatedEntry = context.Journals.Update(dbJournal);
 
         await context.SaveChangesAsync();
@@ -159,6 +160,7 @@ public class DbJournalProvider : IJournalProvider
             return false;
 
         journal.Favored = request.Favored;
+        journal.UpdatedDate = DateTimeOffset.UtcNow;
         context.Journals.Update(journal);
 
         return await context.SaveChangesAsync() > 0;

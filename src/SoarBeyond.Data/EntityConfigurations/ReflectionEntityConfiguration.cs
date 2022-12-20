@@ -18,13 +18,5 @@ public class ReflectionEntityConfiguration : IEntityTypeConfiguration<Reflection
         builder.Property(r => r.Details)
             .IsRequired()
             .HasMaxLength(ReflectionConstraints.DetailsLength);
-
-        builder.Property(r => r.CreatedDate)
-            .HasDefaultValue(DateTimeOffset.UtcNow)
-            .ValueGeneratedOnAdd();
-
-        builder.Property(r => r.UpdatedDate)
-            .HasDefaultValue(DateTimeOffset.UtcNow)
-            .ValueGeneratedOnAddOrUpdate();
     }
 }

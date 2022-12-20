@@ -19,14 +19,6 @@ public class JournalEntityConfiguration : IEntityTypeConfiguration<JournalEntity
             .IsRequired()
             .HasMaxLength(JournalConstraints.DescriptionLength);
 
-        builder.Property(j => j.CreatedDate)
-            .HasDefaultValue(DateTimeOffset.UtcNow)
-            .ValueGeneratedOnAdd();
-
-        builder.Property(j => j.UpdatedDate)
-            .HasDefaultValue(DateTimeOffset.UtcNow)
-            .ValueGeneratedOnAddOrUpdate();
-
         builder.HasMany(j => j.Moments)
             .WithOne(m => m.Journal)
             .HasForeignKey(m => m.JournalId);

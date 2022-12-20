@@ -21,6 +21,7 @@ public class DefaultSeedSource : ISeedSource<SoarBeyondDbContext>
             var admin = new UserEntity
             {
                 Email = AdminEmail,
+                CreatedDate = DateTimeOffset.UtcNow,
                 NormalizedEmail = AdminEmail.ToUpper(),
                 UserName = AdminEmail,
                 NormalizedUserName = AdminEmail.ToUpper(),

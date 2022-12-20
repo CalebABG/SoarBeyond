@@ -5,6 +5,8 @@ using SoarBeyond.Data.Entities;
 
 namespace SoarBeyond.Data;
 
+// Todo: Place AsNoTracking after props for inclusion where needed
+// Todo: Postgres DateTime/DateTimeOffset DefaultValueGeneration isn't currently supported/provided
 public class SoarBeyondDbContext 
     : IdentityDbContext<UserEntity, IdentityRole<int>, int>
 {

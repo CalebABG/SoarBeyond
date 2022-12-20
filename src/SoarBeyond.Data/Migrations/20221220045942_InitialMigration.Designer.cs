@@ -12,7 +12,7 @@ using SoarBeyond.Data;
 namespace SoarBeyond.Data.Migrations
 {
     [DbContext(typeof(SoarBeyondDbContext))]
-    [Migration("20221218020236_InitialMigration")]
+    [Migration("20221220045942_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -170,9 +170,7 @@ namespace SoarBeyond.Data.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTimeOffset>("CreatedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTimeOffset(new DateTime(2022, 12, 18, 2, 2, 36, 140, DateTimeKind.Unspecified).AddTicks(6092), new TimeSpan(0, 0, 0, 0, 0)));
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -188,9 +186,7 @@ namespace SoarBeyond.Data.Migrations
                         .HasColumnType("character varying(1250)");
 
                     b.Property<DateTimeOffset>("UpdatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTimeOffset(new DateTime(2022, 12, 18, 2, 2, 36, 140, DateTimeKind.Unspecified).AddTicks(6452), new TimeSpan(0, 0, 0, 0, 0)));
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
@@ -220,9 +216,7 @@ namespace SoarBeyond.Data.Migrations
                         .HasColumnType("character varying(12500)");
 
                     b.Property<DateTimeOffset>("CreatedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTimeOffset(new DateTime(2022, 12, 18, 2, 2, 36, 140, DateTimeKind.Unspecified).AddTicks(9746), new TimeSpan(0, 0, 0, 0, 0)));
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("JournalId")
                         .HasColumnType("integer");
@@ -233,9 +227,7 @@ namespace SoarBeyond.Data.Migrations
                         .HasColumnType("character varying(1250)");
 
                     b.Property<DateTimeOffset>("UpdatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTimeOffset(new DateTime(2022, 12, 18, 2, 2, 36, 141, DateTimeKind.Unspecified).AddTicks(80), new TimeSpan(0, 0, 0, 0, 0)));
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -253,9 +245,7 @@ namespace SoarBeyond.Data.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTimeOffset>("CreatedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTimeOffset(new DateTime(2022, 12, 18, 2, 2, 36, 141, DateTimeKind.Unspecified).AddTicks(3982), new TimeSpan(0, 0, 0, 0, 0)));
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Details")
                         .IsRequired()
@@ -266,9 +256,7 @@ namespace SoarBeyond.Data.Migrations
                         .HasColumnType("integer");
 
                     b.Property<DateTimeOffset>("UpdatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTimeOffset(new DateTime(2022, 12, 18, 2, 2, 36, 141, DateTimeKind.Unspecified).AddTicks(4339), new TimeSpan(0, 0, 0, 0, 0)));
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -286,9 +274,7 @@ namespace SoarBeyond.Data.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTimeOffset>("CreatedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTimeOffset(new DateTime(2022, 12, 18, 2, 2, 36, 141, DateTimeKind.Unspecified).AddTicks(6289), new TimeSpan(0, 0, 0, 0, 0)));
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Details")
                         .IsRequired()
@@ -304,9 +290,7 @@ namespace SoarBeyond.Data.Migrations
                         .HasColumnType("character varying(1250)");
 
                     b.Property<DateTimeOffset>("UpdatedDate")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTimeOffset(new DateTime(2022, 12, 18, 2, 2, 36, 141, DateTimeKind.Unspecified).AddTicks(6563), new TimeSpan(0, 0, 0, 0, 0)));
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -331,9 +315,7 @@ namespace SoarBeyond.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<DateTimeOffset>("CreatedDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValue(new DateTimeOffset(new DateTime(2022, 12, 18, 2, 2, 36, 141, DateTimeKind.Unspecified).AddTicks(8190), new TimeSpan(0, 0, 0, 0, 0)));
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)

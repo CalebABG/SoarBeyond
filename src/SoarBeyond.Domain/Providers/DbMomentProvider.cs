@@ -96,8 +96,9 @@ public class DbMomentProvider : IMomentProvider
             return null;
 
         _mapper.Map(request.Moment, moment);
+        moment.UpdatedDate = DateTimeOffset.UtcNow;
+
         var updatedEntry = context.Moments.Update(moment);
-        
         await context.SaveChangesAsync();
 
         return _mapper.Map<MomentEntity, Moment>(updatedEntry.Entity);

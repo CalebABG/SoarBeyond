@@ -14,13 +14,5 @@ public class NoteEntityConfiguration : IEntityTypeConfiguration<NoteEntity>
         builder.Property(n => n.Details)
             .IsRequired()
             .HasMaxLength(NoteConstraints.DetailsLength);
-
-        builder.Property(n => n.CreatedDate)
-            .HasDefaultValue(DateTimeOffset.UtcNow)
-            .ValueGeneratedOnAdd();
-
-        builder.Property(n => n.UpdatedDate)
-            .HasDefaultValue(DateTimeOffset.UtcNow)
-            .ValueGeneratedOnAddOrUpdate();
     }
 }
