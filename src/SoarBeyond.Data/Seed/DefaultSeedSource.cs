@@ -105,7 +105,7 @@ public class DefaultSeedSource : ISeedSource<SoarBeyondDbContext>
             context.Moments.AddRange(momentFaker.GenerateBetween(95, 145));
             await context.SaveChangesAsync();
 
-            Console.WriteLine($"ADDED SEED DATA: '${nameof(MomentEntity)}'");
+            Console.WriteLine($"ADDED SEED DATA: '{nameof(MomentEntity)}'");
         }
 
         if (!await context.Notes.AnyAsync())
