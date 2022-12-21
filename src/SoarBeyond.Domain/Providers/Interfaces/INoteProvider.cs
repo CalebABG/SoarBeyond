@@ -1,5 +1,5 @@
 ﻿using SoarBeyond.Domain.Dto;
-using SoarBeyond.Domain.Mediator.Notes;
+using SoarBeyond.Domain.Requests.Notes;
 
 namespace SoarBeyond.Domain.Providers.Interfaces;
 

@@ -4,8 +4,8 @@ using MediatR;
 using Microsoft.AspNetCore.Components;
 using SoarBeyond.Components;
 using SoarBeyond.Domain.Dto;
-using SoarBeyond.Domain.Mediator.Moments;
-using SoarBeyond.Domain.Mediator.Journals;
+using SoarBeyond.Domain.Requests.Journals;
+using SoarBeyond.Domain.Requests.Moments;
 
 namespace SoarBeyond.Web.Pages.Journals;
 

@@ -2,7 +2,7 @@ using MediatR;
 using SoarBeyond.Domain.Dto;
 using SoarBeyond.Domain.Providers.Interfaces;
 
-namespace SoarBeyond.Domain.Mediator.Moments;
+namespace SoarBeyond.Domain.Requests.Moments;
 
 public sealed record GetMomentRequest(int UserId, int MomentId)
     : IRequest<Moment>;

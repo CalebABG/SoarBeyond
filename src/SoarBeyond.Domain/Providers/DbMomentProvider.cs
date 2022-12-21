@@ -4,8 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using SoarBeyond.Data;
 using SoarBeyond.Data.Entities;
 using SoarBeyond.Domain.Dto;
-using SoarBeyond.Domain.Mediator.Moments;
 using SoarBeyond.Domain.Providers.Interfaces;
+using SoarBeyond.Domain.Requests.Moments;
 
 namespace SoarBeyond.Domain.Providers;
 

@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Components;
 using SoarBeyond.Domain.Dto;
-using SoarBeyond.Domain.Mediator.Moments;
+using SoarBeyond.Domain.Requests.Moments;
 
 namespace SoarBeyond.Web.Pages.Moments;
 

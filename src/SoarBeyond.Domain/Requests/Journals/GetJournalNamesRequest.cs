@@ -1,9 +1,8 @@
 ﻿using MediatR;
-using SoarBeyond.Data;
 using SoarBeyond.Domain.Providers.Interfaces;
 using SoarBeyond.Shared.Poco;
 
-namespace SoarBeyond.Domain.Mediator.Journals;
+namespace SoarBeyond.Domain.Requests.Journals;
 
 public sealed record GetJournalNamesRequest(int UserId)
     : IRequest<HashSet<JournalName>>;

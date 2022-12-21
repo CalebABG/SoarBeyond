@@ -2,7 +2,7 @@
 using SoarBeyond.Domain.Dto;
 using SoarBeyond.Domain.Providers.Interfaces;
 
-namespace SoarBeyond.Domain.Mediator.Journals;
+namespace SoarBeyond.Domain.Requests.Journals;
 
 public sealed record GetJournalRequest(int UserId, int JournalId)
     : IRequest<Journal>;

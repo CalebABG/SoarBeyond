@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Components;
 using SoarBeyond.Domain.Dto;
-using SoarBeyond.Domain.Mediator.Journals;
+using SoarBeyond.Domain.Requests.Journals;
 using SoarBeyond.Web.Components;
 
 namespace SoarBeyond.Web.Pages.Journals;

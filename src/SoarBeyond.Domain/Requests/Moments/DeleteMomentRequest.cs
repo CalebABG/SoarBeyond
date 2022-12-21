@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using SoarBeyond.Domain.Providers.Interfaces;
 
-namespace SoarBeyond.Domain.Mediator.Moments;
+namespace SoarBeyond.Domain.Requests.Moments;
 
 public sealed record DeleteMomentRequest(int UserId, int MomentId)
     : IRequest<bool>;

@@ -2,7 +2,7 @@
 using SoarBeyond.Domain.Dto;
 using SoarBeyond.Domain.Providers.Interfaces;
 
-namespace SoarBeyond.Domain.Mediator.Moments;
+namespace SoarBeyond.Domain.Requests.Moments;
 
 public sealed record GetMomentsFromJournalRequest(int UserId, int JournalId)
     : IRequest<IEnumerable<Moment>>;

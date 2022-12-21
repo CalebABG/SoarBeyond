@@ -2,7 +2,7 @@
 using SoarBeyond.Domain.Dto;
 using SoarBeyond.Domain.Providers.Interfaces;
 
-namespace SoarBeyond.Domain.Mediator.Notes;
+namespace SoarBeyond.Domain.Requests.Notes;
 
 public sealed record CreateNoteRequest(int UserId, int MomentId, Note Note)
     : IRequest<Note>;

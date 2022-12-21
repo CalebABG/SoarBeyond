@@ -1,5 +1,5 @@
 ﻿using SoarBeyond.Domain.Dto;
-using SoarBeyond.Domain.Mediator.Journals;
+using SoarBeyond.Domain.Requests.Journals;
 using SoarBeyond.Shared.Poco;
 
 namespace SoarBeyond.Domain.Providers.Interfaces;

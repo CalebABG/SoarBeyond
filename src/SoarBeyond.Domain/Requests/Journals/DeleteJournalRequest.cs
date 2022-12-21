@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using SoarBeyond.Domain.Providers.Interfaces;
 
-namespace SoarBeyond.Domain.Mediator.Journals;
+namespace SoarBeyond.Domain.Requests.Journals;
 
 public sealed record DeleteJournalRequest(int UserId, int JournalId)
     : IRequest<bool>;
