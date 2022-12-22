@@ -8,5 +8,5 @@ public class NoteEntity
     public DateTimeOffset UpdatedDate { get; set; }
 
     public int MomentId { get; set; }
-    public virtual MomentEntity Moment { get; set; }
+    public MomentEntity Moment { get; set; }
 }

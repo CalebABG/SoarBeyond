@@ -10,7 +10,7 @@ public class JournalEntity
     public DateTimeOffset UpdatedDate { get; set; }
 
     public int UserId { get; set; }
-    public virtual UserEntity User { get; set; }
+    public UserEntity User { get; set; }
 
-    public virtual IEnumerable<MomentEntity> Moments { get; set; }
+    public IEnumerable<MomentEntity> Moments { get; set; }
 }

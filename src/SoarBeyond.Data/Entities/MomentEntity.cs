@@ -10,8 +10,8 @@ public class MomentEntity
     public DateTimeOffset UpdatedDate { get; set; }
 
     public int JournalId { get; set; }
-    public virtual JournalEntity Journal { get; set; }
+    public JournalEntity Journal { get; set; }
 
-    public virtual IEnumerable<NoteEntity> Notes { get; set; }
-    public virtual IEnumerable<ReflectionEntity> Reflections { get; set; }
+    public IEnumerable<NoteEntity> Notes { get; set; }
+    public IEnumerable<ReflectionEntity> Reflections { get; set; }
 }
