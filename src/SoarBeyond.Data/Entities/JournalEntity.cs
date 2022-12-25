@@ -12,5 +12,8 @@ public class JournalEntity
     public int UserId { get; set; }
     public UserEntity User { get; set; }
 
+    public int? CategoryId { get; set; }
+    public CategoryEntity? Category { get; set; }
+
     public IEnumerable<MomentEntity> Moments { get; set; }
 }

@@ -25,3 +25,9 @@ public static class ReflectionConstraints
     public const int TitleLength = 5 * 250;
     public const int DetailsLength = 5 * 2500;
 }
+
+public static class CategoryConstraints
+{
+    public const int NameLength = 5 * 30;
+    public const int DescriptionLength = 5 * 150;
+}

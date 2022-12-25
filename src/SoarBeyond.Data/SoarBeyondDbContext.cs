@@ -14,6 +14,7 @@ public class SoarBeyondDbContext
     public DbSet<MomentEntity> Moments { get; set; }
     public DbSet<NoteEntity> Notes { get; set; }
     public DbSet<ReflectionEntity> Reflections { get; set; }
+    public DbSet<CategoryEntity> Categories { get; set; }
 
     public SoarBeyondDbContext(DbContextOptions<SoarBeyondDbContext> options)
         : base(options)
