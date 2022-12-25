@@ -1,4 +1,7 @@
-﻿namespace SoarBeyond.Domain.Dto;
+﻿using FluentValidation;
+using SoarBeyond.Shared;
+
+namespace SoarBeyond.Domain.Dto;
 
 public class Note
 {
@@ -7,4 +10,16 @@ public class Note
     public string Details { get; set; } = string.Empty;
     public DateTimeOffset CreatedDate { get; set; } = DateTimeOffset.UtcNow;
     public DateTimeOffset UpdatedDate { get; set; } = DateTimeOffset.UtcNow;
+
+    public class Validator : AbstractValidator<Note>
+    {
+        public Validator()
+        {
+            RuleFor(n => n.Details)
+                .NotEmpty()
+                .WithMessage("Please add some details")
+                .MaximumLength(NoteConstraints.DetailsLength)
+                .WithMessage($"{{PropertyName}} can only be {NoteConstraints.DetailsLength} characters long");
+        }
+    }
 }
