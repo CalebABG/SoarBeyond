@@ -51,6 +51,7 @@ public class DbJournalProvider : IJournalProvider
         await using var context = await _contextFactory.CreateDbContextAsync();
 
         var dbJournal = await context.Journals
+            .Include(j => j.Category)
             .Include(j => j.Moments)
             .ThenInclude(m => m.Notes)
             .AsNoTracking()
@@ -61,6 +62,9 @@ public class DbJournalProvider : IJournalProvider
             return null;
 
         _mapper.Map(request.Journal, dbJournal);
+
+        if (request.Journal.CategoryId is null)
+            dbJournal.Category = null;
 
         dbJournal.UpdatedDate = DateTimeOffset.UtcNow;
         var updatedEntry = context.Journals.Update(dbJournal);
@@ -92,6 +96,7 @@ public class DbJournalProvider : IJournalProvider
         await using var context = await _contextFactory.CreateDbContextAsync();
 
         var dbJournal = await context.Journals
+            .Include(j => j.Category)
             .Include(j => j.Moments)
             .ThenInclude(m => m.Notes)
             .AsNoTracking()
@@ -122,6 +127,7 @@ public class DbJournalProvider : IJournalProvider
         await using var context = await _contextFactory.CreateDbContextAsync();
 
         var journals = context.Journals
+            .Include(j => j.Category)
             .Include(j => j.Moments)
             .ThenInclude(m => m.Notes)
             .AsNoTracking()
@@ -137,6 +143,7 @@ public class DbJournalProvider : IJournalProvider
         await using var context = await _contextFactory.CreateDbContextAsync();
 
         var journals = context.Journals
+            .Include(j => j.Category)
             .Include(j => j.Moments)
             .ThenInclude(m => m.Notes)
             .AsNoTracking()

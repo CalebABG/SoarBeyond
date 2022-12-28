@@ -2,8 +2,52 @@
 
 @attribute [Authorize]
 
+@inherits SoarBeyondPageBase
+
 <PageTitle>Categories</PageTitle>
 
-<ProblemView>
-    <h2 class="mb-2">Content Coming Soon ✨</h2>
-</ProblemView>
+@*<div class="p-4">
+    <CreateCategoryForm/>
+</div>*@
+
+<ContentLoadingView Data="@_categories">
+    <PresentTemplate>
+        <div class="container p-4">
+            <HeaderView ExtraClass="mb-5">
+                <HumanizeCountView Count="@_categories.Count"
+                                   CountText="Category"/>
+
+                @*<BSButton ExtraClass="btn-lg shadow text-white"
+                          @onclick="@OpenDialog">
+                    Create a Category
+                </BSButton>*@
+            </HeaderView>
+
+            @*@if (_showDialog)
+            {
+                <BSDialog ExtraClass="modal-lg modal-dialog-centered"
+                          @bind-ShowDialog="@_showDialog">
+                    <DialogTitle>
+                        <h5 class="m-0">Create a Journal</h5>
+                    </DialogTitle>
+
+                    <DialogBody>
+                        <CreateJournalForm ShowTitle="@false"
+                                           OnValidSubmit="@CreateJournalFromDialog"/>
+                    </DialogBody>
+                </BSDialog>
+            }
+
+            <ConfirmationDialog @ref="_confirmationDialog"/>*@
+
+            <CollectionView Class="row row-cols-1 row-cols-md-2 g-4"
+                            Data="@_categories">
+                <ItemTemplate>
+                    <div class="col" @key="@context.Id">
+                        <CategoryView Category="@context" />
+                    </div>
+                </ItemTemplate>
+            </CollectionView>
+        </div>
+    </PresentTemplate>
+</ContentLoadingView>

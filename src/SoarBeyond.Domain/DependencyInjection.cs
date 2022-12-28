@@ -71,6 +71,7 @@ public static class DependencyInjection
 
         services.AddScoped<AuthenticationStateProvider, IdentityAuthStateProvider<UserEntity>>();
 
+        services.AddScoped<ICategoryProvider, DbCategoryProvider>();
         services.AddScoped<IJournalProvider, DbJournalProvider>();
         services.AddScoped<IMomentProvider, DbMomentProvider>();
         services.AddScoped<INoteProvider, DbNoteProvider>();

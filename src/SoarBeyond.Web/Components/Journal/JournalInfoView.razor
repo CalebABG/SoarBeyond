@@ -3,6 +3,10 @@
 @inherits InfoViewBase<SoarBeyond.Domain.Dto.Journal>
 
 @using Humanizer
+@using MediatR
+@using SoarBeyond.Domain.Dto
+@using SoarBeyond.Domain.Providers.Interfaces
+@using SoarBeyond.Domain.Requests.Categories
 @using static SoarBeyond.Shared.Extensions.CommonExtensions
 
 <div class="card shadow mb-2">
@@ -13,10 +17,11 @@
     <div class="card-body py-3">
         <div class="row mb-3">
             <div class="col-12">
-                <label class="form-label">
+                <label class="form-label" for="modelName">
                     @LabelFor(() => Model.Name)
                 </label>
-                <DebounceInput class="form-control"
+
+                <DebounceInput class="form-control" id="modelName"
                                @bind-Value="@Model.Name"
                                @bind-Value:event="oninput"
                                DebounceTime="@DebounceTime"
@@ -26,18 +31,38 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row mb-3">
             <div class="col-12">
-                <label class="form-label">
+                <label class="form-label" for="modelDescription">
                     @LabelFor(() => Model.Description)
                 </label>
-                <DebounceTextArea class="form-control" rows="5"
+
+                <DebounceTextArea class="form-control" id="modelDescription" rows="3"
                                   @bind-Value="@Model.Description"
                                   @bind-Value:event="oninput"
                                   DebounceTime="@DebounceTime"
                                   OnValueChanged="OnContentChanging"
                                   ForceNotifyOnBlur="@false"
                                   ForceNotifyByEnter="@false"/>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <label class="form-label" for="modelSelect">
+                    @LabelFor(() => Model.Category)
+                </label>
+
+                <InputSelect class="form-select" id="modelSelect" @bind-Value="Model.CategoryId">
+                    @if (_categories is not null)
+                    {
+                        <option value="">Uncategorized</option>
+                        foreach (var item in _categories)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    }
+                </InputSelect>
             </div>
         </div>
 
@@ -48,3 +73,24 @@
         Created @Model.CreatedDate.LocalDateTime.Humanize()
     </div>
 </div>
+
+@code {
+
+    [Inject]
+    public IMediator Mediator { get; set; }
+
+    private List<Category> _categories;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _categories = (await Mediator.Send(new GetAllCategoriesRequest())).ToList();
+
+    }
+
+    private async Task HandleCategorySelectAsync(ChangeEventArgs args)
+    {
+        int? id = args.Value as int?;
+        
+    }
+
+}

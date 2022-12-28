@@ -125,6 +125,20 @@ public class DefaultSeedSource : ISeedSource<SoarBeyondDbContext>
 
             Console.WriteLine($"ADDED SEED DATA: '{nameof(NoteEntity)}'");
         }
+
+        if (!await context.Categories.AnyAsync())
+        {
+            var categoryFaker = new Faker<CategoryEntity>()
+                .RuleFor(m => m.Name, f => f.Lorem.Sentence(3))
+                .RuleFor(m => m.Description, f => f.Lorem.Sentences(2))
+                .RuleFor(m => m.CreatedDate, f => f.Date.BetweenOffset(DateTimeOffset.UtcNow.AddMonths(-5), DateTimeOffset.UtcNow))
+                .RuleFor(m => m.UpdatedDate, f => f.Date.BetweenOffset(DateTimeOffset.UtcNow.AddMonths(-2), DateTimeOffset.UtcNow));
+
+            context.Categories.AddRange(categoryFaker.GenerateBetween(4, 18));
+            await context.SaveChangesAsync();
+
+            Console.WriteLine($"ADDED SEED DATA: '{nameof(CategoryEntity)}'");
+        }
     }
 
     private static async Task<UserEntity> GetAdminUser(SoarBeyondDbContext context)

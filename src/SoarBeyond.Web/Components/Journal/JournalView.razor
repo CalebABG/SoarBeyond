@@ -5,7 +5,7 @@
 <div @attributes="@ComponentAttributes"
      class="@ComponentClasses"
      style="@ComponentStyles">
-    <div class="container-fluid card-header">
+    <div class="card-header container-fluid">
         <div class="d-flex align-items-center">
             <span class="me-auto">
                 @Journal.CreatedDate.LocalDateTime.ToShortDateString()
@@ -48,4 +48,11 @@
             </div>
         </div>
     </div>
+
+    @if (Journal.Category is not null)
+    {
+        <div class="card-footer container-fluid">
+            @Journal.Category.Name
+        </div>
+    }
 </div>

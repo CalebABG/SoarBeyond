@@ -16,7 +16,7 @@
                     <label class="form-label">
                         @LabelFor(() => _note.Details)
                     </label>
-                    <InputTextArea class="form-control" rows="4" @bind-Value="@_note.Details"/>
+                    <InputTextArea class="form-control" rows="3" @bind-Value="@_note.Details"/>
                     <ValidationMessage For="@(() => _note.Details)"/>
                 </div>
 

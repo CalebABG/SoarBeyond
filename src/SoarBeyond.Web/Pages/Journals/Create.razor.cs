@@ -12,8 +12,6 @@ public partial class Create
     [Inject] private IMediator Mediator { get; set; }
     [Inject] private IToastService ToastService { get; set; }
 
-    private CreateJournalForm _journalForm;
-
     private async Task CreateJournalAsync(Journal journal)
     {
         await ComponentRunAsync(async () =>
@@ -21,7 +19,6 @@ public partial class Create
             var result = await Mediator.Send(new CreateJournalRequest(await GetUserIdAsync(), journal));
             if (result is not null)
             {
-                _journalForm.ResetForm();
                 NavigationManager.NavigateTo("Journals");
             }
             else

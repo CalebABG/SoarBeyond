@@ -1,4 +1,4 @@
-﻿@namespace SoarBeyond.Web.Components
+@namespace SoarBeyond.Web.Components
 
 @inherits SoarBeyondComponentBase
 
@@ -11,28 +11,29 @@
         @if (ShowTitle)
         {
             <h5 class="card-title mb-3">
-                Create a Journal
+                Create a Category
             </h5>
         }
 
         <div class="card-text">
-            <EditForm Model="@_journal" OnValidSubmit="@HandleValidSubmitAsync">
+            <EditForm Model="@_category" OnValidSubmit="@HandleValidSubmitAsync">
                 <FluentValidationValidator />
 
                 <div class="form-group mb-3">
                     <label class="form-label">
-                        @LabelFor(() => _journal.Name)
+                        @LabelFor(() => _category.Name)
                     </label>
-                    <InputText class="form-control" @bind-Value="_journal.Name" />
-                    <ValidationMessage For="@(() => _journal.Name)" />
+                    <InputText class="form-control" @bind-Value="_category.Name" />
+                    <ValidationMessage For="@(() => _category.Name)" />
                 </div>
 
                 <div class="form-group mb-3">
                     <label class="form-label">
-                        @LabelFor(() => _journal.Description)
+                        @LabelFor(() => _category.Description)
+                        <span class="text-muted">(optional)</span>
                     </label>
-                    <InputTextArea class="form-control" rows="3" @bind-Value="_journal.Description" />
-                    <ValidationMessage For="@(() => _journal.Description)" />
+                    <InputTextArea class="form-control" rows="3" @bind-Value="_category.Description" />
+                    <ValidationMessage For="@(() => _category.Description)" />
                 </div>
 
                 <div class="d-grid">

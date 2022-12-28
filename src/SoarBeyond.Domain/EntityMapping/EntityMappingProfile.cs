@@ -19,5 +19,8 @@ public class EntityMappingProfile : Profile
 
         CreateMap<ReflectionEntity, Reflection>()
             .ReverseMap();
+
+        CreateMap<CategoryEntity, Category>()
+            .ReverseMap();
     }
 }
