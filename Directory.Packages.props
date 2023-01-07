@@ -12,7 +12,7 @@
 
         <PackageVersion Include="BlazorPro.Spinkit" Version="1.2.0"/>
 
-        <PackageVersion Include="Blazored.Toast" Version="3.2.2"/>
+        <PackageVersion Include="Blazored.Toast" Version="4.0.0"/>
         <PackageVersion Include="Blazored.FluentValidation" Version="2.1.0-preview.2"/>
 
         <PackageVersion Include="BlazorComponentUtilities" Version="1.8.0"/>
