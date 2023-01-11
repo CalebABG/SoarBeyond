@@ -1,4 +1,8 @@
-﻿namespace SoarBeyond.Data.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SoarBeyond.Shared;
+
+namespace SoarBeyond.Data.Entities;
 
 public class CategoryEntity
 {
@@ -8,4 +12,28 @@ public class CategoryEntity
     public DateTimeOffset CreatedDate { get; set; }
     public DateTimeOffset UpdatedDate { get; set; }
     public IEnumerable<JournalEntity> Journals { get; set; }
+
+    public class Configuration : IEntityTypeConfiguration<CategoryEntity>
+    {
+        public void Configure(EntityTypeBuilder<CategoryEntity> builder)
+        {
+            builder.HasKey(c => c.Id);
+
+            builder.HasIndex(c => c.Name)
+                .IsUnique();
+
+            builder.Property(c => c.Name)
+                .IsRequired()
+                .HasMaxLength(CategoryConstraints.NameLength);
+
+            builder.Property(c => c.Description)
+                .HasMaxLength(CategoryConstraints.DescriptionLength);
+
+            builder.HasMany(c => c.Journals)
+                .WithOne(j => j.Category)
+                .HasForeignKey(j => j.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired(false);
+        }
+    }
 }

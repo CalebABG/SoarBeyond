@@ -1,4 +1,8 @@
-﻿namespace SoarBeyond.Data.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using SoarBeyond.Shared;
+
+namespace SoarBeyond.Data.Entities;
 
 public class ReflectionEntity
 {
@@ -10,4 +14,20 @@ public class ReflectionEntity
 
     public int MomentId { get; set; }
     public MomentEntity Moment { get; set; }
+
+    public class Configuration : IEntityTypeConfiguration<ReflectionEntity>
+    {
+        public void Configure(EntityTypeBuilder<ReflectionEntity> builder)
+        {
+            builder.HasKey(r => r.Id);
+
+            builder.Property(r => r.Title)
+                .IsRequired()
+                .HasMaxLength(ReflectionConstraints.TitleLength);
+
+            builder.Property(r => r.Details)
+                .IsRequired()
+                .HasMaxLength(ReflectionConstraints.DetailsLength);
+        }
+    }
 }
