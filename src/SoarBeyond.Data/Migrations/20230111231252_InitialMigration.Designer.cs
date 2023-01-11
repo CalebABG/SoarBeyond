@@ -12,7 +12,7 @@ using SoarBeyond.Data;
 namespace SoarBeyond.Data.Migrations
 {
     [DbContext(typeof(SoarBeyondDbContext))]
-    [Migration("20221220045942_InitialMigration")]
+    [Migration("20230111231252_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -161,6 +161,42 @@ namespace SoarBeyond.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("SoarBeyond.Data.Entities.CategoryEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTimeOffset>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(750)
+                        .HasColumnType("character varying(750)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("character varying(150)");
+
+                    b.Property<DateTimeOffset>("UpdatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("SoarBeyond.Data.Entities.JournalEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -168,6 +204,9 @@ namespace SoarBeyond.Data.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("CategoryId")
+                        .HasColumnType("integer");
 
                     b.Property<DateTimeOffset>("CreatedDate")
                         .HasColumnType("timestamp with time zone");
@@ -192,6 +231,8 @@ namespace SoarBeyond.Data.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex("UserId");
 
@@ -423,13 +464,31 @@ namespace SoarBeyond.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SoarBeyond.Data.Entities.JournalEntity", b =>
+            modelBuilder.Entity("SoarBeyond.Data.Entities.CategoryEntity", b =>
                 {
                     b.HasOne("SoarBeyond.Data.Entities.UserEntity", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SoarBeyond.Data.Entities.JournalEntity", b =>
+                {
+                    b.HasOne("SoarBeyond.Data.Entities.CategoryEntity", "Category")
+                        .WithMany("Journals")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("SoarBeyond.Data.Entities.UserEntity", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
 
                     b.Navigation("User");
                 });
@@ -465,6 +524,11 @@ namespace SoarBeyond.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Moment");
+                });
+
+            modelBuilder.Entity("SoarBeyond.Data.Entities.CategoryEntity", b =>
+                {
+                    b.Navigation("Journals");
                 });
 
             modelBuilder.Entity("SoarBeyond.Data.Entities.JournalEntity", b =>

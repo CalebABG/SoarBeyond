@@ -38,6 +38,12 @@ public class JournalEntity
             builder.HasMany(j => j.Moments)
                 .WithOne(m => m.Journal)
                 .HasForeignKey(m => m.JournalId);
+
+            builder.HasOne(j => j.Category)
+                .WithMany(c => c.Journals)
+                .HasForeignKey(j => j.CategoryId)
+                .OnDelete(DeleteBehavior.SetNull)
+                .IsRequired(false);
         }
     }
 }

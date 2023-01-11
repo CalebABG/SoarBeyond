@@ -11,6 +11,9 @@ public class CategoryEntity
     public string? Description { get; set; }
     public DateTimeOffset CreatedDate { get; set; }
     public DateTimeOffset UpdatedDate { get; set; }
+
+    public int UserId { get; set; }
+    public UserEntity User { get; set; }
     public IEnumerable<JournalEntity> Journals { get; set; }
 
     public class Configuration : IEntityTypeConfiguration<CategoryEntity>
@@ -28,12 +31,6 @@ public class CategoryEntity
 
             builder.Property(c => c.Description)
                 .HasMaxLength(CategoryConstraints.DescriptionLength);
-
-            builder.HasMany(c => c.Journals)
-                .WithOne(j => j.Category)
-                .HasForeignKey(j => j.CategoryId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .IsRequired(false);
         }
     }
 }

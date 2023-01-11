@@ -181,10 +181,15 @@ namespace SoarBeyond.Data.Migrations
                     b.Property<DateTimeOffset>("UpdatedDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Name")
                         .IsUnique();
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Categories");
                 });
@@ -456,12 +461,23 @@ namespace SoarBeyond.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SoarBeyond.Data.Entities.CategoryEntity", b =>
+                {
+                    b.HasOne("SoarBeyond.Data.Entities.UserEntity", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("SoarBeyond.Data.Entities.JournalEntity", b =>
                 {
                     b.HasOne("SoarBeyond.Data.Entities.CategoryEntity", "Category")
                         .WithMany("Journals")
                         .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("SoarBeyond.Data.Entities.UserEntity", "User")
                         .WithMany()
