@@ -25,6 +25,6 @@ public partial class Categories
 
     private async Task<IEnumerable<Category>> GetCategoriesFromDbAsync()
     {
-        return await Mediator.Send(new GetAllCategoriesRequest());
+        return await Mediator.Send(new GetAllCategoriesRequest(await GetUserIdAsync()));
     }
 }

@@ -4,7 +4,7 @@ using SoarBeyond.Domain.Providers.Interfaces;
 
 namespace SoarBeyond.Domain.Requests.Categories;
 
-public sealed record GetAllCategoriesRequest
+public sealed record GetAllCategoriesRequest(int UserId)
     : IRequest<IEnumerable<Category>>;
 
 internal sealed class GetAllCategoriesRequestHandler

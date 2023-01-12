@@ -14,7 +14,6 @@ public class Journal
 
     public int UserId { get; set; }
 
-    public int? CategoryId { get; set; }
     public Category? Category { get; set; }
 
     public List<Moment> Moments { get; set; } = new();

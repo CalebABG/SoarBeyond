@@ -11,6 +11,8 @@ public class Category
     public DateTimeOffset CreatedDate { get; set; } = DateTimeOffset.UtcNow;
     public DateTimeOffset UpdatedDate { get; set; } = DateTimeOffset.UtcNow;
 
+    public int UserId { get; set; }
+
     public class Validator : AbstractValidator<Category>
     {
         public Validator()

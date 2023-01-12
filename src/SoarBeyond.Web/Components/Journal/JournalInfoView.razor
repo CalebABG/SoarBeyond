@@ -53,16 +53,16 @@
                     @LabelFor(() => Model.Category)
                 </label>
 
-                <InputSelect class="form-select" id="modelSelect" @bind-Value="Model.CategoryId">
+                <select class="form-select" id="modelSelect" @onchange="HandleCategorySelected">
                     @if (_categories is not null)
                     {
-                        <option value="">Uncategorized</option>
+                        <option value="-1">Uncategorized</option>
                         foreach (var item in _categories)
                         {
-                            <option value="@item.Id">@item.Name</option>
+                            <option value="@item.Id" selected="@(Model.Category?.Id == item.Id)">@item.Name</option>
                         }
                     }
-                </InputSelect>
+                </select>
             </div>
         </div>
 
@@ -83,14 +83,13 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _categories = (await Mediator.Send(new GetAllCategoriesRequest())).ToList();
-
+        _categories = (await Mediator.Send(new GetAllCategoriesRequest(Model.UserId))).ToList();
     }
 
-    private async Task HandleCategorySelectAsync(ChangeEventArgs args)
+    private async Task HandleCategorySelected(ChangeEventArgs args)
     {
-        int? id = args.Value as int?;
-        
+        int value = int.Parse(args.Value!.ToString()!);
+        Model.Category = value < 1 ? null : _categories.Find(c => c.Id == value);
+        await OnContentChanging(null);
     }
-
 }

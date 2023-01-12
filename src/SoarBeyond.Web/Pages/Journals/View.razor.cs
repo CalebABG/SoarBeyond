@@ -25,8 +25,7 @@ public partial class View
     private LinkedList<Moment> _moments;
 
     private string MomentFormButtonText => _showForm ? "Cancel" : "Add a Moment";
-    private string MomentFormButtonColor => _showForm ? "btn-danger" : "btn-primary";
-    private string MomentFormButtonClass => $"btn btn-lg {MomentFormButtonColor} shadow text-white";
+    private string MomentFormButtonClass => $"btn btn-lg {(_showForm ? "btn-danger" : "btn-primary")} shadow text-white";
 
     protected override async Task OnInitializedAsync()
     {

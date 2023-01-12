@@ -63,8 +63,12 @@ public class DbJournalProvider : IJournalProvider
 
         _mapper.Map(request.Journal, dbJournal);
 
-        if (request.Journal.CategoryId is null)
+        // Todo: Find better solution
+        if (request.Journal.Category is null)
+        {
+            dbJournal.CategoryId = null;
             dbJournal.Category = null;
+        }
 
         dbJournal.UpdatedDate = DateTimeOffset.UtcNow;
         var updatedEntry = context.Journals.Update(dbJournal);

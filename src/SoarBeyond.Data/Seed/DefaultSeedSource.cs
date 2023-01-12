@@ -71,16 +71,38 @@ public class DefaultSeedSource : ISeedSource<SoarBeyondDbContext>
             Console.WriteLine("ADDED SEED DATA: 'User Roles'");
         }
 
+        if (!await context.Categories.AnyAsync())
+        {
+            var adminUser = await GetAdminUser(context);
+
+            var categoryFaker = new Faker<CategoryEntity>()
+                .RuleFor(m => m.Name, f => f.Lorem.Sentence(3))
+                .RuleFor(m => m.Description, f => f.Lorem.Sentences(2))
+                .RuleFor(m => m.CreatedDate, f => f.Date.BetweenOffset(DateTimeOffset.UtcNow.AddMonths(-5), DateTimeOffset.UtcNow))
+                .RuleFor(m => m.UpdatedDate, f => f.Date.BetweenOffset(DateTimeOffset.UtcNow.AddMonths(-2), DateTimeOffset.UtcNow))
+                .RuleFor(m => m.UserId, f => adminUser.Id);
+
+            context.Categories.AddRange(categoryFaker.GenerateBetween(4, 8));
+            await context.SaveChangesAsync();
+
+            Console.WriteLine($"ADDED SEED DATA: '{nameof(CategoryEntity)}'");
+        }
+
         if (!await context.Journals.AnyAsync())
         {
             var adminUser = await GetAdminUser(context);
+
+            var categories = await context.Categories.ToListAsync();
+            var categoryCount = categories.Count;
+            var categoryIndex = 0;
 
             var journalsFaker = new Faker<JournalEntity>()
                 .RuleFor(m => m.Name, f => f.Lorem.Sentence(4))
                 .RuleFor(m => m.Description, f => f.Lorem.Sentences(4))
                 .RuleFor(m => m.CreatedDate, f => f.Date.BetweenOffset(DateTimeOffset.UtcNow.AddMonths(-7), DateTimeOffset.UtcNow))
                 .RuleFor(m => m.UpdatedDate, f => f.Date.BetweenOffset(DateTimeOffset.UtcNow.AddMonths(-5), DateTimeOffset.UtcNow))
-                .RuleFor(m => m.UserId, f => adminUser.Id);
+                .RuleFor(m => m.UserId, f => adminUser.Id)
+                .RuleFor(m => m.CategoryId, f => categories[DataIndex(ref categoryIndex, categoryCount)].Id);
 
             context.Journals.AddRange(journalsFaker.GenerateBetween(46, 68));
             await context.SaveChangesAsync();
@@ -124,20 +146,6 @@ public class DefaultSeedSource : ISeedSource<SoarBeyondDbContext>
             await context.SaveChangesAsync();
 
             Console.WriteLine($"ADDED SEED DATA: '{nameof(NoteEntity)}'");
-        }
-
-        if (!await context.Categories.AnyAsync())
-        {
-            var categoryFaker = new Faker<CategoryEntity>()
-                .RuleFor(m => m.Name, f => f.Lorem.Sentence(3))
-                .RuleFor(m => m.Description, f => f.Lorem.Sentences(2))
-                .RuleFor(m => m.CreatedDate, f => f.Date.BetweenOffset(DateTimeOffset.UtcNow.AddMonths(-5), DateTimeOffset.UtcNow))
-                .RuleFor(m => m.UpdatedDate, f => f.Date.BetweenOffset(DateTimeOffset.UtcNow.AddMonths(-2), DateTimeOffset.UtcNow));
-
-            context.Categories.AddRange(categoryFaker.GenerateBetween(4, 18));
-            await context.SaveChangesAsync();
-
-            Console.WriteLine($"ADDED SEED DATA: '{nameof(CategoryEntity)}'");
         }
     }
 

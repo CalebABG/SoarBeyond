@@ -14,7 +14,7 @@ public static class SeedExtensions
                            !type.IsInterface &&
                            !type.IsAbstract)
             .Select(Activator.CreateInstance)
-            .Cast<ISeedSource<TDbContext>>();
+            .OfType<ISeedSource<TDbContext>>();
 
         var seedTasks = seedSources
             .Select(t => t.Seed(context));

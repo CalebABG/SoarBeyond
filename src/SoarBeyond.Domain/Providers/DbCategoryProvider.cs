@@ -35,6 +35,7 @@ public class DbCategoryProvider : ICategoryProvider
             return null;
 
         var mappedCategory = _mapper.Map<Category, CategoryEntity>(request.Category);
+        mappedCategory.UserId = request.UserId;
 
         var addedEntry = context.Categories.Add(mappedCategory);
         await context.SaveChangesAsync();
@@ -48,6 +49,7 @@ public class DbCategoryProvider : ICategoryProvider
 
         var categories = context.Categories
             .AsNoTracking()
+            .Where(c => c.UserId == request.UserId)
             .ProjectTo<Category>(_mapper.ConfigurationProvider)
             .ToListAsync();
 
