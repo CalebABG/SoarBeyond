@@ -24,25 +24,22 @@ public partial class Index : SoarBeyondPageBase
     {
         await ComponentRunAsync(async () =>
         {
-            var journals = await GetJournalsFromDb();
+            var journals = await GetJournalsAsync();
             _journals = new LinkedList<Journal>(journals
                 .OrderByDescending(dto => dto.CreatedDate));
         });
     }
 
-    private async Task<IEnumerable<Journal>> GetJournalsFromDb()
+    private async Task<IEnumerable<Journal>> GetJournalsAsync()
     {
         return await Mediator.Send(new GetAllJournalsRequest(await GetUserIdAsync()));
     }
 
-    private void OpenDialog() => _showDialog = true;
-    private void CloseDialog() => _showDialog = false;
-
-    private async Task CreateJournalFromDialog(Journal journal)
+    private async Task CreateJournalAsync(Journal journal)
     {
         await ComponentRunAsync(async () =>
         {
-             var createRequest = new CreateJournalRequest(await GetUserIdAsync(), journal);
+            var createRequest = new CreateJournalRequest(await GetUserIdAsync(), journal);
 
             var resultJournal = await Mediator.Send(createRequest);
             if (resultJournal is not null)
@@ -84,4 +81,7 @@ public partial class Index : SoarBeyondPageBase
             if (updated) journal.Favored = newStatus;
         });
     }
+
+    private void OpenDialog() => _showDialog = true;
+    private void CloseDialog() => _showDialog = false;
 }

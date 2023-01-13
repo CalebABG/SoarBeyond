@@ -6,10 +6,6 @@
 
 <PageTitle>Categories</PageTitle>
 
-@*<div class="p-4">
-    <CreateCategoryForm/>
-</div>*@
-
 <ContentLoadingView Data="@_categories">
     <PresentTemplate>
         <div class="container p-4">
@@ -17,34 +13,34 @@
                 <HumanizeCountView Count="@_categories.Count"
                                    CountText="Category"/>
 
-                @*<BSButton ExtraClass="btn-lg shadow text-white"
+                <BSButton ExtraClass="btn-lg shadow text-white"
                           @onclick="@OpenDialog">
                     Create a Category
-                </BSButton>*@
+                </BSButton>
             </HeaderView>
 
-            @*@if (_showDialog)
+            @if (_showDialog)
             {
                 <BSDialog ExtraClass="modal-lg modal-dialog-centered"
                           @bind-ShowDialog="@_showDialog">
                     <DialogTitle>
-                        <h5 class="m-0">Create a Journal</h5>
+                        <h5 class="m-0">Create a Category</h5>
                     </DialogTitle>
 
                     <DialogBody>
-                        <CreateJournalForm ShowTitle="@false"
-                                           OnValidSubmit="@CreateJournalFromDialog"/>
+                        <CreateCategoryForm ShowTitle="@false"
+                                            OnValidSubmit="@CreateCategoryAsync"/>
                     </DialogBody>
                 </BSDialog>
             }
 
-            <ConfirmationDialog @ref="_confirmationDialog"/>*@
+            <ConfirmationDialog @ref="_confirmationDialog"/>
 
             <CollectionView Class="row row-cols-1 row-cols-md-2 g-4"
                             Data="@_categories">
                 <ItemTemplate>
                     <div class="col" @key="@context.Id">
-                        <CategoryView Category="@context" />
+                        <CategoryView Category="@context"/>
                     </div>
                 </ItemTemplate>
             </CollectionView>

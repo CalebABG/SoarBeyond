@@ -17,14 +17,14 @@
 
         <div class="card-text">
             <EditForm Model="@_category" OnValidSubmit="@HandleValidSubmitAsync">
-                <FluentValidationValidator />
+                <FluentValidationValidator/>
 
                 <div class="form-group mb-3">
                     <label class="form-label">
                         @LabelFor(() => _category.Name)
                     </label>
-                    <InputText class="form-control" @bind-Value="_category.Name" />
-                    <ValidationMessage For="@(() => _category.Name)" />
+                    <InputText class="form-control" @bind-Value="_category.Name"/>
+                    <ValidationMessage For="@(() => _category.Name)"/>
                 </div>
 
                 <div class="form-group mb-3">
@@ -32,8 +32,8 @@
                         @LabelFor(() => _category.Description)
                         <span class="text-muted">(optional)</span>
                     </label>
-                    <InputTextArea class="form-control" rows="3" @bind-Value="_category.Description" />
-                    <ValidationMessage For="@(() => _category.Description)" />
+                    <InputTextArea class="form-control" rows="3" @bind-Value="_category.Description"/>
+                    <ValidationMessage For="@(() => _category.Description)"/>
                 </div>
 
                 <div class="d-grid">
