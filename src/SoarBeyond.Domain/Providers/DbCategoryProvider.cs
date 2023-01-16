@@ -29,7 +29,8 @@ public class DbCategoryProvider : ICategoryProvider
 
         var dbCategory = await context.Categories
             .AsNoTracking()
-            .FirstOrDefaultAsync(c => c.Name.ToLower() == request.Category.Name.ToLower());
+            .FirstOrDefaultAsync(c => c.UserId == request.UserId && 
+                                      c.Name.ToLower() == request.Category.Name.ToLower());
 
         if (dbCategory is not null)
             return null;
