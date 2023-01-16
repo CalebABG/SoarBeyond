@@ -12,7 +12,7 @@ using SoarBeyond.Data;
 namespace SoarBeyond.Data.Migrations
 {
     [DbContext(typeof(SoarBeyondDbContext))]
-    [Migration("20230111231252_InitialMigration")]
+    [Migration("20230114050734_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -189,8 +189,7 @@ namespace SoarBeyond.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name")
-                        .IsUnique();
+                    b.HasIndex("Name");
 
                     b.HasIndex("UserId");
 

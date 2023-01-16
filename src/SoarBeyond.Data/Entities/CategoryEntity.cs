@@ -22,8 +22,7 @@ public class CategoryEntity
         {
             builder.HasKey(c => c.Id);
 
-            builder.HasIndex(c => c.Name)
-                .IsUnique();
+            builder.HasIndex(c => c.Name);
 
             builder.Property(c => c.Name)
                 .IsRequired()

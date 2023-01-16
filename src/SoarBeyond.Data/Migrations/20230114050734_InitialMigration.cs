@@ -324,8 +324,7 @@ namespace SoarBeyond.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Categories_Name",
                 table: "Categories",
-                column: "Name",
-                unique: true);
+                column: "Name");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Categories_UserId",

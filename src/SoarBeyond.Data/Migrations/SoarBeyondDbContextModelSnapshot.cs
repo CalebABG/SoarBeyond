@@ -186,8 +186,7 @@ namespace SoarBeyond.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name")
-                        .IsUnique();
+                    b.HasIndex("Name");
 
                     b.HasIndex("UserId");
 
