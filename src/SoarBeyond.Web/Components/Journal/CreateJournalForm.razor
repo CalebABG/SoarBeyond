@@ -35,6 +35,24 @@
                     <ValidationMessage For="@(() => _journal.Description)" />
                 </div>
 
+                <div class="form-group mb-3">
+                    <label class="form-label">
+                        @LabelFor(() => _journal.Category)
+                    </label>
+
+                    @* Todo: Make Category Select component *@
+                    <select class="form-select" @onchange="HandleCategorySelected">
+                        @if (_categories is not null)
+                        {
+                            <option value="-1" selected>Uncategorized</option>
+                            foreach (var item in _categories)
+                            {
+                                <option value="@item.Id">@item.Name</option>
+                            }
+                        }
+                    </select>
+                </div>
+
                 <div class="d-grid">
                     <BSButton Type="submit" Disabled="@IsBusy">
                         Create
