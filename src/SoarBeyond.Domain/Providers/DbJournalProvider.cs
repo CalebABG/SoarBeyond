@@ -28,8 +28,6 @@ public class DbJournalProvider : IJournalProvider
         await using var context = await _contextFactory.CreateDbContextAsync();
 
         var dbJournal = await context.Journals
-            .Include(j => j.Moments)
-            .ThenInclude(m => m.Notes)
             .AsNoTracking()
             .FirstOrDefaultAsync(j => j.UserId == request.UserId &&
                                       j.Id == request.Journal.Id);
@@ -41,9 +39,20 @@ public class DbJournalProvider : IJournalProvider
         mappedJournal.UserId = request.UserId;
 
         var addedEntry = context.Journals.Add(mappedJournal);
-        await context.SaveChangesAsync();
+        bool saved = await context.SaveChangesAsync() > 0;
 
-        return _mapper.Map<JournalEntity, Journal>(addedEntry.Entity);
+        var addedJournalId = addedEntry.Entity.Id;
+
+        // Todo: Better way to save querying db again?
+        var newDbJournal = await context.Journals
+            .Include(j => j.Category)
+            .Include(j => j.Moments)
+            .ThenInclude(m => m.Notes)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(j => j.UserId == request.UserId &&
+                                      j.Id == addedJournalId);
+
+        return _mapper.Map<JournalEntity, Journal>(newDbJournal);
     }
 
     public async Task<Journal> UpdateAsync(UpdateJournalRequest request)
@@ -63,7 +72,7 @@ public class DbJournalProvider : IJournalProvider
 
         _mapper.Map(request.Journal, dbJournal);
 
-        // Todo: Find better solution
+        // Todo: Find better solution (when setting a new Category)
         if (request.Journal.Category is null)
         {
             dbJournal.CategoryId = null;
@@ -83,7 +92,6 @@ public class DbJournalProvider : IJournalProvider
         await using var context = await _contextFactory.CreateDbContextAsync();
 
         var dbJournal = await context.Journals
-            .AsNoTracking()
             .FirstOrDefaultAsync(j => j.UserId == request.UserId &&
                                       j.Id == request.JournalId);
 
