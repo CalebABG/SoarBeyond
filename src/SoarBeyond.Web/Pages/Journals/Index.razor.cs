@@ -74,11 +74,11 @@ public partial class Index : SoarBeyondPageBase
     {
         await ComponentRunAsync(async () =>
         {
-            var newStatus = !journal.Favored;
+            var newStatus = !journal.Favorited;
             var request = new UpdateJournalFavoriteStatusRequest(await GetUserIdAsync(), journal.Id, newStatus);
 
             bool updated = await Mediator.Send(request);
-            if (updated) journal.Favored = newStatus;
+            if (updated) journal.Favorited = newStatus;
         });
     }
 

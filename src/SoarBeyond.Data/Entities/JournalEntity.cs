@@ -7,9 +7,9 @@ namespace SoarBeyond.Data.Entities;
 public class JournalEntity
 {
     public int Id { get; set; }
-    public bool Favored { get; set; }
+    public bool Favorited { get; set; }
     public string Name { get; set; }
-    public string Description { get; set; }
+    public string? Description { get; set; }
     public DateTimeOffset CreatedDate { get; set; }
     public DateTimeOffset UpdatedDate { get; set; }
 
@@ -32,7 +32,6 @@ public class JournalEntity
                 .HasMaxLength(JournalConstraints.NameLength);
 
             builder.Property(j => j.Description)
-                .IsRequired()
                 .HasMaxLength(JournalConstraints.DescriptionLength);
 
             builder.HasMany(j => j.Moments)

@@ -159,7 +159,7 @@ public class DbJournalProvider : IJournalProvider
             .Include(j => j.Moments)
             .ThenInclude(m => m.Notes)
             .AsNoTracking()
-            .Where(j => j.UserId == request.UserId && j.Favored)
+            .Where(j => j.UserId == request.UserId && j.Favorited)
             .ProjectTo<Journal>(_mapper.ConfigurationProvider)
             .ToListAsync();
 
@@ -178,7 +178,7 @@ public class DbJournalProvider : IJournalProvider
         if (journal is null)
             return false;
 
-        journal.Favored = request.Favored;
+        journal.Favorited = request.Favorited;
         journal.UpdatedDate = DateTimeOffset.UtcNow;
         context.Journals.Update(journal);
 

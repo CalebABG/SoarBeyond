@@ -6,9 +6,9 @@ namespace SoarBeyond.Domain.Dto;
 public class Journal
 {
     public int Id { get; set; }
-    public bool Favored { get; set; }
+    public bool Favorited { get; set; }
     public string Name { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
+    public string? Description { get; set; }
     public DateTimeOffset CreatedDate { get; set; } = DateTimeOffset.UtcNow;
     public DateTimeOffset UpdatedDate { get; set; } = DateTimeOffset.UtcNow;
 
@@ -30,8 +30,6 @@ public class Journal
                 .WithMessage($"{{PropertyName}} can only be {JournalConstraints.NameLength} characters long");
 
             RuleFor(j => j.Description)
-                .NotEmpty()
-                .WithMessage("Please add a description")
                 .MaximumLength(JournalConstraints.DescriptionLength)
                 .WithMessage($"{{PropertyName}} can only be {JournalConstraints.DescriptionLength} characters long");
         }

@@ -13,7 +13,7 @@
 
             <div @onclick="@ToggleFavoriteAsync" style="cursor: pointer">
                 <h5 class="my-0">
-                    <i class="@(Journal.Favored ? "fas fa-star" : "far fa-star")"></i>
+                    <i class="@(Journal.Favorited ? "fas fa-star" : "far fa-star")"></i>
                 </h5>
             </div>
 
@@ -33,9 +33,12 @@
             @Journal.Name
         </h5>
 
-        <p class="card-text">
-            @Journal.Description
-        </p>
+        @if (!string.IsNullOrEmpty(Journal.Description))
+        {
+            <p class="card-text">
+                @Journal.Description
+            </p>
+        }
 
         <div class="card-text">
             <div class="btn-group btn-group-sm shadow-none" role="group">

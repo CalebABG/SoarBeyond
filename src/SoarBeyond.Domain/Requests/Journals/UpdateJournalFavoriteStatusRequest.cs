@@ -3,7 +3,7 @@ using SoarBeyond.Domain.Providers.Interfaces;
 
 namespace SoarBeyond.Domain.Requests.Journals;
 
-public sealed record UpdateJournalFavoriteStatusRequest(int UserId, int JournalId, bool Favored)
+public sealed record UpdateJournalFavoriteStatusRequest(int UserId, int JournalId, bool Favorited)
     : IRequest<bool>;
 
 internal sealed class UpdateJournalFavoriteStatusRequestHandler

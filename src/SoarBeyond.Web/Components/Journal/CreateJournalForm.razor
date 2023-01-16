@@ -30,6 +30,7 @@
                 <div class="form-group mb-3">
                     <label class="form-label">
                         @LabelFor(() => _journal.Description)
+                        <span class="text-muted">(optional)</span>
                     </label>
                     <InputTextArea class="form-control" rows="3" @bind-Value="_journal.Description" />
                     <ValidationMessage For="@(() => _journal.Description)" />

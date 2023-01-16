@@ -190,9 +190,9 @@ namespace SoarBeyond.Data.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Favored = table.Column<bool>(type: "boolean", nullable: false),
+                    Favorited = table.Column<bool>(type: "boolean", nullable: false),
                     Name = table.Column<string>(type: "character varying(1250)", maxLength: 1250, nullable: false),
-                    Description = table.Column<string>(type: "character varying(2500)", maxLength: 2500, nullable: false),
+                    Description = table.Column<string>(type: "character varying(2500)", maxLength: 2500, nullable: true),
                     CreatedDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     UpdatedDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false),
