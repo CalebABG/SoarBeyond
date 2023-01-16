@@ -5,24 +5,16 @@
 <div @attributes="@ComponentAttributes"
      class="@ComponentClasses"
      style="@ComponentStyles">
-    <div class="card-header container-fluid">
-        <div class="d-flex align-items-center">
-            <span class="me-auto">
-                @Category.CreatedDate.LocalDateTime.ToShortDateString()
-            </span>
-        </div>
-    </div>
-
-    <div class="card-body">
+    <div class="card-body text-center">
         <h5 class="card-title">
             @Category.Name
         </h5>
 
         @if (!string.IsNullOrEmpty(Category.Description))
         {
-            <p class="card-text">
+            <h6 class="card-subtitle">
                 @Category.Description
-            </p>
+            </h6>
         }
     </div>
 </div>
