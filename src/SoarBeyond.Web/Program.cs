@@ -1,8 +1,11 @@
 using Blazored.Toast;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.ResponseCompression;
 using SoarBeyond.Components;
+using SoarBeyond.Data.Entities;
 using SoarBeyond.Domain;
+using SoarBeyond.Domain.AuthStateProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +21,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddHttpClient();
 builder.Services.AddBlazoredToast();
 builder.Services.AddScoped<SoarBeyondJsInterop>();
+builder.Services.AddScoped<AuthenticationStateProvider, IdentityAuthStateProvider<UserEntity>>();
 
 builder.Services.AddResponseCompression(opts =>
 {

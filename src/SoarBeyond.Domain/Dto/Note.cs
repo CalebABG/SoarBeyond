@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using SoarBeyond.Shared;
+using SoarBeyond.Data;
 
 namespace SoarBeyond.Domain.Dto;
 

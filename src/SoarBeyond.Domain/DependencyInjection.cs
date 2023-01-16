@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -9,8 +8,7 @@ using ScottBrady91.AspNetCore.Identity;
 using SoarBeyond.Data;
 using SoarBeyond.Data.Entities;
 using SoarBeyond.Data.Seed;
-using SoarBeyond.Domain.AssemblyMarkers;
-using SoarBeyond.Domain.AuthStateProviders;
+using SoarBeyond.Domain.EntityMapping;
 using SoarBeyond.Domain.Providers;
 using SoarBeyond.Domain.Providers.Interfaces;
 using SoarBeyond.Domain.Services;
@@ -69,8 +67,6 @@ public static class DependencyInjection
         services.Configure<BCryptPasswordHasherOptions>(options => options.WorkFactor = 13);
         services.AddScoped<IPasswordHasher<UserEntity>, BCryptPasswordHasher<UserEntity>>();
 
-        services.AddScoped<AuthenticationStateProvider, IdentityAuthStateProvider<UserEntity>>();
-
         services.AddScoped<ICategoryProvider, DbCategoryProvider>();
         services.AddScoped<IJournalProvider, DbJournalProvider>();
         services.AddScoped<IMomentProvider, DbMomentProvider>();
@@ -78,7 +74,7 @@ public static class DependencyInjection
 
         services.AddSingleton<IZenQuoteService, ZenQuoteService>();
 
-        var assemblyMarker = typeof(IDomainAssemblyMarker);
+        var assemblyMarker = typeof(EntityMappingProfile);
         services.AddAutoMapper(assemblyMarker);
         services.AddMediatR(assemblyMarker);
 

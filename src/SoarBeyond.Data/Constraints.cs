@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace SoarBeyond.Shared;
+namespace SoarBeyond.Data;
 
 // Length calculated: Average English word is ~5 chars, 1 bytes per char
 
