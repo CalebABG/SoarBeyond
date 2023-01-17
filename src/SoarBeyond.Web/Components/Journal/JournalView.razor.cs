@@ -33,4 +33,19 @@ public partial class JournalView
     {
         await OnToggleFavorite.InvokeAsync(Journal);
     }
+
+    private string GetDynamicBadgeColor()
+    {
+        const int milestone1 = 75;
+        const int milestone2 = 125;
+        const int milestone3 = 175;
+
+        return "badge " + Journal.Moments.Count switch
+        {
+            > milestone1 and < milestone2 => "bg-success",
+            > milestone2 and < milestone3 => "bg-info",
+            > milestone3 => "bg-danger",
+            _ => "bg-primary"
+        };
+    }
 }

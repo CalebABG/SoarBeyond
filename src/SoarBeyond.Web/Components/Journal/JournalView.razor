@@ -20,7 +20,7 @@
             @if (CanShowBadgeCount)
             {
                 <h5 class="ms-1 my-0">
-                    <span class="badge bg-primary">
+                    <span class="@(GetDynamicBadgeColor())">
                         @Journal.Moments.Count
                     </span>
                 </h5>
