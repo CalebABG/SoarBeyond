@@ -19,6 +19,14 @@
                 <div class="container">
                     <div class="form-group mb-3">
                         <label class="form-label">
+                            Date
+                        </label>
+                        <InputDate class="form-control" @bind-Value="_moment.CreatedDate"/>
+                        <ValidationMessage For="@(() => _moment.CreatedDate)"/>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label class="form-label">
                             @LabelFor(() => _moment.Title)
                         </label>
                         <InputText class="form-control" @bind-Value="_moment.Title" />

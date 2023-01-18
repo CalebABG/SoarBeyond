@@ -38,6 +38,7 @@ public class DbMomentProvider : IMomentProvider
             return null;
 
         var mappedMoment = _mapper.Map<Moment, MomentEntity>(request.Moment);
+        mappedMoment.CreatedDate = request.Moment.CreatedDate.UtcDateTime;
         mappedMoment.JournalId = request.JournalId;
 
         var addedEntry = context.Moments.Add(mappedMoment);
