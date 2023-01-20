@@ -10,8 +10,9 @@ public class Moment
     public string Content { get; set; } = string.Empty;
     public string Color { get; set; } = "#428bff";
 
-    public DateTimeOffset CreatedDate { get; set; } = DateTimeOffset.UtcNow;
-    public DateTimeOffset UpdatedDate { get; set; } = DateTimeOffset.UtcNow;
+    // Todo: Database on insert/create use UtcNow on object
+    public DateTimeOffset CreatedDate { get; set; } = DateTimeOffset.Now;
+    public DateTimeOffset UpdatedDate { get; set; }
 
     public int JournalId { get; set; }
 

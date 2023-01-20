@@ -28,7 +28,6 @@ public class DbMomentProvider : IMomentProvider
 
         var dbMoment = await context.Moments
             .Include(m => m.Journal)
-            .Include(m => m.Notes)
             .AsNoTracking()
             .FirstOrDefaultAsync(m => m.Id == request.Moment.Id && 
                                       m.JournalId == request.JournalId && 
@@ -38,13 +37,24 @@ public class DbMomentProvider : IMomentProvider
             return null;
 
         var mappedMoment = _mapper.Map<Moment, MomentEntity>(request.Moment);
-        mappedMoment.CreatedDate = request.Moment.CreatedDate.UtcDateTime;
         mappedMoment.JournalId = request.JournalId;
+        mappedMoment.CreatedDate = request.Moment.CreatedDate.UtcDateTime;
+        mappedMoment.UpdatedDate = mappedMoment.CreatedDate;
 
         var addedEntry = context.Moments.Add(mappedMoment);
         await context.SaveChangesAsync();
 
-        return _mapper.Map<MomentEntity, Moment>(addedEntry.Entity);
+        var addedMomentId = addedEntry.Entity.Id;
+
+        var newDbMoment = await context.Moments
+            .Include(m => m.Journal)
+            .Include(m => m.Notes)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(m => m.Id == addedMomentId &&
+                                      m.JournalId == request.JournalId &&
+                                      m.Journal.UserId == request.UserId);
+
+        return _mapper.Map<MomentEntity, Moment>(newDbMoment);
     }
 
     public async Task<bool> DeleteAsync(DeleteMomentRequest request)
@@ -53,7 +63,6 @@ public class DbMomentProvider : IMomentProvider
 
         var moment = await context.Moments
             .Include(m => m.Journal)
-            .AsNoTracking()
             .FirstOrDefaultAsync(m => m.Id == request.MomentId && 
                                       m.Journal.UserId == request.UserId);
 

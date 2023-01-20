@@ -34,7 +34,7 @@ public partial class CreateMomentForm
         _addNotes = false;
     }
 
-    private void DeleteNote(Note note)
+    private void RemoveNote(Note note)
     {
         var contains = _moment.Notes.Contains(note);
         if (contains) _moment.Notes.Remove(note);
