@@ -16,6 +16,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Blazored.Toast" />
         <PackageReference Include="Blazored.FluentValidation" />
 
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design">

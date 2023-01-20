@@ -8,7 +8,11 @@
 
     <title>@ViewData["Title"] - SoarBeyond</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    @* Font Awesome 6.2.1 *@
+    <link rel="stylesheet" href="/lib/fontawesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="/lib/fontawesome/css/solid.min.css">
+    <link rel="stylesheet" href="/lib/fontawesome/css/regular.min.css">
+
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" />
     <link rel="stylesheet" href="/lib/bootstrap/bootstrap.min.css" />
     <link rel="stylesheet" href="/css/identity.css" />
@@ -16,7 +20,7 @@
 <body>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="~/">SoarBeyond</a>
+            <a class="navbar-brand" href="/">SoarBeyond</a>
 
             <button type="button"
                     class="navbar-toggler"
@@ -42,7 +46,6 @@
 
     <script src="/lib/jquery/jquery-3.6.0.min.js"></script>
     <script src="/lib/bootstrap/bootstrap.bundle.min.js"></script>
-    <script src="~/Identity/js/site.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

@@ -10,9 +10,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Blazored.Toast" />
-        <PackageReference Include="BlazorPro.Spinkit" />
-        
         <PackageReference Include="BlazorComponentUtilities" />
         
         <PackageReference Include="Majorsoft.Blazor.Components.Debounce" />
