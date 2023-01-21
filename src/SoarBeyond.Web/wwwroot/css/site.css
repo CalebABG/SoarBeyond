@@ -7,7 +7,7 @@ body {
     color: black;
     padding-top: 86px;
     height: 100vh;
-    font-family: "Roboto", sans-serif;
+    /* font-family: "Roboto", sans-serif; */
 
     background: -webkit-linear-gradient(to left, rgb(81 142 255 / 95%), rgb(138 129 237));
     background: linear-gradient(to left, rgb(81 142 255 / 95%), rgb(138 129 237));
