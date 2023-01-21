@@ -20,7 +20,7 @@
         <PackageVersion Include="FluentAssertions" Version="6.9.0"/>
         <PackageVersion Include="FluentValidation" Version="11.4.0"/>
 
-        <PackageVersion Include="AutoMapper" Version="12.0.0"/>
+        <PackageVersion Include="AutoMapper" Version="12.0.1"/>
         <PackageVersion Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0"/>
 
         <PackageVersion Include="MediatR" Version="11.1.0"/>
